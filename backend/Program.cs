@@ -2,6 +2,7 @@ using System.Text;
 using Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
@@ -34,6 +35,7 @@ builder.Services.AddAuthorization(x =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
+builder.Services.AddScoped<ITokenService, DefaultTokenService>();
 
 
 var app = builder.Build();

@@ -8,6 +8,6 @@ public static class Roles
 
 public static class PolicyData
 {
-    public static string AdminOnlyPolicyName = "admin";
-    public static string AdminClaimName = "Admin";
+    public const string AdminOnlyPolicyName = "admin";
+    public const string AdminClaimName = "Admin";
 }
