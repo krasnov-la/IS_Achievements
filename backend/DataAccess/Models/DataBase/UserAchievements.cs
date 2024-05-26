@@ -2,6 +2,6 @@ namespace DataAccess.Models;
 
 public class UserAchievements
 {
-    public Guid user_guid { get; set; }
-    public Guid achievement_guid { get; set; }
+    public Guid UserGuid { get; set; }
+    public Guid AchievementGuid { get; set; }
 }

@@ -2,6 +2,6 @@ namespace DataAccess.Models;
 
 public class RequestImages
 {
-    public Guid request_guid { get; set; }
-    public Guid image_guid { get; set; }
+    public Guid RequestGuid { get; set; }
+    public Guid ImageGuid { get; set; }
 }
