@@ -1,13 +1,15 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
 namespace DataAccess.Models;
 
 public class Comment
 {
-    public Guid Guid { get; init; } = Guid.NewGuid();
-    public DateTime Datetime { get; set; }
+    public Guid Id { get; init; } = Guid.NewGuid();
+    public DateTime Datetime { get; set; } = DateTime.Now;
     [MaxLength(2000)]
     public string Text { get; set; } = null!;
-    public Guid RequestGuid {get; set;} 
+    public Guid RequestGuid {get; set;}
+
+    //EF Navigation
+    public VerificationRequest Request {get; set;} = null!;
 }
