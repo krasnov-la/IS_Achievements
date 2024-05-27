@@ -1,6 +1,8 @@
 using System.Text;
 using Auth;
+using DataAccess;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Services;
 
@@ -32,6 +34,7 @@ builder.Services.AddAuthorization(x =>
         p.RequireClaim(PolicyData.AdminClaimName, "true");
     });
 });
+builder.Services.AddDbContext<AppDbContext>(p => p.UseNpgsql(config.GetConnectionString("DefaultConnection")));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
