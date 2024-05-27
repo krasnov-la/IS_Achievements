@@ -11,10 +11,8 @@ public class Achievement
     public Guid RequestId { get; set; }
     [MaxLength(256)]
     public string AdminLogin { get; set; } = null!;
-    public string OwnerLogin {get; set;} = null!;
 
     //EF Navigation
-    public User Owner {get; set;} = null!;
-    public User Admin {get;set;} = null!;
-    public VerificationRequest Request {get;set;} = null!; 
+    public User Admin { get; set; } = null!;
+    public VerificationRequest Request { get; set; } = null!;
 }
