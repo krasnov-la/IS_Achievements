@@ -11,8 +11,19 @@
 </template>
 
 <style scoped>
+.side-bar {
+  padding: 2.5%;
+  height: 100vh;
+  width: 20%;
+  background: #232627;
+  min-width: 350px;
+  display: flex;
+  flex-direction: column;
+  float: left;
+}
 .side-bar_header {
   display: flex;
+  
 }
 
 h1 {
@@ -26,15 +37,7 @@ h1 {
 
   color: #e3e4e4;
 }
-.side-bar {
-  padding: 2.5%;
-  height: 100vh;
-  width: 20%;
-  background: #232627;
-  min-width: 350px;
-  display: flex;
-  flex-direction: column;
-}
+
 a {
   margin: 5% 0;
   display: block;
