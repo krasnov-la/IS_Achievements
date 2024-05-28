@@ -1,9 +1,10 @@
 <template>
-  <div>
+  <!-- <div class="main" >
     <side-bar />
-  <router-view/>
 
-  </div>
+
+  </div> -->
+    <router-view/>
 </template>
 
 <script>
@@ -22,5 +23,11 @@ html, body {
 }
 * {
   box-sizing: border-box;
+}
+.main{
+  display: flex;
+}
+#app {
+  height: 100%;
 }
 </style>
