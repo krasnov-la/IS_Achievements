@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using Services;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Configuration.AddJsonFile("super_secret.json", false);
 var config = builder.Configuration;
 
 builder.Services.AddAuthentication(x => 
@@ -39,7 +40,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddScoped<ITokenService, DefaultTokenService>();
-
+builder.Services.AddScoped<IPasswordService, PasswordService>();
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 var app = builder.Build();
 

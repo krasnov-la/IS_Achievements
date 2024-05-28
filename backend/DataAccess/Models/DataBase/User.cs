@@ -13,6 +13,9 @@ public class User
     public string Nickname { get; set; } = null!;
     [MaxLength(128)]
     public string Role { get; set; } = Roles.Default;
+    [MaxLength(64)]
+    public string Refresh {get; set;} = null!;
+    public DateTime RefreshExpire {get; set;}
     [MaxLength(128)]
     public string Password { get; set; } = null!;
 }
