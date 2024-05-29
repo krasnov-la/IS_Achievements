@@ -10,6 +10,7 @@ using Services;
 namespace Controllers;
 
 [Route("[controller]")]
+[ApiController]
 public class AuthController : ControllerBase
 {
     IPasswordService _passwordService;

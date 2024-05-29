@@ -1,10 +1,13 @@
 using DataAccess;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.ObjectPool;
+using Services;
 
 namespace Controllers;
 
 [Route("[controller]")]
+[ApiController]
 public class StudentController : ControllerBase
 {
     AppDbContext _db;
@@ -66,7 +69,7 @@ public class StudentController : ControllerBase
                                     verificationRequests.EventName,
                                     verificationRequests.Description,
                                     achievements.Score,
-                                    images.Id
+                                    images.FileName
                                 })
                         .ToList();
 
@@ -91,7 +94,7 @@ public class StudentController : ControllerBase
                                 {
                                     verificationRequests.EventName,
                                     verificationRequests.Description,
-                                    images.Id
+                                    images.FileName
                                 })
                         .ToList();
 

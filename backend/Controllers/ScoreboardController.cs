@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Controllers;
 
 [Route("[controller]")]
+[ApiController]
 public class ScoreboardController : ControllerBase
 {
     AppDbContext _db;
