@@ -19,10 +19,11 @@ public class ScoreboardController : ControllerBase
         var scoreboardData = (from verificationRequests in _db.VerificationRequests
                               join achievements in _db.Achievements on verificationRequests.Id equals achievements.RequestId
                               join users in _db.Users on verificationRequests.OwnerLogin equals users.Login
-                              group achievements by users.Login into allData
+                              group new { achievements.Score, users.Nickname } by users.Login into allData
                               select new
                               {
-                                  Nick = allData.Key,
+                                  Login = allData.Key,
+                                  Nick = allData.Select(x => x.Nickname).First(),
                                   Score = allData.Select(x => x.Score).Sum()
                               })
                         .OrderByDescending(x => x.Score)
