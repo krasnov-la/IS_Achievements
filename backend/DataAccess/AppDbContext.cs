@@ -105,7 +105,7 @@ public class AppDbContext : DbContext
                 DateTime = DateTime.UtcNow.AddHours(-4),
                 Description = "Sample verification request description 4",
                 EventName = "Sample Event 4",
-                IsOpen = false
+                IsOpen = true
             }
         );
 
@@ -203,6 +203,7 @@ public class AppDbContext : DbContext
         var imageId1 = Guid.NewGuid();
         var imageId2 = Guid.NewGuid();
         var imageId3 = Guid.NewGuid();
+        var imageId4 = Guid.NewGuid();
         modelBuilder.Entity<Image>().HasData(
             new Image
             {
@@ -218,6 +219,11 @@ public class AppDbContext : DbContext
             {
                 Id = imageId3,
                 RequestId = requestId3
+            },
+            new Image
+            {
+                Id = imageId4,
+                RequestId = requestId4
             }
         );
     }

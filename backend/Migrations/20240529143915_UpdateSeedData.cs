@@ -98,9 +98,9 @@ namespace backend.Migrations
                 columns: new[] { "Id", "AdminLogin", "Datetime", "Link", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("25d80a44-5afa-4ad8-9f93-e36b89ab971a"), "admin", new DateTime(2024, 5, 29, 12, 19, 9, 395, DateTimeKind.Utc).AddTicks(2332), "http://example.com/activity2", "Sample Activity 2" },
-                    { new Guid("5d30cde9-00a6-4634-8a9c-d95e56ddbbba"), "admin", new DateTime(2024, 5, 29, 11, 19, 9, 395, DateTimeKind.Utc).AddTicks(2335), "http://example.com/activity3", "Sample Activity 3" },
-                    { new Guid("f4331d3f-e269-405a-9157-2f5bea848b42"), "admin", new DateTime(2024, 5, 29, 13, 19, 9, 395, DateTimeKind.Utc).AddTicks(2330), "http://example.com/activity1", "Sample Activity 1" }
+                    { new Guid("13498067-f6d5-4119-9177-7ef36b72baba"), "admin", new DateTime(2024, 5, 29, 14, 39, 14, 994, DateTimeKind.Utc).AddTicks(4887), "http://example.com/activity1", "Sample Activity 1" },
+                    { new Guid("16598089-f9c7-4148-8156-d053de59e77a"), "admin", new DateTime(2024, 5, 29, 12, 39, 14, 994, DateTimeKind.Utc).AddTicks(4894), "http://example.com/activity3", "Sample Activity 3" },
+                    { new Guid("51132e40-443d-41b5-a473-b8f18bfd022f"), "admin", new DateTime(2024, 5, 29, 13, 39, 14, 994, DateTimeKind.Utc).AddTicks(4890), "http://example.com/activity2", "Sample Activity 2" }
                 });
 
             migrationBuilder.UpdateData(
@@ -108,38 +108,38 @@ namespace backend.Migrations
                 keyColumn: "Login",
                 keyValue: "admin",
                 columns: new[] { "Password", "Refresh", "RefreshExpire" },
-                values: new object[] { "AQAAAAIAAYagAAAAEETyaxS08KjbEL4Dbbk7nacWglX1RF/HtPfY9t+t/SCREycaUxAKYgdtcfaOfLhzMg==", "42af99f8-7c91-4fdb-8b72-0e12b7e6b74b", new DateTime(2024, 6, 28, 13, 19, 9, 395, DateTimeKind.Utc).AddTicks(1996) });
+                values: new object[] { "AQAAAAIAAYagAAAAEETyaxS08KjbEL4Dbbk7nacWglX1RF/HtPfY9t+t/SCREycaUxAKYgdtcfaOfLhzMg==", "42af99f8-7c91-4fdb-8b72-0e12b7e6b74b", new DateTime(2024, 6, 28, 14, 39, 14, 994, DateTimeKind.Utc).AddTicks(4466) });
 
             migrationBuilder.UpdateData(
                 table: "Users",
                 keyColumn: "Login",
                 keyValue: "user1",
                 columns: new[] { "Password", "Refresh", "RefreshExpire" },
-                values: new object[] { "AQAAAAIAAYagAAAAEETyaxS08KjbEL4Dbbk7nacWglX1RF/HtPfY9t+t/SCREycaUxAKYgdtcfaOfLhzMg==", "42af99f8-7c91-4fdb-8b72-0e12b7e6b74b", new DateTime(2024, 6, 28, 13, 19, 9, 395, DateTimeKind.Utc).AddTicks(2003) });
+                values: new object[] { "AQAAAAIAAYagAAAAEETyaxS08KjbEL4Dbbk7nacWglX1RF/HtPfY9t+t/SCREycaUxAKYgdtcfaOfLhzMg==", "42af99f8-7c91-4fdb-8b72-0e12b7e6b74b", new DateTime(2024, 6, 28, 14, 39, 14, 994, DateTimeKind.Utc).AddTicks(4473) });
 
             migrationBuilder.UpdateData(
                 table: "Users",
                 keyColumn: "Login",
                 keyValue: "user2",
                 columns: new[] { "Password", "Refresh", "RefreshExpire" },
-                values: new object[] { "AQAAAAIAAYagAAAAEETyaxS08KjbEL4Dbbk7nacWglX1RF/HtPfY9t+t/SCREycaUxAKYgdtcfaOfLhzMg==", "42af99f8-7c91-4fdb-8b72-0e12b7e6b74b", new DateTime(2024, 6, 28, 13, 19, 9, 395, DateTimeKind.Utc).AddTicks(2004) });
+                values: new object[] { "AQAAAAIAAYagAAAAEETyaxS08KjbEL4Dbbk7nacWglX1RF/HtPfY9t+t/SCREycaUxAKYgdtcfaOfLhzMg==", "42af99f8-7c91-4fdb-8b72-0e12b7e6b74b", new DateTime(2024, 6, 28, 14, 39, 14, 994, DateTimeKind.Utc).AddTicks(4476) });
 
             migrationBuilder.UpdateData(
                 table: "Users",
                 keyColumn: "Login",
                 keyValue: "user3",
                 columns: new[] { "Password", "Refresh", "RefreshExpire" },
-                values: new object[] { "AQAAAAIAAYagAAAAEETyaxS08KjbEL4Dbbk7nacWglX1RF/HtPfY9t+t/SCREycaUxAKYgdtcfaOfLhzMg==", "42af99f8-7c91-4fdb-8b72-0e12b7e6b74b", new DateTime(2024, 6, 28, 13, 19, 9, 395, DateTimeKind.Utc).AddTicks(2006) });
+                values: new object[] { "AQAAAAIAAYagAAAAEETyaxS08KjbEL4Dbbk7nacWglX1RF/HtPfY9t+t/SCREycaUxAKYgdtcfaOfLhzMg==", "42af99f8-7c91-4fdb-8b72-0e12b7e6b74b", new DateTime(2024, 6, 28, 14, 39, 14, 994, DateTimeKind.Utc).AddTicks(4478) });
 
             migrationBuilder.InsertData(
                 table: "VerificationRequests",
                 columns: new[] { "Id", "DateTime", "Description", "EventName", "IsOpen", "OwnerLogin" },
                 values: new object[,]
                 {
-                    { new Guid("3857816b-5444-4bb2-876b-00683dc65877"), new DateTime(2024, 5, 29, 13, 19, 9, 395, DateTimeKind.Utc).AddTicks(2226), "Sample verification request description 1", "Sample Event 1", false, "user1" },
-                    { new Guid("5f3d1276-1e7c-4da4-bebf-0b45aeb62e53"), new DateTime(2024, 5, 29, 9, 19, 9, 395, DateTimeKind.Utc).AddTicks(2254), "Sample verification request description 4", "Sample Event 4", false, "user3" },
-                    { new Guid("60dc0ea3-4d07-4934-9884-91da12bbf5a8"), new DateTime(2024, 5, 29, 9, 19, 9, 395, DateTimeKind.Utc).AddTicks(2251), "Sample verification request description 3", "Sample Event 3", false, "user2" },
-                    { new Guid("dbfbfe2a-17e9-4803-9332-f507beba1924"), new DateTime(2024, 5, 29, 11, 19, 9, 395, DateTimeKind.Utc).AddTicks(2230), "Sample verification request description 2", "Sample Event 2", false, "user2" }
+                    { new Guid("2331975a-8c2e-4f35-9de2-61c79f6ffdf0"), new DateTime(2024, 5, 29, 14, 39, 14, 994, DateTimeKind.Utc).AddTicks(4722), "Sample verification request description 1", "Sample Event 1", false, "user1" },
+                    { new Guid("2afa5cce-fbcb-45ff-8f5c-96c5c911075d"), new DateTime(2024, 5, 29, 12, 39, 14, 994, DateTimeKind.Utc).AddTicks(4726), "Sample verification request description 2", "Sample Event 2", false, "user2" },
+                    { new Guid("75b0911d-b08f-4129-b005-759980534a69"), new DateTime(2024, 5, 29, 10, 39, 14, 994, DateTimeKind.Utc).AddTicks(4754), "Sample verification request description 4", "Sample Event 4", true, "user3" },
+                    { new Guid("b3099f97-b15d-41ae-b741-8a434354b604"), new DateTime(2024, 5, 29, 10, 39, 14, 994, DateTimeKind.Utc).AddTicks(4750), "Sample verification request description 3", "Sample Event 3", false, "user2" }
                 });
 
             migrationBuilder.InsertData(
@@ -147,9 +147,9 @@ namespace backend.Migrations
                 columns: new[] { "Id", "AdminLogin", "RequestId", "Score", "VerificationDatetime" },
                 values: new object[,]
                 {
-                    { new Guid("031217c5-ab1e-475c-a150-8422d2750ebf"), "admin", new Guid("dbfbfe2a-17e9-4803-9332-f507beba1924"), 88f, new DateTime(2024, 5, 29, 12, 19, 9, 395, DateTimeKind.Utc).AddTicks(2292) },
-                    { new Guid("19ce4a6f-cae3-46b1-8879-47138b101e81"), "admin", new Guid("60dc0ea3-4d07-4934-9884-91da12bbf5a8"), 92.3f, new DateTime(2024, 5, 29, 11, 19, 9, 395, DateTimeKind.Utc).AddTicks(2295) },
-                    { new Guid("73a6e51d-f4fd-484e-8dde-d79d8a1123ca"), "admin", new Guid("3857816b-5444-4bb2-876b-00683dc65877"), 95.5f, new DateTime(2024, 5, 29, 13, 19, 9, 395, DateTimeKind.Utc).AddTicks(2290) }
+                    { new Guid("0cf5d7f3-7f4b-459e-9f60-2c2dc3c69ca1"), "admin", new Guid("2afa5cce-fbcb-45ff-8f5c-96c5c911075d"), 88f, new DateTime(2024, 5, 29, 13, 39, 14, 994, DateTimeKind.Utc).AddTicks(4843) },
+                    { new Guid("66627ae3-db75-4968-be27-191471a37ea4"), "admin", new Guid("b3099f97-b15d-41ae-b741-8a434354b604"), 92.3f, new DateTime(2024, 5, 29, 12, 39, 14, 994, DateTimeKind.Utc).AddTicks(4846) },
+                    { new Guid("e9d7de43-da2c-4987-86cf-8bb45e57c6d3"), "admin", new Guid("2331975a-8c2e-4f35-9de2-61c79f6ffdf0"), 95.5f, new DateTime(2024, 5, 29, 14, 39, 14, 994, DateTimeKind.Utc).AddTicks(4840) }
                 });
 
             migrationBuilder.InsertData(
@@ -157,9 +157,9 @@ namespace backend.Migrations
                 columns: new[] { "Id", "Datetime", "RequestId", "Text" },
                 values: new object[,]
                 {
-                    { new Guid("1acb23c1-8a1e-4aab-9ba2-a3231b372f8d"), new DateTime(2024, 5, 29, 13, 19, 9, 395, DateTimeKind.Utc).AddTicks(2371), new Guid("3857816b-5444-4bb2-876b-00683dc65877"), "This is a sample comment 1." },
-                    { new Guid("5faf6808-4b6d-4ef5-966b-84773db9c396"), new DateTime(2024, 5, 29, 12, 19, 9, 395, DateTimeKind.Utc).AddTicks(2374), new Guid("dbfbfe2a-17e9-4803-9332-f507beba1924"), "This is a sample comment 2." },
-                    { new Guid("6117600f-bff8-4dd9-bdfa-08235138342b"), new DateTime(2024, 5, 29, 11, 19, 9, 395, DateTimeKind.Utc).AddTicks(2377), new Guid("60dc0ea3-4d07-4934-9884-91da12bbf5a8"), "This is a sample comment 3." }
+                    { new Guid("05c52dd0-ad34-4e98-9ddc-c945ee61a695"), new DateTime(2024, 5, 29, 13, 39, 14, 994, DateTimeKind.Utc).AddTicks(4939), new Guid("2afa5cce-fbcb-45ff-8f5c-96c5c911075d"), "This is a sample comment 2." },
+                    { new Guid("39363588-c412-4517-ac5e-dd2d9ea5c93f"), new DateTime(2024, 5, 29, 12, 39, 14, 994, DateTimeKind.Utc).AddTicks(4942), new Guid("b3099f97-b15d-41ae-b741-8a434354b604"), "This is a sample comment 3." },
+                    { new Guid("9bd87f5d-1d18-47ad-b4a6-5920eecf6419"), new DateTime(2024, 5, 29, 14, 39, 14, 994, DateTimeKind.Utc).AddTicks(4936), new Guid("2331975a-8c2e-4f35-9de2-61c79f6ffdf0"), "This is a sample comment 1." }
                 });
 
             migrationBuilder.InsertData(
@@ -167,9 +167,10 @@ namespace backend.Migrations
                 columns: new[] { "Id", "RequestId" },
                 values: new object[,]
                 {
-                    { new Guid("36cb2e13-17f6-4118-bb15-c65bc58f863e"), new Guid("60dc0ea3-4d07-4934-9884-91da12bbf5a8") },
-                    { new Guid("67b53daf-0afb-4460-88a3-6f9fc491637e"), new Guid("dbfbfe2a-17e9-4803-9332-f507beba1924") },
-                    { new Guid("9550fb91-62af-4520-8164-a6f285555247"), new Guid("3857816b-5444-4bb2-876b-00683dc65877") }
+                    { new Guid("38584614-4726-44e9-8417-7546e4375a90"), new Guid("b3099f97-b15d-41ae-b741-8a434354b604") },
+                    { new Guid("b645f67e-e671-4b87-946e-dfbbfc94055a"), new Guid("75b0911d-b08f-4129-b005-759980534a69") },
+                    { new Guid("db26ef54-2b17-4aea-b31d-05a140b726ac"), new Guid("2331975a-8c2e-4f35-9de2-61c79f6ffdf0") },
+                    { new Guid("fb63c831-346f-4705-991e-bdef6c86e741"), new Guid("2afa5cce-fbcb-45ff-8f5c-96c5c911075d") }
                 });
         }
 
@@ -179,82 +180,87 @@ namespace backend.Migrations
             migrationBuilder.DeleteData(
                 table: "Achievements",
                 keyColumn: "Id",
-                keyValue: new Guid("031217c5-ab1e-475c-a150-8422d2750ebf"));
+                keyValue: new Guid("0cf5d7f3-7f4b-459e-9f60-2c2dc3c69ca1"));
 
             migrationBuilder.DeleteData(
                 table: "Achievements",
                 keyColumn: "Id",
-                keyValue: new Guid("19ce4a6f-cae3-46b1-8879-47138b101e81"));
+                keyValue: new Guid("66627ae3-db75-4968-be27-191471a37ea4"));
 
             migrationBuilder.DeleteData(
                 table: "Achievements",
                 keyColumn: "Id",
-                keyValue: new Guid("73a6e51d-f4fd-484e-8dde-d79d8a1123ca"));
+                keyValue: new Guid("e9d7de43-da2c-4987-86cf-8bb45e57c6d3"));
 
             migrationBuilder.DeleteData(
                 table: "Activities",
                 keyColumn: "Id",
-                keyValue: new Guid("25d80a44-5afa-4ad8-9f93-e36b89ab971a"));
+                keyValue: new Guid("13498067-f6d5-4119-9177-7ef36b72baba"));
 
             migrationBuilder.DeleteData(
                 table: "Activities",
                 keyColumn: "Id",
-                keyValue: new Guid("5d30cde9-00a6-4634-8a9c-d95e56ddbbba"));
+                keyValue: new Guid("16598089-f9c7-4148-8156-d053de59e77a"));
 
             migrationBuilder.DeleteData(
                 table: "Activities",
                 keyColumn: "Id",
-                keyValue: new Guid("f4331d3f-e269-405a-9157-2f5bea848b42"));
+                keyValue: new Guid("51132e40-443d-41b5-a473-b8f18bfd022f"));
 
             migrationBuilder.DeleteData(
                 table: "Comments",
                 keyColumn: "Id",
-                keyValue: new Guid("1acb23c1-8a1e-4aab-9ba2-a3231b372f8d"));
+                keyValue: new Guid("05c52dd0-ad34-4e98-9ddc-c945ee61a695"));
 
             migrationBuilder.DeleteData(
                 table: "Comments",
                 keyColumn: "Id",
-                keyValue: new Guid("5faf6808-4b6d-4ef5-966b-84773db9c396"));
+                keyValue: new Guid("39363588-c412-4517-ac5e-dd2d9ea5c93f"));
 
             migrationBuilder.DeleteData(
                 table: "Comments",
                 keyColumn: "Id",
-                keyValue: new Guid("6117600f-bff8-4dd9-bdfa-08235138342b"));
+                keyValue: new Guid("9bd87f5d-1d18-47ad-b4a6-5920eecf6419"));
 
             migrationBuilder.DeleteData(
                 table: "Images",
                 keyColumn: "Id",
-                keyValue: new Guid("36cb2e13-17f6-4118-bb15-c65bc58f863e"));
+                keyValue: new Guid("38584614-4726-44e9-8417-7546e4375a90"));
 
             migrationBuilder.DeleteData(
                 table: "Images",
                 keyColumn: "Id",
-                keyValue: new Guid("67b53daf-0afb-4460-88a3-6f9fc491637e"));
+                keyValue: new Guid("b645f67e-e671-4b87-946e-dfbbfc94055a"));
 
             migrationBuilder.DeleteData(
                 table: "Images",
                 keyColumn: "Id",
-                keyValue: new Guid("9550fb91-62af-4520-8164-a6f285555247"));
+                keyValue: new Guid("db26ef54-2b17-4aea-b31d-05a140b726ac"));
+
+            migrationBuilder.DeleteData(
+                table: "Images",
+                keyColumn: "Id",
+                keyValue: new Guid("fb63c831-346f-4705-991e-bdef6c86e741"));
 
             migrationBuilder.DeleteData(
                 table: "VerificationRequests",
                 keyColumn: "Id",
-                keyValue: new Guid("5f3d1276-1e7c-4da4-bebf-0b45aeb62e53"));
+                keyValue: new Guid("2331975a-8c2e-4f35-9de2-61c79f6ffdf0"));
 
             migrationBuilder.DeleteData(
                 table: "VerificationRequests",
                 keyColumn: "Id",
-                keyValue: new Guid("3857816b-5444-4bb2-876b-00683dc65877"));
+                keyValue: new Guid("2afa5cce-fbcb-45ff-8f5c-96c5c911075d"));
 
             migrationBuilder.DeleteData(
                 table: "VerificationRequests",
                 keyColumn: "Id",
-                keyValue: new Guid("60dc0ea3-4d07-4934-9884-91da12bbf5a8"));
+                keyValue: new Guid("75b0911d-b08f-4129-b005-759980534a69"));
 
             migrationBuilder.DeleteData(
                 table: "VerificationRequests",
                 keyColumn: "Id",
-                keyValue: new Guid("dbfbfe2a-17e9-4803-9332-f507beba1924"));
+                keyValue: new Guid("b3099f97-b15d-41ae-b741-8a434354b604"));
 
             migrationBuilder.InsertData(
                 table: "Activities",
