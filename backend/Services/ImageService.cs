@@ -44,4 +44,9 @@ public class ImageService : IImageService
         }
         return newName;
     }
+
+    public bool Validate(string fileName)
+    {
+        return File.Exists(Path.Combine(_imagesPath, fileName));
+    }
 }

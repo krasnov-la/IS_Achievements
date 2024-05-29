@@ -1,3 +1,4 @@
+namespace DataAccess.Models;
 public record CredentialsRequest
 {
     public string Login {get; set;} = null!;
