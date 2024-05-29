@@ -31,8 +31,8 @@ public class AppDbContext : DbContext
             {
                 Login = "admin",
                 Nickname = "Administrator",
-                Password = "admin_password",
-                Refresh = "admin_refresh_token",
+                Password = "AQAAAAIAAYagAAAAEETyaxS08KjbEL4Dbbk7nacWglX1RF/HtPfY9t+t/SCREycaUxAKYgdtcfaOfLhzMg==",
+                Refresh = "42af99f8-7c91-4fdb-8b72-0e12b7e6b74b",
                 RefreshExpire = DateTime.UtcNow.AddDays(30),
                 Role = "Admin"
             },
@@ -40,8 +40,8 @@ public class AppDbContext : DbContext
             {
                 Login = "user1",
                 Nickname = "User One",
-                Password = "user1_password",
-                Refresh = "user1_refresh_token",
+                Password = "AQAAAAIAAYagAAAAEETyaxS08KjbEL4Dbbk7nacWglX1RF/HtPfY9t+t/SCREycaUxAKYgdtcfaOfLhzMg==",
+                Refresh = "42af99f8-7c91-4fdb-8b72-0e12b7e6b74b",
                 RefreshExpire = DateTime.UtcNow.AddDays(30),
                 Role = "User"
             },
@@ -49,8 +49,8 @@ public class AppDbContext : DbContext
             {
                 Login = "user2",
                 Nickname = "User Two",
-                Password = "user2_password",
-                Refresh = "user2_refresh_token",
+                Password = "AQAAAAIAAYagAAAAEETyaxS08KjbEL4Dbbk7nacWglX1RF/HtPfY9t+t/SCREycaUxAKYgdtcfaOfLhzMg==",
+                Refresh = "42af99f8-7c91-4fdb-8b72-0e12b7e6b74b",
                 RefreshExpire = DateTime.UtcNow.AddDays(30),
                 Role = "User"
             },
@@ -58,8 +58,8 @@ public class AppDbContext : DbContext
             {
                 Login = "user3",
                 Nickname = "User Three",
-                Password = "user3_password",
-                Refresh = "user3_refresh_token",
+                Password = "AQAAAAIAAYagAAAAEETyaxS08KjbEL4Dbbk7nacWglX1RF/HtPfY9t+t/SCREycaUxAKYgdtcfaOfLhzMg==",
+                Refresh = "42af99f8-7c91-4fdb-8b72-0e12b7e6b74b",
                 RefreshExpire = DateTime.UtcNow.AddDays(30),
                 Role = "User"
             }
