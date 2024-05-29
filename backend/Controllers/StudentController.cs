@@ -1,4 +1,5 @@
 using DataAccess;
+using DataAccess.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.ObjectPool;
@@ -11,9 +12,11 @@ namespace Controllers;
 public class StudentController : ControllerBase
 {
     AppDbContext _db;
-    public StudentController(AppDbContext dbContext)
+    IImageService _imageService;
+    public StudentController(AppDbContext dbContext, IImageService imageService)
     {
         _db = dbContext;
+        _imageService = imageService;
     }
 
     [HttpGet("[action]"), Authorize]
@@ -77,6 +80,7 @@ public class StudentController : ControllerBase
     }
 
     [HttpGet("[action]"), Authorize]
+    //TODO Вырезать картинки, вынести в дрйгой метод, возвращать Id реквеста, для модификации\удаления
     public IActionResult GetRequests()
     {
         var loginClaim = HttpContext.User.FindFirst(c => c.Type == "Login");
@@ -99,5 +103,40 @@ public class StudentController : ControllerBase
                         .ToList();
 
         return Ok(achievementsList);
+    }
+
+    [HttpPost("[action]")]
+    [Authorize]
+    public IActionResult NewRequest([FromBody] NewRequest request)
+    {
+        var loginClaim = HttpContext.User.FindFirst(c => c.Type == "Login");
+        if (loginClaim is null)
+            return BadRequest("User not authenticated");
+
+        var login = loginClaim.Value;
+
+        if (request.ImageNames.Any(img => !_imageService.Validate(img)))
+            return BadRequest("Invalid images!!!");
+
+        VerificationRequest newReq = new(){
+            Id = Guid.NewGuid(),
+            OwnerLogin = login,
+            EventName = request.Name,
+            Description = request.Description
+        };
+
+        _db.Add(newReq);
+
+        foreach (string name in request.ImageNames)
+        {
+            _db.Images.Add(new Image(){
+                FileName = name,
+                RequestId = newReq.Id
+            });
+        }
+
+        _db.SaveChanges();
+
+        return Ok(newReq.Id);
     }
 }
