@@ -1,3 +1,9 @@
-<svg width="21" height="22" viewBox="0 0 21 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M13.6667 3.11111V1M13.6667 3.11111V5.22222M13.6667 3.11111H8.91667M1 9.44445V18.9444C1 20.1104 1.94518 21.0556 3.11111 21.0556H17.8889C19.0549 21.0556 20 20.1104 20 18.9444V9.44445H1Z" stroke="#BFBFBF" stroke-width="1.58333" stroke-linecap="round" stroke-linejoin="round"/>
+<svg  xmlns="http://www.w3.org/2000/svg"  width="23"  height="23"  viewBox="0 0 24 24"  fill="none"  stroke="#bfbfbf"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-calendar">
+    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" />
+    <path d="M16 3v4" />
+    <path d="M8 3v4" />
+    <path d="M4 11h16" />
+    <path d="M11 15h1" />
+    <path d="M12 15v3" />
 </svg>
