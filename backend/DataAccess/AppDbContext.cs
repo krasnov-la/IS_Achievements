@@ -22,7 +22,7 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Achievement>().HasKey(a => a.Id);
         modelBuilder.Entity<Activity>().HasKey(a => a.Id);
         modelBuilder.Entity<Comment>().HasKey(c => c.Id);
-        modelBuilder.Entity<Image>().HasKey(i => i.Id);
+        modelBuilder.Entity<Image>().HasKey(i => i.FileName);
         modelBuilder.Entity<VerificationRequest>().HasKey(v => v.Id);
 
         // Seeding Users
@@ -207,22 +207,22 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Image>().HasData(
             new Image
             {
-                Id = imageId1,
+                FileName = imageId1.ToString(),
                 RequestId = requestId1
             },
             new Image
             {
-                Id = imageId2,
+                FileName = imageId2.ToString(),
                 RequestId = requestId2
             },
             new Image
             {
-                Id = imageId3,
+                FileName = imageId3.ToString(),
                 RequestId = requestId3
             },
             new Image
             {
-                Id = imageId4,
+                FileName = imageId4.ToString(),
                 RequestId = requestId4
             }
         );

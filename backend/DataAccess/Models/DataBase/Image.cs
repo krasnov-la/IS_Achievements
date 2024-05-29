@@ -2,9 +2,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Models;
 
+[PrimaryKey("FileName")]
 public class Image
 {
-    public Guid Id { get; set; }
+    public string FileName { get; set; } = null!;
     public Guid RequestId { get; set; }
 
     //EF Navigation
