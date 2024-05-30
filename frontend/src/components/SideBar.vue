@@ -12,14 +12,15 @@
 
 <style scoped>
 .side-bar {
+      border: 1px solid #35373A;
   padding: 2.5%;
-  height: 100vh;
+  height: 100%;
   width: 20%;
   background: #232627;
   min-width: 350px;
   display: flex;
   flex-direction: column;
-  float: left;
+  /* float: left; */
 }
 .side-bar_header {
   display: flex;
