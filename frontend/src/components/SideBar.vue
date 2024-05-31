@@ -1,12 +1,22 @@
 <template>
   <div class="side-bar">
-    <div class="side-bar_header">
-      <img class="logo" src="../assets/logo.svg" alt="" />
-      <h1>.NET Creations</h1>
+    <div class="wrapper" >
+      <div class="side-bar_header">
+            <img class="logo" src="../assets/logo.svg" alt="" />
+            <h1>.NET Creations</h1>
+          </div>
+          <router-link to="/">Главная страница</router-link>
+          <a href="">Текущие ивенты</a>
+          <a href="">Будущие ивенты</a>
+          <router-link to="/PersonalArea" class="profile" >
+            <img class="profile-img" src="" alt="">
+            <div>
+              <h6 class="profile-name" >User228</h6>
+              <p class="profile-score" >Баллы: 12 333</p>
+            </div>
+          </router-link>
     </div>
-    <a href="">Главная страница</a>
-    <a href="">Текущие ивенты</a>
-    <a href="">Будущие ивенты</a>
+    
   </div>
 </template>
 
@@ -14,18 +24,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 
 .side-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  padding: 1.5% 1.8% 0 1.9%;
+      border: 1px solid #35373A;
+  padding: 2.5%;
   height: 100%;
   width: 20%;
   background: #232627;
   min-width: 300px;
   display: flex;
   flex-direction: column;
-  float: left;
-  border-right: 1pt solid #35373A;
+  /* float: left; */
+}
+.wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
 }
 .side-bar_header {
   display: flex;
@@ -49,7 +61,7 @@ img{
 }
 
 a {
-  margin: 4% -2% 4% 0;
+  margin: 4% 0 4% 0;
   display: block;
 
   font-family: "Inter";
@@ -83,5 +95,45 @@ a:nth-child(4)::before {
 
 .active {
     background: #8057F2;
+}
+
+.profile {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0%;
+  margin: 0;
+  padding: 10px;
+}
+.profile-img {
+  width: 44px;
+  height: 44px;
+  background: #A69AE8;
+  border-radius: 50%;
+  margin: 0 5% 0 0;
+}
+.profile-score {
+
+font-family: 'Inter';
+font-style: normal;
+font-weight: 300;
+font-size: 12px;
+line-height: 15px;
+
+color: #E3E4E4;
+}
+.profile-name {
+margin: 0;
+
+font-family: 'Inter';
+font-style: normal;
+font-weight: 500;
+font-size: 15.7143px;
+line-height: 19px;
+/* identical to box height */
+
+color: #E3E4E4;
+
+
 }
 </style>

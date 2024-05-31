@@ -1,7 +1,8 @@
 <template>
-  <div style=" width:100%; height: 100%; background-color: #1C1E1F">
+  <div style=" width:100%; height: 100%; background-color: #1C1E1F; display: flex">
     <SideBar/>
-    <Header/>
+    <div style="width: 100%" > 
+  <Header/>
 
     <div class="container">
       <div class="card">
@@ -60,16 +61,18 @@
         <div class="h8">Колличество баллов</div>
       </div>
     </div>
+    </div>
+  
 
   </div>
 </template>
 
-<style>
+<style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 
 .table{
   width: 75%;
-  margin: 2.5% 0 0 22.5%;
+  margin: 2.5% 0 0 5%;
   padding-bottom: 2%;
   position: relative;
   height: fit-content;
@@ -216,7 +219,7 @@
 }
 
 .container {
-  margin: 2.5% 0 0 20%;
+  margin: 2.5% 0 0 2.5%;
   display: flex;
   justify-content: space-between;
   padding: 0 2.5%;
