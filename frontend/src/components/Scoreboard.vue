@@ -2,9 +2,10 @@
   <div class="widget_item scoreboard">
     <div class="scoreboard-header" >
   <h2>Scoreboard</h2>
-    <img class="sort"  src="../assets/Group 2.png" alt="">
+    
+    <img class="sort" @click="sortPlayers" src="../assets/Group 2.png" alt="">
     </div>
-  
+
     <div class="table">
       <div class="table-header">
         <p class="number">Номер позиции</p>
@@ -19,11 +20,9 @@
     </div>
   </div>
 </template>
-<script>
-import { ref, createApp } from 'vue'
-
-export default {
-  setup() {
+<script setup >
+import { ref, createApp, } from 'vue'
+const sortIndex = ref(0)
     const players = ref([
       { name: 'John', score: 100245, id: 1234 },
       { name: 'Jane', score: 93998, id: 1235 },
@@ -32,8 +31,26 @@ export default {
       { name: 'Jane', score: 93998, id: 1235 },
       { name: 'Bob', score: 86277, id: 1236 },
     ])
-    return { players }
+
+function sortPlayers() {
+  sortIndex.value++; // Переход к следующему полю для сортировки
+  let fields = ['name', 'score']; // Массив полей для сортировки
+  if (sortIndex.value >= fields.length) {
+    sortIndex.value = 0; // Сброс индекса, если все поля были пройдены
   }
+  players.value.sort((a, b) => {
+    switch (fields[sortIndex.value]) {
+      case 'name':
+        return String(a[fields[sortIndex.value]]).localeCompare(String(b[fields[sortIndex.value]]));
+      case 'score':
+        return a[fields[sortIndex.value]] - b[fields[sortIndex.value]];
+      default:
+        return 0;
+    }
+  });
+const sortedPlayers = computed(() => players.value.slice()); // Копируем массив для отображения
+
+
 }
 const app = createApp({})
 
