@@ -39,6 +39,7 @@ export default {
 }
 </script>
 <style scoped  lang="scss"  >
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 
 .registration {
     height: 100%;

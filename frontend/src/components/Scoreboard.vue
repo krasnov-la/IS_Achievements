@@ -1,6 +1,10 @@
 <template>
   <div class="widget_item scoreboard">
-    <h2>Scoreboard</h2>
+    <div class="scoreboard-header" >
+  <h2>Scoreboard</h2>
+    <img class="sort"  src="../assets/Group 2.png" alt="">
+    </div>
+  
     <div class="table">
       <div class="table-header">
         <p class="number">Номер позиции</p>
@@ -55,6 +59,16 @@ color: #E3E4E4;
 background: #232627;
     background: #35373A;
     border-radius: 20px;
+}
+.scoreboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.sort {
+  width: 6px;
+  height: 28px;
+  cursor: pointer;
 }
 .table {
   /* height: 100%; */

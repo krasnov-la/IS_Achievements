@@ -17,6 +17,9 @@
 
 </template>
 
+<style>
+</style>
+
 <script>
 import { ref, createApp } from 'vue'
 import SideBar from '../components/SideBar.vue'
@@ -36,6 +39,8 @@ app.component('side-bar', SideBar)
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
 .wrapper {
     height: 100%;
     display: flex;
@@ -54,7 +59,7 @@ header {
     /* height: 50px; */
     padding: 10px 10px;
     border: 1px solid #35373A;
-font-family: 'Inter';
+font-family: Inter;
 font-style: normal;
 font-weight: 600;
 font-size: 33px;
@@ -75,7 +80,7 @@ h2 {
 
 
 
-font-family: 'Inter';
+font-family: Inter;
 font-style: normal;
 font-weight: 600;
 font-size: 30px;
