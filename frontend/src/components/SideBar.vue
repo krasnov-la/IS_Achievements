@@ -14,6 +14,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 
 .side-bar {
+  /*css от Иры*/
   position: fixed;
   top: 0;
   left: 0;
@@ -26,6 +27,18 @@
   flex-direction: column;
   float: left;
   border-right: 1pt solid #35373A;
+  /*
+  css от Кирилла
+  border: 1px solid #35373A;
+  padding: 2.5%;
+  height: 100vh;
+  height: 100%;
+  width: 20%;
+  background: #232627;
+  min-width: 350px;
+  display: flex;
+  flex-direction: column;
+  float: left; */
 }
 .side-bar_header {
   display: flex;
