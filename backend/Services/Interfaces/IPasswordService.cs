@@ -1,4 +1,3 @@
-using System.Security.Cryptography;
 using DataAccess.Models;
 using Microsoft.AspNetCore.Identity;
 

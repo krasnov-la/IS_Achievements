@@ -12,11 +12,11 @@ public interface IRepository<TEntity> where TEntity : class
         Expression<Func<TEntity, TKey>>? orderBy = null
     );
 
-    Task<TEntity> GetById<TId>(TId id);
+    Task<TEntity?> GetById<TId>(TId id);
 
     void Insert(TEntity entity);
 
     void Update(TEntity entity);
 
-    void Delete();
+    void Delete(TEntity entity);
 }

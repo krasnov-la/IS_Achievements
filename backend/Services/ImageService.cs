@@ -1,4 +1,3 @@
-
 namespace Services;
 
 public class ImageService : IImageService
