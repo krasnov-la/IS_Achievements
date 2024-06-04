@@ -40,7 +40,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddScoped<ITokenService, DefaultTokenService>();
-builder.Services.AddScoped<IPasswordService, PasswordService>();
+builder.Services.AddScoped<IPasswordService, BCryptPasswordService>();
 builder.Services.AddScoped<IImageService, ImageService>();
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
