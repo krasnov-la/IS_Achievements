@@ -57,9 +57,6 @@ function sortPlayers() {
   });
   const sortedPlayers = computed(() => players.value.slice()); // Копируем массив для отображения
 }
-const app = createApp({});
-
-// Регистрация компонента
 </script>
 <style scoped>
 h2 {

@@ -5,20 +5,35 @@
       <header>Главная страница</header>
       <div class="widgets">
         <scoreboard />
-        <events-list />
+        <events-list :events="events" v-if="events.length > 0" />
         <future-events-list />
       </div>
     </div>
   </div>
 </template>
 
-<style></style>
-
 <script setup>
 import SideBar from "../components/SideBar.vue";
 import EventsList from "../components/EventsList.vue";
 import FutureEventsList from "../components/FutureEventsList.vue";
 import Scoreboard from "../components/Scoreboard.vue";
+import axios from "axios";
+import { onMounted, ref } from "vue";
+
+const events = ref([]);
+
+const fetchCTFEvents = async () => {
+  try {
+    const response = await axios.get(
+      process.env.VUE_APP_CTF_API + "events/?limit=5"
+    );
+    events.value = response.data;
+  } catch (error) {
+    console.error("Error fetching CTF events:", error);
+  }
+};
+
+onMounted(fetchCTFEvents);
 </script>
 
 <style scoped>

@@ -2,7 +2,7 @@
   <div class="widget_item event-list">
     <h2>Ивенты сейчас</h2>
     <div class="list_events">
-      <div class="event-item" v-for="event in events" :key="event.title">
+      <div class="event-item" v-for="event in props.events" :key="event.title">
         <img :src="event.img" alt="" />
         <div class="event-text">
           <h4>{{ event.title }}</h4>
@@ -17,28 +17,13 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-
-const events = ref([
-  {
-    img: "",
-    title: "CTF-Хакатон",
-    description:
-      "Интенсивная программа обучения и создания реальных проектов для студентов и молодых специалистов.",
+const props = defineProps({
+  events: {
+    type: Array,
+    default: () => [],
   },
-  {
-    img: "",
-    title: "CTF-Хакатон",
-    description:
-      "Интенсивная программа обучения и создания реальных проектов для студентов и молодых специалистов.",
-  },
-  {
-    img: "",
-    title: "CTF-Хакатон",
-    description:
-      "Интенсивная программа обучения и создания реальных проектов для студентов и молодых специалистов.",
-  },
-]);
+});
+console.log(props.events);
 </script>
 
 <style scoped>
