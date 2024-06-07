@@ -49,6 +49,7 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<ITokenService, DefaultTokenService>();
 builder.Services.AddScoped<IPasswordService, BCryptPasswordService>();
 builder.Services.AddScoped<IImageService, ImageService>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 var app = builder.Build();
