@@ -10,9 +10,17 @@ var builder = WebApplication.CreateBuilder(args);
 if (builder.Environment.IsDevelopment())
     builder.Configuration.AddJsonFile("super_secret.json", false);
 else 
-    builder.Configuration.AddEnvironmentVariables();
+{
+    builder.Configuration.AddEnvironmentVariables("JwtKey");
+    builder.Configuration.AddEnvironmentVariables("JwtIssuer");
+    builder.Configuration.AddEnvironmentVariables("JwtAudience");
+    builder.Configuration.AddEnvironmentVariables("DbConnection");
+}
 var config = builder.Configuration;
-
+System.Console.WriteLine(config["JwtKey"]);
+System.Console.WriteLine(config["JwtIssuer"]);
+System.Console.WriteLine(config["JwtAudience"]);
+System.Console.WriteLine(config["DbConnection"]);
 builder.Services.AddAuthentication(x => 
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
