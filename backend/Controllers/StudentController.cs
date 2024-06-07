@@ -28,23 +28,36 @@ public class StudentController : ControllerBase
 
         var login = loginClaim.Value;
 
-        var ratingList = (from verificationRequests in _db.VerificationRequests
-                          join achievements in _db.Achievements on verificationRequests.Id equals achievements.RequestId
-                          join users in _db.Users on verificationRequests.OwnerLogin equals users.Login
-                          group achievements.Score by users.Login into allData
-                          select new
-                          {
-                              Login = allData.Key,
-                              Score = allData.Select(x => x).Sum()
-                          })
-                        .OrderByDescending(x => x.Score)
-                        .ToList()
-                        .Select((x, index) => new
-                        {
-                            Place = index + 1,
-                            x.Login,
-                            x.Score
-                        });
+        var ratingList = _db.VerificationRequests
+        .Join(
+            _db.Achievements,
+            vr => vr.Id,
+            ach => ach.RequestId,
+            (vr, ach) => new { vr.OwnerLogin, ach.Score }
+        )
+        .Join(
+            _db.Users,
+            vrAch => vrAch.OwnerLogin,
+            user => user.Login,
+            (vrAch, user) => new { user.Login, user.Nickname, vrAch.Score }
+        )
+        .GroupBy(
+            u => new { u.Login, u.Nickname },
+            (key, group) => new
+            {
+                key.Login,
+                Score = group.Sum(x => x.Score)
+            }
+        )
+        .OrderByDescending(x => x.Score)
+        .ToList()
+        .Select((x, index) => new
+        {
+            Place = index + 1,
+            x.Login,
+            x.Score
+        });
+
         var ratingPlace = ratingList.Where(x => x.Login == login)
                                     .Select(x => x.Place)
                                     .FirstOrDefault();
@@ -61,20 +74,62 @@ public class StudentController : ControllerBase
 
         var login = loginClaim.Value;
 
-        var achievementsList = (from verificationRequests in _db.VerificationRequests
-                                join achievements in _db.Achievements on verificationRequests.Id equals achievements.RequestId
-                                join users in _db.Users on verificationRequests.OwnerLogin equals users.Login
-                                join images in _db.Images on verificationRequests.Id equals images.RequestId
-                                where users.Login == login
-                                where verificationRequests.IsOpen == false
-                                select new
-                                {
-                                    verificationRequests.EventName,
-                                    verificationRequests.Description,
-                                    achievements.Score,
-                                    images.FileName
-                                })
-                        .ToList();
+        var achievementsList = _db.VerificationRequests
+        .Join(
+            _db.Achievements,
+            verificationRequest => verificationRequest.Id,
+            achievement => achievement.RequestId,
+            (verificationRequest, achievement) => new
+            {
+                verificationRequest.Id,
+                verificationRequest.Description,
+                verificationRequest.EventName,
+                verificationRequest.OwnerLogin,
+                verificationRequest.IsOpen,
+                achievement.Score
+            }
+        )
+        .Join(
+            _db.Users,
+            vrAch => vrAch.OwnerLogin,
+            user => user.Login,
+            (vrAch, user) => new
+            {
+                vrAch.Id,
+                vrAch.Description,
+                vrAch.EventName,
+                vrAch.IsOpen,
+                user.Login,
+                user.Nickname,
+                vrAch.Score
+            }
+        )
+        .Join(
+            _db.Images,
+            vrAchUser => vrAchUser.Id,
+            image => image.RequestId,
+            (vrAchUser, image) => new
+            {
+                image.FileName,
+                vrAchUser.Id,
+                vrAchUser.Description,
+                vrAchUser.EventName,
+                vrAchUser.IsOpen,
+                vrAchUser.Login,
+                vrAchUser.Nickname,
+                vrAchUser.Score
+            }
+        )
+        .Where(x => x.Login == login && !x.IsOpen)
+        .Select(x => new
+        {
+            x.EventName,
+            x.Description,
+            x.Score,
+            x.FileName
+        })
+        .ToList();
+
 
         return Ok(achievementsList);
     }
@@ -89,20 +144,30 @@ public class StudentController : ControllerBase
 
         var login = loginClaim.Value;
 
-        var achievementsList = (from verificationRequests in _db.VerificationRequests
-                                join users in _db.Users on verificationRequests.OwnerLogin equals users.Login
-                                join images in _db.Images on verificationRequests.Id equals images.RequestId
-                                where users.Login == login
-                                where verificationRequests.IsOpen == true
-                                select new
-                                {
-                                    verificationRequests.EventName,
-                                    verificationRequests.Description,
-                                    images.FileName
-                                })
-                        .ToList();
+        var requestsList = _db.VerificationRequests
+        .Join(
+            _db.Users,
+            verificationRequest => verificationRequest.OwnerLogin,
+            user => user.Login,
+            (verificationRequest, user) => new { verificationRequest, user }
+        )
+        .Join(
+            _db.Images,
+            vrUser => vrUser.verificationRequest.Id,
+            image => image.RequestId,
+            (vrUser, image) => new { vrUser.verificationRequest, vrUser.user, image }
+        )
+        .Where(vrUserImage => vrUserImage.user.Login == login && vrUserImage.verificationRequest.IsOpen)
+        .Select(vrUserImage => new
+        {
+            vrUserImage.verificationRequest.EventName,
+            vrUserImage.verificationRequest.Description,
+            vrUserImage.image.FileName
+        })
+        .ToList();
 
-        return Ok(achievementsList);
+
+        return Ok(requestsList);
     }
 
     [HttpPost("[action]")]
@@ -118,7 +183,8 @@ public class StudentController : ControllerBase
         if (request.ImageNames.Any(img => !_imageService.Validate(img)))
             return BadRequest("Invalid images!!!");
 
-        VerificationRequest newReq = new(){
+        VerificationRequest newReq = new()
+        {
             Id = Guid.NewGuid(),
             OwnerLogin = login,
             EventName = request.Name,
@@ -129,7 +195,8 @@ public class StudentController : ControllerBase
 
         foreach (string name in request.ImageNames)
         {
-            _db.Images.Add(new Image(){
+            _db.Images.Add(new Image()
+            {
                 FileName = name,
                 RequestId = newReq.Id
             });
