@@ -3,38 +3,38 @@ using DataAccess;
 using DataAccess.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Services;
 
 namespace Controllers;
 
 [ApiController]
-[Authorize(Policy = PolicyData.AdminOnlyPolicyName)]
+//[Authorize(Policy = PolicyData.AdminOnlyPolicyName)]
 [Route("[controller]")]
-public class AdminController : ControllerBase
+public class AdminController(IUnitOfWork unit) : ControllerBase
 {
-    AppDbContext _db;
-    public AdminController(AppDbContext dbContext)
-    {
-        _db = dbContext;
-    }
+    IUnitOfWork _unit = unit;
 
     [HttpGet("[action]")]
-    public IActionResult Requests()
+    //Returns all open requests sorted by datetime
+    public async Task<IActionResult> Requests()
     {
-        return Ok(_db.VerificationRequests
-            .Where(r => r.IsOpen)
-            .OrderBy(r => r.DateTime)
-            .Select(r => new
-            {
-                r.Id,
-                r.EventName,
-                r.Description,
-                r.DateTime,
-                r.OwnerLogin
-            }));
+        var data = await _unit.Requests
+            .Get(
+                filter: r => r.IsOpen,
+                orderBy: r => r.DateTime
+            );
+
+        return Ok(data.Select( r => new {
+            r.Id,
+            r.EventName,
+            r.Description,
+            r.DateTime,
+            r.OwnerLogin
+        }));
     }
 
     [HttpPost("[action]")]
-    public IActionResult Score([FromBody] ScoreRequest request)
+    public async Task<IActionResult> Score([FromBody] ScoreRequest request)
     {
         var loginClaim = HttpContext.User.FindFirst(c => c.Type == "Login");
         if (loginClaim is null)
@@ -42,15 +42,15 @@ public class AdminController : ControllerBase
 
         var login = loginClaim.Value;
 
-        var verificationReq = _db.VerificationRequests.Find(request.ReqId);
+        var verificationReq = await _unit.Requests.GetById(request.ReqId);
         if (verificationReq is null) return BadRequest("Request not found");
 
         verificationReq.IsOpen = false;
-        _db.Update(verificationReq);
+        _unit.Requests.Update(verificationReq);
 
         var achievementId = Guid.NewGuid();
 
-        _db.Achievements.Add(new Achievement(){
+        _unit.Achievements.Insert(new Achievement(){
             Id = achievementId,
             Score = request.Score,
             VerificationDatetime = DateTime.Now,
@@ -58,48 +58,82 @@ public class AdminController : ControllerBase
             AdminLogin = login
         });
 
-        _db.SaveChanges();
+        await _unit.SaveAsync();
 
         return Ok(achievementId);
     }
 
-    [HttpPost("[action]")]
-    public IActionResult Comment([FromBody] CommentRequest request)
+    [HttpPost("Comments")]
+    public async Task<IActionResult> CreateComment([FromBody] CommentRequest request)
     {
-        var verificationReq = _db.VerificationRequests.Find(request.ReqId);
+        var verificationReq = await _unit.Requests.GetById(request.ReqId);
         if (verificationReq is null) return BadRequest("Request not found");
 
         var commId = Guid.NewGuid();
 
-        _db.Comments.Add(new Comment(){
+        _unit.Comments.Insert(new Comment(){
             Id = commId,
             Datetime = DateTime.Now,
             Text = request.Text,
             RequestId = request.ReqId
         });
 
-        _db.SaveChanges();
+        await _unit.SaveAsync();
         return Ok(commId);
     }
 
-    [HttpPost("[action]")]
-    public IActionResult Activity([FromBody] ActivityRequest request)
+    [HttpGet("Comments/{id}")]
+    public async Task<IActionResult> ReadComment([FromRoute] Guid id)
     {
-        var loginClaim = HttpContext.User.FindFirst(c => c.Type == "Login");
-        if (loginClaim is null)
-            return BadRequest("User not authenticated");
-
-        var login = loginClaim.Value;
-
-        var actId = Guid.NewGuid();
-        _db.Activities.Add(new Activity(){
-            Id = actId,
-            Name = request.Name,
-            Datetime = request.DateTime,
-            Link = request.Link,
-            AdminLogin = login
+        var comm = await _unit.Comments.GetById(id);
+        if (comm is null) return NotFound();
+        return Ok(new {
+            comm.Id,
+            comm.Text,
+            comm.Datetime,
+            comm.RequestId
         });
-
-        return Ok(actId);
     }
+
+    [HttpPut("Comments")]
+    public async Task<IActionResult> UpdateComment([FromBody] CommentUpdateRequest request)
+    {
+        var comm = await _unit.Comments.GetById(request.CommId);
+        if (comm is null) return NotFound();
+        comm.Text = request.Text;
+        _unit.Comments.Update(comm);
+        await _unit.SaveAsync();
+        return Ok();
+    }
+
+    [HttpDelete("Comments/{id}")]
+    public async Task<IActionResult> DeleteComment(Guid id)
+    {
+        var comm = await _unit.Comments.GetById(id);
+        if (comm is null) return NotFound();
+        _unit.Comments.Delete(comm);
+        await _unit.SaveAsync();
+        return Ok();
+    }
+
+    // [HttpPost("[action]")]
+    // public IActionResult Activity([FromBody] ActivityRequest request)
+    // {
+    //     var loginClaim = HttpContext.User.FindFirst(c => c.Type == "Login");
+    //     if (loginClaim is null)
+    //         return BadRequest("User not authenticated");
+
+    //     var login = loginClaim.Value;
+
+    //     var actId = Guid.NewGuid();
+    //     _db.Activities.Add(new Activity(){
+    //         Id = actId,
+    //         Name = request.Name,
+    //         Datetime = request.DateTime,
+    //         Link = request.Link,
+    //         AdminLogin = login
+    //     });
+
+    //     return Ok(actId);
+    // }
 }

@@ -51,6 +51,35 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("[action]")]
+    //[Authorize(Policy = PolicyData.AdminOnlyPolicyName)]
+    public IActionResult RegisterAdmin([FromBody] CredentialsRequest request)
+    {
+        if (request.Login is null || request.Login == string.Empty)
+            return BadRequest("Empty login");
+
+        if (request.Password is null)
+            return BadRequest("Empty password");
+
+        if (_db.Users.Find(request.Login) is not null)
+            return BadRequest("Login taken");
+
+        var user = new User()
+        {
+            Login = request.Login,
+            Nickname = request.Login,
+            Refresh = "",
+            Role = Roles.Admin,
+            RefreshExpire = DateTime.Now,
+            Password = ""
+        };
+
+        user.Password = _passwordService.Hash(user, request.Password);
+        _db.Users.Add(user);
+        _db.SaveChanges();
+        return Ok("User created");
+    }
+
+    [HttpPost("[action]")]
     public IActionResult Login([FromBody] CredentialsRequest request)
     {
         if (request.Login is null || request.Login == string.Empty)

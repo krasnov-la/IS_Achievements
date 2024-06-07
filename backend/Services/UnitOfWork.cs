@@ -1,3 +1,4 @@
+using DataAccess;
 using DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -5,9 +6,9 @@ namespace Services;
 
 public class UnitOfWork : IUnitOfWork
 {
-    DbContext _db;
+    AppDbContext _db;
 
-    public UnitOfWork(DbContext db)
+    public UnitOfWork(AppDbContext db)
     {
         _db = db;
         Achievements = new GenericRepository<Achievement>(_db);
@@ -29,7 +30,7 @@ public class UnitOfWork : IUnitOfWork
 
     public IRepository<VerificationRequest> Requests {get; private set;}
 
-    public async Task SaveAsynch()
+    public async Task SaveAsync()
     {
         await _db.SaveChangesAsync();
     }
