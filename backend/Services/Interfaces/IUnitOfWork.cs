@@ -10,5 +10,5 @@ public interface IUnitOfWork
     IRepository<Image> Images {get; }
     IRepository<User> Users {get; }
     IRepository<VerificationRequest> Requests {get; }
-    Task SaveAsynch();
+    Task SaveAsync();
 }
