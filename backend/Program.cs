@@ -17,10 +17,6 @@ else
     builder.Configuration.AddEnvironmentVariables("DbConnection");
 }
 var config = builder.Configuration;
-System.Console.WriteLine(config["JwtKey"]);
-System.Console.WriteLine(config["JwtIssuer"]);
-System.Console.WriteLine(config["JwtAudience"]);
-System.Console.WriteLine(config["DbConnection"]);
 builder.Services.AddAuthentication(x => 
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
