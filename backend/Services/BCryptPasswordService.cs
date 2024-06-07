@@ -1,3 +1,4 @@
+using BCrypt.Net;
 using DataAccess.Models;
 using Microsoft.AspNetCore.Identity;
 
@@ -7,7 +8,7 @@ public class BCryptPasswordService : IPasswordService
 {
     public string Hash(User user, string password)
     {
-        return BCrypt.Net.BCrypt.HashPassword(password, user.Login);
+        return BCrypt.Net.BCrypt.HashPassword(password, BCrypt.Net.BCrypt.GenerateSalt() + user.Login);
     }
 
     public PasswordVerificationResult Validate(User user, string password, string hash)
