@@ -7,9 +7,16 @@ using Microsoft.IdentityModel.Tokens;
 using Services;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Configuration.AddJsonFile("super_secret.json", false);
+if (builder.Environment.IsDevelopment())
+    builder.Configuration.AddJsonFile("super_secret.json", false);
+else 
+{
+    builder.Configuration.AddEnvironmentVariables("JwtKey");
+    builder.Configuration.AddEnvironmentVariables("JwtIssuer");
+    builder.Configuration.AddEnvironmentVariables("JwtAudience");
+    builder.Configuration.AddEnvironmentVariables("DbConnection");
+}
 var config = builder.Configuration;
-
 builder.Services.AddAuthentication(x => 
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -18,10 +25,10 @@ builder.Services.AddAuthentication(x =>
 }).AddJwtBearer(x => 
 {
     x.TokenValidationParameters = new TokenValidationParameters {
-        ValidIssuer = config["JwtSettings:Issuer"],
-        ValidAudience = config["JwtSettings:Audience"],
+        ValidIssuer = config["JwtIssuer"],
+        ValidAudience = config["JwtAudience"],
         IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(config["JwtSettings:Key"]!)
+            Encoding.UTF8.GetBytes(config["JwtKey"]!)
         ),
         ValidateIssuer = true,
         ValidateAudience = true,
@@ -35,7 +42,7 @@ builder.Services.AddAuthorization(x =>
         p.RequireClaim(PolicyData.AdminClaimName, "true");
     });
 });
-builder.Services.AddDbContext<AppDbContext>(p => p.UseNpgsql(config.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<AppDbContext>(p => p.UseNpgsql(config["DbConnection"]));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();

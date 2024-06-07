@@ -14,12 +14,12 @@ public class DefaultTokenService : ITokenService
     }
     public string GenerateAccessToken(IEnumerable<Claim> claims)
     {
-        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JwtSettings:Key"]!));
+        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JwtKey"]!));
         var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
         var tokenData = new JwtSecurityToken(
-            issuer: _config["JwtSettings:Issuer"],
-            audience: _config["JwtSettings:Audience"],
+            issuer: _config["JwtIssuer"],
+            audience: _config["JwtAudience"],
             claims: claims,
             expires: DateTime.Now.AddMinutes(10),
             signingCredentials: signingCredentials
