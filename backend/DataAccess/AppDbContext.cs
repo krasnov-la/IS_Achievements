@@ -31,7 +31,7 @@ public class AppDbContext : DbContext
             {
                 Login = "admin",
                 Nickname = "Administrator",
-                Password = "AQAAAAIAAYagAAAAEETyaxS08KjbEL4Dbbk7nacWglX1RF/HtPfY9t+t/SCREycaUxAKYgdtcfaOfLhzMg==",
+                Password = "$2a$11$QBOwTM/1G3zIqQBll7vQDel21tMOmMngs20z0bxrVLEqxyY3tHT02",
                 Refresh = "42af99f8-7c91-4fdb-8b72-0e12b7e6b74b",
                 RefreshExpire = DateTime.UtcNow.AddDays(30),
                 Role = "Admin"
@@ -40,7 +40,7 @@ public class AppDbContext : DbContext
             {
                 Login = "user1",
                 Nickname = "User One",
-                Password = "AQAAAAIAAYagAAAAEETyaxS08KjbEL4Dbbk7nacWglX1RF/HtPfY9t+t/SCREycaUxAKYgdtcfaOfLhzMg==",
+                Password = "$2a$11$b63c2UhfmVGeeUWTnHlas.bk32AEQffYtnGdcX.NT0vzlNCLdZZVm",
                 Refresh = "42af99f8-7c91-4fdb-8b72-0e12b7e6b74b",
                 RefreshExpire = DateTime.UtcNow.AddDays(30),
                 Role = "User"
@@ -49,7 +49,7 @@ public class AppDbContext : DbContext
             {
                 Login = "user2",
                 Nickname = "User Two",
-                Password = "AQAAAAIAAYagAAAAEETyaxS08KjbEL4Dbbk7nacWglX1RF/HtPfY9t+t/SCREycaUxAKYgdtcfaOfLhzMg==",
+                Password = "$2a$11$PW7Dapz13EKI/xGqXjK.Y.DJgkGU39nz79UQyUr6bc4I1UNoUJCey",
                 Refresh = "42af99f8-7c91-4fdb-8b72-0e12b7e6b74b",
                 RefreshExpire = DateTime.UtcNow.AddDays(30),
                 Role = "User"
@@ -58,7 +58,7 @@ public class AppDbContext : DbContext
             {
                 Login = "user3",
                 Nickname = "User Three",
-                Password = "AQAAAAIAAYagAAAAEETyaxS08KjbEL4Dbbk7nacWglX1RF/HtPfY9t+t/SCREycaUxAKYgdtcfaOfLhzMg==",
+                Password = "$2a$11$ACFe85jXeKSHr7m3uycOsu4QN9/FbLb/YgTQ/v7UlR22DvoSX5gbW",
                 Refresh = "42af99f8-7c91-4fdb-8b72-0e12b7e6b74b",
                 RefreshExpire = DateTime.UtcNow.AddDays(30),
                 Role = "User"
