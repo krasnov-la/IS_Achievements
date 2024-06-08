@@ -1,176 +1,162 @@
 <template>
-    <div class="registration" >
-        <div class="registration_inner" >
-        <h2>Регистрация</h2>
-        <span  class="line-translation" ></span>
-        <div class="registration_content" >
-            <div class="registration_item" >
-                <h3 class="item_title" >Имя пользователя</h3>
-                <input type="text"  v-model="inputLogin"  placeholder="Введите имя пользователя" class="item_input" >
-                <p class="item_error" :class="{ 'visible': inputLogin.length < 3 }">Имя пользователя должно содержать минимум 3 символа</p>
-
-            </div>
-            <div class="registration_item" >
-                <h3 class="item_title" >Логин</h3>
-                <input type="text"  placeholder="Введите Логин" class="item_input" >
-                <p class="item_error" >Введите действительный Логин</p>
-            </div>
-            <div class="registration_item" >
-                <h3 class="item_title" >Пароль</h3>
-                <input type="text" placeholder="Введите пароль" class="item_input" >
-                <p class="item_error" ></p>
-            </div>
+  <div class="registration">
+    <div class="registration_inner">
+      <h2>Регистрация</h2>
+      <span class="line-translation"></span>
+      <div class="registration_content">
+        <div class="registration_item">
+          <h3 class="item_title">Имя пользователя</h3>
+          <input
+            type="text"
+            v-model="inputLogin"
+            placeholder="Введите имя пользователя"
+            class="item_input"
+          />
+          <p class="item_error" :class="{ visible: inputLogin.length < 3 }">
+            Имя пользователя должно содержать минимум 3 символа
+          </p>
         </div>
-        <span class="line-translation" ></span>
-        <button>Зарегистрироваться</button>
-        <p class="have-account" >  У вас уже есть аккаунт? <span class="have-account-link" >Войти</span></p>
+        <div class="registration_item">
+          <h3 class="item_title">Логин</h3>
+          <input type="text" placeholder="Введите Логин" class="item_input" />
+          <p class="item_error">Введите действительный Логин</p>
+        </div>
+        <div class="registration_item">
+          <h3 class="item_title">Пароль</h3>
+          <input type="text" placeholder="Введите пароль" class="item_input" />
+          <p class="item_error"></p>
+        </div>
+      </div>
+      <span class="line-translation"></span>
+      <button>Зарегистрироваться</button>
+      <p class="have-account">
+        У вас уже есть аккаунт? <span class="have-account-link">Войти</span>
+      </p>
     </div>
-        </div>
-
+  </div>
 </template>
-<script>
-import { ref } from 'vue'
+<script setup>
+import { ref } from "vue";
 
-export default {
-  setup() {
-    const inputLogin = ref('')
-    return { inputLogin }
-  }
-}
+const inputLogin = ref("");
 </script>
-<style scoped  lang="scss"  >
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+<style scoped lang="scss">
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
 
 .registration {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    background: #232627;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: #232627;
 }
 
-h2 { 
+h2 {
+  text-align: center;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 35px;
+  line-height: 42px;
 
-text-align: center;
-font-family: 'Inter';
-font-style: normal;
-font-weight: 600;
-font-size: 35px;
-line-height: 42px;
-
-color: #E3E4E4;
-
+  color: #e3e4e4;
 }
 .line-translation {
-    /* Line 3 */
-    display: block;
-width: 100%;
-height: 1px;
-border: 1px solid #35373A;
-/* background: #35373A */
-;
+  /* Line 3 */
+  display: block;
+  width: 100%;
+  height: 1px;
+  border: 1px solid #35373a;
+  /* background: #35373A */
 }
 .item_title {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 25px;
+  line-height: 30px;
+  margin: 20px 0;
 
-
-font-family: 'Inter';
-font-style: normal;
-font-weight: 600;
-font-size: 25px;
-line-height: 30px;
-margin: 20px 0;
-
-color: #E3E4E4;
+  color: #e3e4e4;
 }
 
 .item_input {
-    /* Rectangle 11 */
+  /* Rectangle 11 */
 
-box-sizing: border-box;
+  box-sizing: border-box;
 
-
-background: #35373A;
-border: 1px solid #45484C;
-border-radius: 13px;
-padding: 5px;
-width: 100%;
-height: 60px;
+  background: #35373a;
+  border: 1px solid #45484c;
+  border-radius: 13px;
+  padding: 5px;
+  width: 100%;
+  height: 60px;
 }
 
-
-.item_error  {
-font-family: 'Inter';
-font-style: normal;
-font-weight: 300;
-font-size: 20px;
-line-height: 24px;
-color: #A2411E;
-transition: 0.2s;
-opacity: 0;
+.item_error {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 300;
+  font-size: 20px;
+  line-height: 24px;
+  color: #a2411e;
+  transition: 0.2s;
+  opacity: 0;
 }
 
-.item_input:focus + .item_error{
-    opacity: 0 !important;
+.item_input:focus + .item_error {
+  opacity: 0 !important;
 }
 
 .item_error.visible {
-    opacity: 1;
+  opacity: 1;
 }
 button {
+  width: 100%;
+  height: 70px;
+  background: #8057f2;
+  border: 1px solid #45484c;
+  border-radius: 20px;
+  padding: 5px;
+  /* Frame 29 */
 
-width: 100%;
-height: 70px;
-background: #8057F2;
-border: 1px solid #45484C;
-border-radius: 20px;
-padding: 5px;
-/* Frame 29 */
+  /* Зарегистрироваться */
 
-/* Зарегистрироваться */
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 27px;
+  line-height: 33px;
 
+  color: #e3e4e4;
 
-
-font-family: 'Inter';
-font-style: normal;
-font-weight: 600;
-font-size: 27px;
-line-height: 33px;
-
-color: #E3E4E4;
-
-cursor: pointer;
-transition: 0.2s;
-margin: 5% 0 0 0;
+  cursor: pointer;
+  transition: 0.2s;
+  margin: 5% 0 0 0;
 }
 button:hover {
-    background: #6d3fee;
+  background: #6d3fee;
 }
 .have-account {
-text-align: center;
+  text-align: center;
 
-font-family: 'Inter';
-font-style: normal;
-font-weight: 300;
-font-size: 20px;
-line-height: 24px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 300;
+  font-size: 20px;
+  line-height: 24px;
 
-color: #828282;
-
-
+  color: #828282;
 }
 .have-account-link {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 300;
+  font-size: 20px;
+  line-height: 24px;
 
-
-font-family: 'Inter';
-font-style: normal;
-font-weight: 300;
-font-size: 20px;
-line-height: 24px;
-
-color: #A69AE8;
-cursor: pointer;
-
+  color: #a69ae8;
+  cursor: pointer;
 }
-
 </style>

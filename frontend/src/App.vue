@@ -1,19 +1,12 @@
 <template>
-  <!-- <div class="main" >
-    <side-bar />
-
-
-  </div> -->
     <router-view/>
 </template>
 
-<script>
-import SideBar from "./components/SideBar";
-export default {
-  components: {
-    SideBar
-  }
-}
+<script setup>
+import { createApp } from 'vue'
+import App from './App.vue'
+
+const app = createApp(App)
 </script>
 
 <style>
