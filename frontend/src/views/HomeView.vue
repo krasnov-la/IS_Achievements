@@ -5,8 +5,11 @@
       <header>Главная страница</header>
       <div class="widgets">
         <scoreboard />
-        <events-list :events="events" v-if="events.length > 0" />
-        <future-events-list />
+        <div v-if="loading" class="loading-indicator">Loading events...</div>
+        <div v-else>
+          <events-list :currentEvents="currentEvents" />
+          <future-events-list :upcomingEvents="upcomingEvents" />
+        </div>
       </div>
     </div>
   </div>
@@ -20,16 +23,39 @@ import Scoreboard from "../components/Scoreboard.vue";
 import axios from "axios";
 import { onMounted, ref } from "vue";
 
-const events = ref([]);
+const currentEvents = ref([]);
+const upcomingEvents = ref([]);
+const loading = ref(true);
 
 const fetchCTFEvents = async () => {
+  const currentTimestamp = Math.floor(Date.now() / 1000); // Current time in seconds
+  const pastTimestamp = currentTimestamp - 60 * 60 * 24 * 14; // 14 days ago in seconds
+  const futureTimestamp = currentTimestamp + 60 * 60 * 24 * 30; // 30 days from now in seconds
+
   try {
+    // Fetch events from the API
     const response = await axios.get(
-      process.env.VUE_APP_CTF_API + "events/?limit=5"
+      `${process.env.VUE_APP_CTF_API}events/?limit=100&start=${pastTimestamp}&finish=${futureTimestamp}`
     );
-    events.value = response.data;
+
+    const allEvents = response.data;
+    // Filter current events (must not include ended events)
+    currentEvents.value = allEvents.filter((event) => {
+      const eventEndTime = new Date(event.finish).getTime();
+      return eventEndTime > Date.now(); // Event is still ongoing
+    });
+    currentEvents.value = currentEvents.value.slice(0, 5);
+
+    // Filter upcoming events
+    upcomingEvents.value = allEvents.filter((event) => {
+      const eventStartTime = new Date(event.start).getTime();
+      return eventStartTime > Date.now(); // Event is in the future
+    });
+    upcomingEvents.value = upcomingEvents.value.slice(0, 5);
   } catch (error) {
     console.error("Error fetching CTF events:", error);
+  } finally {
+    loading.value = false;
   }
 };
 
@@ -115,5 +141,34 @@ h2 {
 }
 .future-event-list {
   grid-area: c;
+}
+
+.loading-indicator {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 30px;
+  color: #e3e4e4;
+  text-align: center;
+  margin: 20px;
+  font-size: 1.5em;
+}
+
+.loading-indicator::after {
+  content: "";
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 </style>

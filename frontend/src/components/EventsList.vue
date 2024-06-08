@@ -2,12 +2,16 @@
   <div class="widget_item event-list">
     <h2>Ивенты сейчас</h2>
     <div class="list_events">
-      <div class="event-item" v-for="event in props.events" :key="event.title">
-        <img :src="event.img" alt="" />
+      <div
+        class="event-item"
+        v-for="event in props.currentEvents"
+        :key="event.title"
+      >
+        <img :src="event.logo" alt="" class="img" />
         <div class="event-text">
           <h4>{{ event.title }}</h4>
           <p>
-            {{ event.description }}
+            {{ event.url }}
           </p>
         </div>
         <button class="link-full-info"></button>
@@ -18,12 +22,11 @@
 
 <script setup>
 const props = defineProps({
-  events: {
+  currentEvents: {
     type: Array,
     default: () => [],
   },
 });
-console.log(props.events);
 </script>
 
 <style scoped>
@@ -47,8 +50,11 @@ h2 {
   color: #e3e4e4;
 }
 img {
-  min-width: 100px;
-  min-height: 70px;
+  width: 20vw; /* 20% of the viewport width */
+  height: auto; /* Height will adjust proportionally */
+  max-width: 100px; /* Limit the maximum width */
+  object-fit: cover;
+  border-radius: 5px;
   margin: 0 15px 0 0;
   background: #8057f2;
 }
