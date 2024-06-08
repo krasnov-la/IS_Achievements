@@ -1,8 +1,9 @@
 <template>
-  <div class="wrapper">
+  <div
+      style="width: 100%; height: 100%; background-color: #1c1e1f; display: flex">
     <SideBar />
-    <div class="main">
-      <header>Главная страница</header>
+    <div style="width: 100%">
+      <Header />
       <div class="widgets">
         <scoreboard />
         <div v-if="loading" class="loading-indicator">Loading events...</div>
@@ -22,6 +23,7 @@ import FutureEventsList from "../components/FutureEventsList.vue";
 import Scoreboard from "../components/Scoreboard.vue";
 import axios from "axios";
 import { onMounted, ref } from "vue";
+import Header from "@/components/Header.vue";
 
 const currentEvents = ref([]);
 const upcomingEvents = ref([]);
@@ -73,7 +75,6 @@ onMounted(fetchCTFEvents);
   width: 100%;
   height: 100%;
   display: flex;
-  flex-direction: column;
   background: #1c1e1f;
 }
 header {

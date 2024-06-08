@@ -1,11 +1,15 @@
-<script setup></script>
-
 <template>
   <div class="header">
-    <div class="h1">Личный кабинет</div>
+    <div class="h1">{{ currentSection }}</div>
     <div class="notif"></div>
   </div>
 </template>
+
+<script setup>
+import { ref } from 'vue';
+
+const currentSection = ref('Личный кабинет'); // Начальное значение
+</script>
 
 <style scoped>
 .notif {
@@ -22,8 +26,9 @@
 .h1 {
   top: 10pt;
   color: #e3e4e4;
-  margin-left: 23.1%;
+  margin-left: 3%;
   font-size: 17pt;
+  font-weight: 480;
   -webkit-text-stroke: 0.4px #e3e4e4;
   transform: scaleX(1.05);
 }

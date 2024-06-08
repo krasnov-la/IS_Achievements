@@ -1,7 +1,6 @@
 <template>
   <div
-    style="width: 100%; height: 100%; background-color: #1c1e1f; display: flex"
-  >
+    style="width: 100%; height: 100%; background-color: #1c1e1f; display: flex">
     <SideBar />
     <div style="width: 100%">
       <Header />
