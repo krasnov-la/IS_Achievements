@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <side-bar />
+    <SideBar />
     <div class="main">
       <header>Главная страница</header>
       <div class="widgets">
