@@ -13,7 +13,7 @@ public class CommentsController(IUnitOfWork unit) : ControllerBase
 {
     readonly IUnitOfWork _unit = unit;
 
-        [HttpPost("Comments")]
+    [HttpPost]
     public async Task<IActionResult> CreateComment([FromBody] CommentRequest request)
     {
         var verificationReq = await _unit.Requests.GetById(request.ReqId);
@@ -32,7 +32,7 @@ public class CommentsController(IUnitOfWork unit) : ControllerBase
         return Ok(commId);
     }
 
-    [HttpGet("Comments/{id}")]
+    [HttpGet("{id}")]
     public async Task<IActionResult> ReadComment([FromRoute] Guid id)
     {
         var comm = await _unit.Comments.GetById(id);
@@ -45,7 +45,7 @@ public class CommentsController(IUnitOfWork unit) : ControllerBase
         });
     }
 
-    [HttpPut("Comments")]
+    [HttpPut]
     public async Task<IActionResult> UpdateComment([FromBody] CommentUpdateRequest request)
     {
         var comm = await _unit.Comments.GetById(request.CommId);
@@ -56,7 +56,7 @@ public class CommentsController(IUnitOfWork unit) : ControllerBase
         return Ok();
     }
 
-    [HttpDelete("Comments/{id}")]
+    [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteComment(Guid id)
     {
         var comm = await _unit.Comments.GetById(id);
