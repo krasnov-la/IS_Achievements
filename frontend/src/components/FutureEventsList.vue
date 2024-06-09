@@ -30,11 +30,7 @@ const props = defineProps({
 </script>
 
 <style scoped>
-.widget_item {
-  background: #232627;
-  border-radius: 20px;
-  padding: 0 10px 10px 10px 10px;
-}
+
 .event-item {
   display: flex;
   align-items: center;

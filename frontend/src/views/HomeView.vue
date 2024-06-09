@@ -1,15 +1,18 @@
 <template>
-  <div
-      style="width: 100%; height: 100%; background-color: #1c1e1f; display: flex">
+  <Header />
+  <div style="margin-left: 260px; width: calc(100% - 260px); height: fit-content; background-color: #1c1e1f; display: flex; flex-wrap: wrap;">
     <SideBar />
-    <div style="width: 100%">
-      <Header />
-      <div class="widgets">
+    <div style="width: 100%;margin-top: 7.5vh">
+
+      <div class="widgets" style="display: flex">
         <scoreboard />
         <div v-if="loading" class="loading-indicator">Loading events...</div>
         <div v-else>
+        <div style="position: relative; left: 63%; " >
           <events-list :currentEvents="currentEvents" />
           <future-events-list :upcomingEvents="upcomingEvents" />
+        </div>
+
         </div>
       </div>
     </div>
@@ -67,6 +70,10 @@ onMounted(fetchCTFEvents);
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
 
+body {
+  overflow-y: hidden; /* Скрывает вертикальную полосу прокрутки */
+}
+
 .wrapper {
   height: 100%;
   display: flex;
@@ -97,8 +104,8 @@ header {
   border: 1px solid #35373a;
   border-radius: 18px;
   background: #232627;
-  border-radius: 20px;
-  padding: 0 10px 10px 10px;
+  border-radius: 13px;
+  margin: 2% 0 0 1.2%;
 }
 h2 {
   /* Scoreboard */
@@ -115,14 +122,7 @@ h2 {
   overflow-x: hidden;
   /* height: 100%; */
   padding: 2%;
-  display: grid;
-  /* grid-template-columns: 10fr 1fr 1fr; */
-  gap: 2%;
-  justify-items: start;
   align-items: start;
-  grid-template-areas:
-    "a a a b"
-    "a a a c";
 }
 @media screen and (min-width: 150px) {
   .widgets {
@@ -130,18 +130,8 @@ h2 {
     flex-direction: column;
   }
   .scoreboard {
-    min-width: 100% !important;
+    min-width: 52% !important;
   }
-}
-.scoreboard {
-  min-width: 40vw;
-  grid-area: a;
-}
-.event-list {
-  grid-area: b;
-}
-.future-event-list {
-  grid-area: c;
 }
 
 .loading-indicator {

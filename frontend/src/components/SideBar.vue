@@ -60,8 +60,10 @@ export default {
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
-
 .side-bar {
+  position: fixed;
+  top: 0; /* Высота хедера */
+  left: 0;
   border: 1px solid #35373a;
   padding: 0.1% 1.5% 0 1.5%;
   height: 100%;
@@ -69,6 +71,7 @@ export default {
   background: #232627;
   min-width: 260px;
   display: flex;
+  z-index: 1000;
   flex-direction: column;
   /* float: left; */
 }

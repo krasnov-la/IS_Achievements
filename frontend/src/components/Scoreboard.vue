@@ -2,23 +2,18 @@
   <div class="widget_item scoreboard">
     <div class="scoreboard-header">
       <h2>Scoreboard</h2>
-
-      <img
-        class="sort"
-        @click="sortPlayers"
-        src="../assets/Group 2.png"
-        alt=""
-      />
+      <div class="dots"/>
     </div>
 
     <div class="table">
       <div class="table-header">
-        <p class="number">Номер позиции</p>
-        <p class="name">Имя / никнэйм</p>
-        <p class="score">Количество баллов</p>
+        <p class="number1">Номер позиции</p>
+        <p class="name1">Имя / никнэйм</p>
+        <p class="score1">Количество баллов</p>
       </div>
       <div class="table-item" v-for="player in players" :key="player.id">
         <p class="number">#{{ player.id }}</p>
+        <img class="profile-img" src="" alt="" />
         <p class="name">{{ player.name }}</p>
         <p class="score">{{ player.score.toLocaleString("ru") }} баллов</p>
       </div>
@@ -60,13 +55,12 @@ function sortPlayers() {
 </script>
 <style scoped>
 h2 {
-  /* Scoreboard */
-
   font-family: "Inter";
   font-style: normal;
-  font-weight: 600;
-  font-size: 30px;
+  font-weight: 550;
+  font-size: 23.5px;
   line-height: 36px;
+  margin: 3% 2% 4% 3.8%;
 
   color: #e3e4e4;
 }
@@ -87,6 +81,7 @@ h2 {
 }
 .table {
   /* height: 100%; */
+  padding-bottom: 4%;
 }
 
 .table-header {
@@ -96,10 +91,11 @@ h2 {
   font-style: normal;
   font-weight: 500;
   font-size: 15px;
-  line-height: 18px;
+  line-height: 10px;
   background: #343839;
   color: #ffffff;
-  min-height: 50px;
+  min-height: 35px;
+  width: 100%;
 }
 .table-item {
   /* doppio23s */
@@ -112,9 +108,11 @@ display: flex; */
   font-weight: 300;
   font-size: 15px;
   line-height: 18px;
+  display: flex;
+  align-items: center;
 
   color: #ffffff;
-  min-height: 50px;
+  min-height: 55px;
 }
 /* .table-item:nth-child(2n) {
     background: #35373A;
@@ -122,16 +120,68 @@ display: flex; */
 .table-item:nth-child(2n + 1) {
   background: #343839;
 }
+.profile-img {
+  width: 35px;
+  height: 35px;
+  background: #a69ae8;
+  border-radius: 50%;
+  position: absolute;
+  left: 31%;
+}
+.number1 {
+  position: absolute;
+  font-weight: 500;
+  color: #f1f1f1;
+  font-size: 9pt;
+  min-width: 80pt;
+  left: 4.5%;
+}
 .number {
   position: absolute;
-  left: 5%;
+  font-weight: 340;
+  color: #e3e4e4;
+  font-size: 9pt;
+  min-width: 80pt;
+  left: 4.6%;
+}
+.name1 {
+  position: absolute;
+  font-weight: 500;
+  color: #f1f1f1;
+  font-size: 9pt;
+  min-width: 80pt;
+  left: 31%;
 }
 .name {
   position: absolute;
-  left: 45%;
+  font-weight: 340;
+  color: #e3e4e4;
+  font-size: 9pt;
+  min-width: 80pt;
+  left: 38.5%;
+}
+.score1 {
+  position: absolute;
+  font-weight: 500;
+  color: #f1f1f1;
+  font-size: 9pt;
+  min-width: 80pt;
+  left: 73%;
 }
 .score {
   position: absolute;
-  left: 75%;
+  font-weight: 340;
+  color: #e3e4e4;
+  font-size: 9pt;
+  min-width: 80pt;
+  left: 73.1%;
+}
+.dots {
+  content: url("../assets/ico/dots.svg");
+  padding: 5pt;
+  right: 0;
+  width: 37pt;
+  height: 37pt;
+  margin: -2% 0 0 0;
 }
 </style>
