@@ -1,11 +1,11 @@
 <template>
-  <div
-    style="width: 100%; height: 100%; background-color: #1c1e1f; display: flex">
-    <SideBar />
-    <div style="width: 100%">
-      <Header />
+  <Header />
+  <div style="margin-left: 260px; width: calc(100% - 260px); height: 100%; background-color: #1c1e1f; display: flex; flex-wrap: wrap;">
+  <SideBar />
+    <div style="width: 100%;margin-top: 10vh">
 
-      <div class="container">
+
+      <div class="container" style="margin-left: 1.5vh; margin-right: 1.5vh">
         <div class="card">
           <div class="pfp" />
           <div style="margin-left: 38%">
@@ -54,7 +54,7 @@
         </div>
       </div>
 
-      <div class="table">
+      <div class="table" style="margin-left: 6vh;">
         <div class="dots"></div>
         <div class="h1">Мое портфолио</div>
         <div class="row">
@@ -89,7 +89,7 @@ import Header from "@/components/Header.vue";
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
 
 .table {
-  width: 75%;
+  width: 93%;
   margin: 2.5% 0 0 5%;
   padding-bottom: 2%;
   position: relative;
@@ -102,17 +102,18 @@ import Header from "@/components/Header.vue";
 }
 .row {
   width: 100%;
-  height: fit-content;
-  padding: 1% 3.5% 1% 3.1%;
+  height: 4.5vh;
+  padding: 0.7% 3.5% 1% 3.1%;
   background-color: #343839;
   display: flex;
+  align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
 }
 
 .row1 {
   width: 100%;
-  height: fit-content;
+  height: 10vh;
   padding: 2% 3.5% 2% 3.1%;
   background-color: #343839;
   display: flex;
@@ -167,20 +168,17 @@ import Header from "@/components/Header.vue";
 .h8 {
   font-weight: lighter;
   color: #e3e4e4;
-  -webkit-text-stroke: 0.4px #e3e4e4;
+  font-weight: 340;
   font-size: 9pt;
-  transform: scaleX(1.05);
-  margin: 0 0 1pt 0;
+  margin: 0 0 0pt -0.5vh;
   min-width: 80pt;
 }
 .h7 {
-  font-weight: normal;
-  color: #e3e4e4;
-  -webkit-text-stroke: 0.2px #e3e4e4;
+  font-weight: 490;
+  color: #ffffff;
   font-size: 9pt;
-  transform: scaleX(1.05);
-  margin: 0 0 1pt 0;
   min-width: 80pt;
+  margin: 0 0 0pt -0.5vh;
 }
 
 .h6 {
@@ -219,10 +217,9 @@ import Header from "@/components/Header.vue";
 }
 .h1 {
   color: #e3e4e4;
-  margin: 2% 0 3% 5%;
-  font-size: 17pt;
-  -webkit-text-stroke: 0.4px #e3e4e4;
-  transform: scaleX(1.05);
+  margin: 3vh 0 4vh 4vh;
+  font-size: 18pt;
+  font-weight: 550;
 }
 .card {
   position: relative;
@@ -250,6 +247,6 @@ import Header from "@/components/Header.vue";
   right: 0;
   width: 35pt;
   height: 35pt;
-  margin: 6pt 4pt 0 0;
+  margin: 10pt 4pt 0 0;
 }
 </style>
