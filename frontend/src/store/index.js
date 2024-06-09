@@ -1,14 +1,17 @@
-import { createStore } from 'vuex'
+import { createStore } from 'vuex';
 
 export default createStore({
   state: {
-  },
-  getters: {
+    text: 'Главная страница'
   },
   mutations: {
+    setText(state, newText) {
+      state.text = newText;
+    }
   },
   actions: {
-  },
-  modules: {
+    updateText({ commit }, newText) {
+      commit('setText', newText);
+    }
   }
-})
+});

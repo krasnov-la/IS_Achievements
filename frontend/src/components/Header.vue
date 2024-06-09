@@ -1,14 +1,23 @@
 <template>
   <div class="header">
-    <div class="h1">{{ currentSection }}</div>
+    <div class="h1">{{ text }}</div>
     <div class="notif"></div>
   </div>
 </template>
 
-<script setup>
-import { ref } from 'vue';
+<script>
+import { computed } from 'vue';
+import { useStore } from 'vuex';
 
-const currentSection = ref('Личный кабинет'); // Начальное значение
+export default {
+  name: 'Header',
+  setup() {
+    const store = useStore();
+    const text = computed(() => store.state.text);
+
+    return { text };
+  }
+}
 </script>
 
 <style scoped>

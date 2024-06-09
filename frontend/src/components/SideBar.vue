@@ -5,19 +5,19 @@
         <img class="logo" src="../assets/logo.svg" alt="" />
         <h1>.NET Creations</h1>
       </div>
-      <router-link to="/" :class="{ active: isActive('/') }" @click.native="setActive('/')">
+      <router-link to="/"  :class="{ active: isActive('/') }" @click.native="() => { setActive('/'); changeText('Главная страница'); }">
         <div class="stripe" :class="{ active: isActive('/') }"></div>
         Главная страница
       </router-link>
-      <a href="" :class="{ active: isActive('/events') }" @click="setActive('/events')">
+      <a href="" :class="{ active: isActive('/events') }" @click="() => { setActive('/events'); changeText('Текущие ивенты'); }">
         <div class="stripe" :class="{ active: isActive('/events') }"></div>
         Текущие ивенты
       </a>
-      <a href="" :class="{ active: isActive('/future-events') }" @click="setActive('/future-events')">
+      <a href=""  :class="{ active: isActive('/future-events') }" @click="() => { setActive('/future-events'); changeText('Будущие ивенты'); }" >
         <div class="stripe" :class="{ active: isActive('/future-events') }"></div>
         Будущие ивенты
       </a>
-      <router-link to="/PersonalArea" class="profile" >
+      <router-link to="/PersonalArea" @click="changeText('Личный кабинет')" class="profile" >
         <img class="profile-img" src="" alt="" />
         <div>
           <h6 class="profile-name">User228</h6>
@@ -30,7 +30,18 @@
 
 
 <script>
+import { useStore } from 'vuex';
 export default {
+  name: 'SideBar',
+  setup() {
+    const store = useStore();
+
+    const changeText = (newText) => {
+      store.dispatch('updateText', newText);
+    };
+
+    return { changeText };
+  },
   data() {
     return {
       activePath: '/'
