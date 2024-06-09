@@ -6,13 +6,9 @@ namespace Controllers;
 
 [Route("[controller]")]
 [ApiController]
-public class ScoreboardController : ControllerBase
+public class ScoreboardController(AppDbContext dbContext) : ControllerBase
 {
-    AppDbContext _db;
-    public ScoreboardController(AppDbContext dbContext)
-    {
-        _db = dbContext;
-    }
+    AppDbContext _db = dbContext;
 
     [HttpGet("[action]/{count}/{offset}")]
     public IActionResult GetData(int count, int offset)

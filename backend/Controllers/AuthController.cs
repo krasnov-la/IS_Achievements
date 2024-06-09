@@ -11,20 +11,14 @@ namespace Controllers;
 
 [Route("[controller]")]
 [ApiController]
-public class AuthController : ControllerBase
+public class AuthController(IPasswordService passwordService, ITokenService tokenService, IUnitOfWork unit) : ControllerBase
 {
-    IPasswordService _passwordService;
-    ITokenService _tokenService;
-    AppDbContext _db;
-    public AuthController(IPasswordService passwordService, ITokenService tokenService, AppDbContext dbContext)
-    {
-        _passwordService = passwordService;
-        _tokenService = tokenService;
-        _db = dbContext;
-    }
+    IPasswordService _passwordService = passwordService;
+    ITokenService _tokenService = tokenService;
+    IUnitOfWork _unit = unit;
 
     [HttpPost("[action]")]
-    public IActionResult Register([FromBody] CredentialsRequest request)
+    public async Task<IActionResult> Register([FromBody] CredentialsRequest request)
     {
         if (request.Login is null || request.Login == string.Empty)
             return BadRequest("Empty login");
@@ -32,7 +26,7 @@ public class AuthController : ControllerBase
         if (request.Password is null)
             return BadRequest("Empty password");
 
-        if (_db.Users.Find(request.Login) is not null)
+        if (await _unit.Users.GetById(request.Login) is not null)
             return BadRequest("Login taken");
 
         var user = new User()
@@ -45,14 +39,14 @@ public class AuthController : ControllerBase
         };
 
         user.Password = _passwordService.Hash(user, request.Password);
-        _db.Users.Add(user);
-        _db.SaveChanges();
+        _unit.Users.Insert(user);
+        await _unit.SaveAsync();
         return Ok("User created");
     }
 
     [HttpPost("[action]")]
-    //[Authorize(Policy = PolicyData.AdminOnlyPolicyName)]
-    public IActionResult RegisterAdmin([FromBody] CredentialsRequest request)
+    [Authorize(Policy = PolicyData.AdminOnlyPolicyName)]
+    public async Task<IActionResult> RegisterAdmin([FromBody] CredentialsRequest request)
     {
         if (request.Login is null || request.Login == string.Empty)
             return BadRequest("Empty login");
@@ -60,7 +54,7 @@ public class AuthController : ControllerBase
         if (request.Password is null)
             return BadRequest("Empty password");
 
-        if (_db.Users.Find(request.Login) is not null)
+        if (await _unit.Users.GetById(request.Login) is not null)
             return BadRequest("Login taken");
 
         var user = new User()
@@ -74,13 +68,13 @@ public class AuthController : ControllerBase
         };
 
         user.Password = _passwordService.Hash(user, request.Password);
-        _db.Users.Add(user);
-        _db.SaveChanges();
+        _unit.Users.Insert(user);
+        await _unit.SaveAsync();
         return Ok("User created");
     }
 
     [HttpPost("[action]")]
-    public IActionResult Login([FromBody] CredentialsRequest request)
+    public async Task<IActionResult> Login([FromBody] CredentialsRequest request)
     {
         if (request.Login is null || request.Login == string.Empty)
             return BadRequest("Empty login");
@@ -88,7 +82,7 @@ public class AuthController : ControllerBase
         if (request.Password is null)
             return BadRequest("Empty password");
 
-        var user = _db.Users.Find(request.Login);
+        var user = await _unit.Users.GetById(request.Login);
 
         if (user is null) return BadRequest("User not found");
 
@@ -100,14 +94,14 @@ public class AuthController : ControllerBase
         user.Refresh = _tokenService.GenerateRefreshToken();
         user.RefreshExpire = DateTime.Now.AddDays(5);
 
-        _db.Users.Update(user);
+        _unit.Users.Update(user);
 
         var claims = new List<Claim>(){
             new("Login", request.Login),
             new("Admin", user.Role == Roles.Admin ? "true" : "false")
         };
 
-        _db.SaveChanges();
+        await _unit.SaveAsync();
 
         return Ok(new
         {
@@ -117,11 +111,11 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("[action]")]
-    public IActionResult Refresh([FromBody] RefreshRequest request)
+    public async Task<IActionResult> Refresh([FromBody] RefreshRequest request)
     {
         var claims = _tokenService.GetPrincipalFromExpToken(request.JwtToken);
         var login = claims.First(c => c.Type == "Login").Value;
-        var user = _db.Users.Find(login);
+        var user = await _unit.Users.GetById(login);
         if (user is null)
             return BadRequest("User nit found");
         if (user.Refresh != request.RefreshToken)
@@ -130,9 +124,9 @@ public class AuthController : ControllerBase
         user.Refresh = _tokenService.GenerateRefreshToken();
         user.RefreshExpire = DateTime.Now.AddDays(5);
 
-        _db.Users.Update(user);
+        _unit.Users.Update(user);
 
-        _db.SaveChanges();
+        await _unit.SaveAsync();
 
         return Ok(new
         {
@@ -143,7 +137,7 @@ public class AuthController : ControllerBase
 
     [HttpPost("[action]/{new_nick}")]
     [Authorize]
-    public IActionResult Rename([FromRoute] string new_nick)
+    public async Task<IActionResult> Rename([FromRoute] string new_nick)
     {
         var loginClaim = HttpContext.User.FindFirst(c => c.Type == "Login");
         if (loginClaim == null)
@@ -152,15 +146,15 @@ public class AuthController : ControllerBase
         }
 
         var login = loginClaim.Value;
-        var user = _db.Users.Find(login);
+        var user = await _unit.Users.GetById(login);
         if (user is null)
         {
             return BadRequest("User not found");
         }
 
         user.Nickname = new_nick;
-        _db.Update(user);
-        _db.SaveChanges();
+        _unit.Users.Update(user);
+        await _unit.SaveAsync();
         return Ok("Nickname changed");
     }
 }
