@@ -13,7 +13,7 @@
 ~~~
     POSTGRES_PASSWORD="SomePassword"
 ~~~ 
-3. Убедится, что существует файл `database/db_init_script.sql`, если его нет то выполнить `dotnet ef migration script --project backend -o database/db_init_script.sql` 
+3. Убедится, что существует файл `database/db_init_script.sql`, если его нет то выполнить `dotnet ef migrations script --project backend -o database/db_init_script.sql` 
 4. Выполнить `docker compose up`, по умолчанию апи будет работать на 5001 порте.
 
 ## Вне контейнера
