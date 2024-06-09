@@ -12,7 +12,7 @@ namespace Controllers;
 [Route("[controller]")]
 public class AdminController(IUnitOfWork unit) : ControllerBase
 {
-    IUnitOfWork _unit = unit;
+    readonly IUnitOfWork _unit = unit;
 
     [HttpGet("[action]")]
     //Returns all open requests sorted by datetime
@@ -62,78 +62,4 @@ public class AdminController(IUnitOfWork unit) : ControllerBase
 
         return Ok(achievementId);
     }
-
-    [HttpPost("Comments")]
-    public async Task<IActionResult> CreateComment([FromBody] CommentRequest request)
-    {
-        var verificationReq = await _unit.Requests.GetById(request.ReqId);
-        if (verificationReq is null) return BadRequest("Request not found");
-
-        var commId = Guid.NewGuid();
-
-        _unit.Comments.Insert(new Comment(){
-            Id = commId,
-            Datetime = DateTime.Now,
-            Text = request.Text,
-            RequestId = request.ReqId
-        });
-
-        await _unit.SaveAsync();
-        return Ok(commId);
-    }
-
-    [HttpGet("Comments/{id}")]
-    public async Task<IActionResult> ReadComment([FromRoute] Guid id)
-    {
-        var comm = await _unit.Comments.GetById(id);
-        if (comm is null) return NotFound();
-        return Ok(new {
-            comm.Id,
-            comm.Text,
-            comm.Datetime,
-            comm.RequestId
-        });
-    }
-
-    [HttpPut("Comments")]
-    public async Task<IActionResult> UpdateComment([FromBody] CommentUpdateRequest request)
-    {
-        var comm = await _unit.Comments.GetById(request.CommId);
-        if (comm is null) return NotFound();
-        comm.Text = request.Text;
-        _unit.Comments.Update(comm);
-        await _unit.SaveAsync();
-        return Ok();
-    }
-
-    [HttpDelete("Comments/{id}")]
-    public async Task<IActionResult> DeleteComment(Guid id)
-    {
-        var comm = await _unit.Comments.GetById(id);
-        if (comm is null) return NotFound();
-        _unit.Comments.Delete(comm);
-        await _unit.SaveAsync();
-        return Ok();
-    }
-
-    // [HttpPost("[action]")]
-    // public IActionResult Activity([FromBody] ActivityRequest request)
-    // {
-    //     var loginClaim = HttpContext.User.FindFirst(c => c.Type == "Login");
-    //     if (loginClaim is null)
-    //         return BadRequest("User not authenticated");
-
-    //     var login = loginClaim.Value;
-
-    //     var actId = Guid.NewGuid();
-    //     _db.Activities.Add(new Activity(){
-    //         Id = actId,
-    //         Name = request.Name,
-    //         Datetime = request.DateTime,
-    //         Link = request.Link,
-    //         AdminLogin = login
-    //     });
-
-    //     return Ok(actId);
-    // }
 }
