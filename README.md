@@ -1,4 +1,4 @@
-# Развертка
+# Развертка API
 
 ## В контейнере:
 
@@ -14,7 +14,7 @@
     POSTGRES_PASSWORD="SomePassword"
 ~~~ 
 3. Убедится, что существует файл `database/db_init_script.sql`, если его нет то выполнить `dotnet ef migrations script --project backend -o database/db_init_script.sql` 
-4. Выполнить `docker compose up`, по умолчанию апи будет работать на 5001 порте.
+4. Выполнить `docker compose up`, по умолчанию api будет работать на 5001 порте.
 
 ## Вне контейнера
 
@@ -30,4 +30,4 @@
 }
 ~~~
 3. Выполнить `dotnet ef database update`
-4. Выполнить `dotnet run`, апи будет работать на 5114 порте
+4. Выполнить `dotnet run`, api будет работать на 5114 порте
