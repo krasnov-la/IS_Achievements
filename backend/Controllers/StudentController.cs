@@ -9,15 +9,10 @@ namespace Controllers;
 
 [Route("[controller]")]
 [ApiController]
-public class StudentController : ControllerBase
+public class StudentController(AppDbContext dbContext, IImageService imageService) : ControllerBase
 {
-    AppDbContext _db;
-    IImageService _imageService;
-    public StudentController(AppDbContext dbContext, IImageService imageService)
-    {
-        _db = dbContext;
-        _imageService = imageService;
-    }
+    AppDbContext _db = dbContext;
+    IImageService _imageService = imageService;
 
     [HttpGet("[action]"), Authorize]
     public IActionResult GetRating()
