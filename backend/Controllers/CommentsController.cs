@@ -45,11 +45,12 @@ public class CommentsController(IUnitOfWork unit) : ControllerBase
         });
     }
 
-    [HttpPut]
-    public async Task<IActionResult> UpdateComment([FromBody] CommentUpdateRequest request)
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateComment([FromBody] CommentRequest request, [FromRoute] Guid id)
     {
-        var comm = await _unit.Comments.GetById(request.CommId);
+        var comm = await _unit.Comments.GetById(id);
         if (comm is null) return NotFound();
+        comm.RequestId = request.ReqId;
         comm.Text = request.Text;
         _unit.Comments.Update(comm);
         await _unit.SaveAsync();
