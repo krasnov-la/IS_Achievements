@@ -4,11 +4,11 @@
     <SideBar />
     <div style="width: 100%;margin-top: 7.5vh">
 
-      <div class="widgets" style="display: flex">
+      <div class="widgets" style="display: flex; align-items: center;">
         <scoreboard />
         <div v-if="loading" class="loading-indicator">Loading events...</div>
         <div v-else>
-        <div style="position: relative; left: 63%; " >
+        <div style="position: relative; left: 63%; flex-wrap: wrap" >
           <events-list :currentEvents="currentEvents" />
           <future-events-list :upcomingEvents="upcomingEvents" />
         </div>
@@ -105,7 +105,7 @@ header {
   border-radius: 18px;
   background: #232627;
   border-radius: 13px;
-  margin: 2% 0 0 1.2%;
+  margin: 2% 0 0 -45%;
 }
 h2 {
   /* Scoreboard */
