@@ -1,23 +1,30 @@
 <template>
   <Header />
-  <div style=" width: 100%; height: 100%; background-color: #1c1e1f;">
-  <div style="margin-left: 260px; width: calc(100% - 260px); height: fit-content; background-color: #1c1e1f; display: flex; flex-wrap: wrap;">
-    <SideBar />
-    <div style="width: 100%;margin-top: 7.5vh">
-
-      <div class="widgets" style="display: flex; align-items: center;">
-        <scoreboard />
-        <div v-if="loading" class="loading-indicator">Loading events...</div>
-        <div v-else>
-        <div style="position: relative; left: 63%; flex-wrap: wrap" >
-          <events-list :currentEvents="currentEvents" />
-          <future-events-list :upcomingEvents="upcomingEvents" />
-        </div>
-
+  <div style="width: 100%; height: 100%; background-color: #1c1e1f">
+    <div
+      style="
+        margin-left: 260px;
+        width: calc(100% - 260px);
+        height: fit-content;
+        background-color: #1c1e1f;
+        display: flex;
+        flex-wrap: wrap;
+      "
+    >
+      <SideBar />
+      <div style="width: 100%; margin-top: 7.5vh">
+        <div class="widgets" style="display: flex; align-items: center">
+          <scoreboard />
+          <div v-if="loading" class="loading-indicator">Loading events...</div>
+          <div v-else>
+            <div style="position: relative; left: 63%; flex-wrap: wrap">
+              <events-list :currentEvents="currentEvents" />
+              <future-events-list :upcomingEvents="upcomingEvents" />
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
   </div>
 </template>
 
@@ -42,7 +49,7 @@ const fetchCTFEvents = async () => {
   try {
     // Fetch events from the API
     const response = await axios.get(
-      `${process.env.VUE_APP_CTF_API}events/?limit=100&start=${pastTimestamp}&finish=${futureTimestamp}`
+      `http://localhost:8080/events/?limit=100&start=${pastTimestamp}&finish=${futureTimestamp}`
     );
 
     const allEvents = response.data;
