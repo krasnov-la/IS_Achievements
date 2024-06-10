@@ -1,5 +1,6 @@
 <template>
   <Header />
+  <div style=" width: 100%; height: 100%; background-color: #1c1e1f;">
   <div style="margin-left: 260px; width: calc(100% - 260px); height: fit-content; background-color: #1c1e1f; display: flex; flex-wrap: wrap;">
     <SideBar />
     <div style="width: 100%;margin-top: 7.5vh">
@@ -16,6 +17,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </template>
 
