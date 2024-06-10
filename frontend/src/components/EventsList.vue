@@ -1,20 +1,22 @@
 <template>
-  <div class="widget_item event-list">
+  <div class="widget_item event-list" style="margin: -111.7% 0 0 3%; width: 123.5%">
     <h2>Ивенты сейчас</h2>
     <div class="list_events">
-      <div
-        class="event-item"
-        v-for="event in props.currentEvents"
-        :key="event.title"
-      >
-        <img :src="event.logo" alt="" class="img" />
+      <div class="event-item" v-for="event in props.currentEvents" :key="event.title">
+        <div class="img-container">
+          <img :src="event.logo" alt="" class="img" />
+        </div>
         <div class="event-text">
           <h4>{{ event.title }}</h4>
-          <p>
-            {{ event.url }}
-          </p>
+          <div style="width: 119%; height: 28px">
+            <p>{{ event.url }}</p>
+          </div>
+
         </div>
-        <button class="link-full-info"></button>
+        <div style="display: flex; align-items: end">
+          <button class="link-full-info"></button>
+        </div>
+
       </div>
     </div>
   </div>
@@ -33,66 +35,81 @@ const props = defineProps({
 .event-item {
   display: flex;
   align-items: center;
-
   background: #343839;
   border-radius: 15px;
-  margin: 15px 0;
-  padding: 10px;
+  margin: 3.4%;
+  padding: 8px;
+  height: auto;
 }
+
 h2 {
-  margin: 15px 0;
   font-family: "Inter";
-  font-style: normal;
-  font-weight: 600;
-  font-size: 30px;
+  font-weight: 550;
+  font-size: 23.5px;
   line-height: 36px;
-
+  margin: 3.5% 2% 4.6% 3.8%;
   color: #e3e4e4;
 }
+
+.img-container {
+  width: 80px;
+  height: 60px;
+  overflow: hidden;
+  margin-right: 4%;
+}
+
 img {
-  width: 20vw; /* 20% of the viewport width */
-  height: auto; /* Height will adjust proportionally */
-  max-width: 100px; /* Limit the maximum width */
+  width: 80px;
+  height: 60px;
+  max-width: 100px;
   object-fit: cover;
-  border-radius: 5px;
-  margin: 0 15px 0 0;
-  background: #8057f2;
+  border-radius: 8px;
+  background: #a69ae8;
 }
-h4 {
-  margin: 20px 0;
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 600;
-  font-size: 22px;
-  line-height: 0px;
-  /* identical to box height */
 
+h4 {
+  margin: 0 0 5px 0;
+  font-family: "Inter";
+  font-weight: 600;
+  font-size: 17.5px;
   color: #e3e4e4;
 }
+
+.event-text {
+  position: relative;
+  width: 60%;
+  height: 20%;
+}
+
 p {
   font-family: "Inter";
-  font-style: normal;
   font-weight: 300;
-  font-size: 15px;
-  line-height: 15px;
-
+  font-size: 10px; /* Измените это на 10px и добавьте line-height */
+  line-height: 1.5; /* Добавьте явную высоту строки */
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
   color: #ffffff;
+  margin: 8px 0 0 0;
 }
+
 .link-full-info {
   background: none;
   border: none;
-  display: block;
-  /* margin: 30px auto; */
-  width: 25px;
-  height: 25px;
-  border-top: 3px solid white;
-  border-left: 3px solid white;
+  width: 15px;
+  height: 15px;
+  border-top: 2px solid white;
+  border-left: 2px solid white;
   transform: rotate(135deg);
   cursor: pointer;
   transition: 0.3s;
-  margin: 0 15px;
+  margin: 0 0 0 55px;
 }
+
 .link-full-info:hover {
   transform: translateX(6px) rotate(135deg);
 }
+
 </style>

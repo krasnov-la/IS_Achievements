@@ -5,131 +5,263 @@
         <img class="logo" src="../assets/logo.svg" alt="" />
         <h1>.NET Creations</h1>
       </div>
-      <router-link to="/">Главная страница</router-link>
-      <a href="">Текущие ивенты</a>
-      <a href="">Будущие ивенты</a>
-      <router-link to="/PersonalArea" class="profile">
-        <img class="profile-img" src="" alt="" />
-        <div>
-          <h6 class="profile-name">User228</h6>
-          <p class="profile-score">Баллы: 12 333</p>
-        </div>
+      <router-link to="/" :class="{ active: isActive('/') }" @click.native="() => { setActive('/'); changeText('Главная страница'); }">
+        <div class="stripe" :class="{ active: isActive('/') }"></div>
+        Главная страница
       </router-link>
+      <a href="" :class="{ active: isActive('/events') }" @click="() => { setActive('/events'); changeText('Текущие ивенты'); }">
+        <div class="stripe" :class="{ active: isActive('/events') }"></div>
+        Текущие ивенты
+      </a>
+      <a href="" :class="{ active: isActive('/future-events') }" @click="() => { setActive('/future-events'); changeText('Будущие ивенты'); }">
+        <div class="stripe" :class="{ active: isActive('/future-events') }"></div>
+        Будущие ивенты
+      </a>
+
+      <template v-if="isAuthenticated">
+        <router-link to="/PersonalArea" @click="changeText('Личный кабинет')" class="profile">
+          <img class="profile-img" :src="user?.profileImage || ''" alt="" />
+          <div>
+            <h6 class="profile-name">{{ user?.name || 'User' }}</h6>
+            <p class="profile-score">Баллы: {{ user?.score || 0 }}</p>
+          </div>
+        </router-link>
+      </template>
+
+      <template v-else>
+        <div class="log-reg">
+          <router-link to="/login" class="auth-link border1" @click.native="changeText('Вход')">
+           <div style="margin-left: 15%"> Вход</div>
+          </router-link>
+          <div style="width: 0.8pt; height: 20pt; background-color: #6b6b6b; margin: 4% 0 0 -25%"/>
+          <router-link to="/Registration" class="auth-link border2" @click.native="changeText('Регистрация')">
+            <div style="margin-left: 15%"> Регистрация</div>
+          </router-link>
+        </div>
+      </template>
     </div>
   </div>
 </template>
+
+<script>
+import { useStore } from 'vuex';
+export default {
+  name: 'SideBar',
+  setup() {
+    const store = useStore();
+
+    const changeText = (newText) => {
+      store.dispatch('updateText', newText);
+    };
+
+    return { changeText };
+  },
+  data() {
+    return {
+      activePath: '/'
+    };
+  },
+  computed: {
+    isAuthenticated() {
+      return this.$store.getters.isAuthenticated;
+    },
+    user() {
+      return this.$store.getters.user;
+    }
+  },
+  methods: {
+    setActive(path) {
+      this.activePath = path;
+    },
+    isActive(path) {
+      return this.activePath === path;
+    }
+  }
+};
+</script>
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
 
 .side-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
   border: 1px solid #35373a;
-  padding: 2.5%;
+  padding: 0.1% 1.5% 0 1.5%;
   height: 100%;
-  width: 20%;
+  width: 10%;
   background: #232627;
-  min-width: 300px;
+  min-width: 260px;
   display: flex;
+  z-index: 1000;
   flex-direction: column;
-  /* float: left; */
 }
+
 .wrapper {
   width: 100%;
   height: 100%;
   position: relative;
 }
+
 .side-bar_header {
   display: flex;
-  margin: -5pt 0 0 0;
+  margin: 0 10pt 0 -5pt;
 }
 
 h1 {
-  margin: 0 0% 0 5%;
-
   font-family: "Inter";
   font-style: normal;
-  font-weight: 700;
-  font-size: 30px;
-  line-height: 40px;
-
+  font-weight: 680;
+  font-size: 27px;
+  line-height: 32px;
+  margin-left: 1pt;
   color: #e3e4e4;
 }
 
-img {
-  margin: 0 -5pt 0 -5pt;
-}
-
 a {
-  margin: 4% 0 4% 0;
+  margin: 1% -4% 7% 0%;
   display: block;
-
+  align-items: center;
   font-family: "Inter";
   font-style: normal;
-  font-weight: 500;
-  font-size: 13.5px;
-  line-height: 19px;
-
+  font-weight: 450;
+  font-size: 12.5px;
+  line-height: 20px;
   color: #bfbfbf;
   text-decoration: none;
-
-  border: 1.3px solid #797979;
-  border-radius: 9.42857px;
-  padding: 4%;
+  border: 0.9px solid #6b6b6b;
+  border-radius: 8px;
+  padding: 0 4%;
   display: flex;
   align-items: center;
 }
 
+.log-reg a:nth-child(2)::before {
+  content: none;
+}
+.log-reg a:nth-child(3)::before {
+  content: none;
+}
+
 a:nth-child(2)::before {
   content: url("../assets/ico/home.svg");
-  margin: 2px 15px 0 3px;
+  margin: 1.9% 5% -1% 1.5%;
 }
+
 a:nth-child(3)::before {
   content: url("../assets/ico/events.svg");
-  margin: 2.5px 12px -0.5px 0;
+  margin: 2.1% 5% -1.2% 2.2%;
 }
+
 a:nth-child(4)::before {
   content: url("../assets/ico/time.svg");
-  margin: 0 12px -2px 0;
+  margin: 1.8% 5% -0.9% 2.2%;
+}
+
+.stripe {
+  width: 2%;
+  height: 32pt;
+  position: relative;
+  left: -68px;
+  top: 0;
+}
+
+.stripe.active {
+  background: #8057f2;
 }
 
 .active {
   background: #8057f2;
+  color: #e3e4e4;
 }
 
 .profile {
-  width: 100%;
+  width: 104%;
   position: absolute;
   bottom: 0;
   left: 0%;
-  margin: 0;
-  padding: 10px;
+  margin: 0 0 10% 0;
+  padding: 0 0 -15% 10px;
+  background-color: #35373a;
+  border: #35373a;
 }
+
 .profile-img {
-  width: 44px;
-  height: 44px;
+  width: 35px;
+  height: 35px;
   background: #a69ae8;
   border-radius: 50%;
   margin: 0 5% 0 0;
 }
+
 .profile-score {
+  margin: 13% 0 13% 0;
   font-family: "Inter";
   font-style: normal;
   font-weight: 300;
-  font-size: 12px;
-  line-height: 15px;
-
+  font-size: 10px;
+  line-height: 10px;
   color: #e3e4e4;
 }
-.profile-name {
-  margin: 0;
 
+.profile-name {
+  margin: 10% 0 0 0;
   font-family: "Inter";
   font-style: normal;
   font-weight: 500;
-  font-size: 15.7143px;
-  line-height: 19px;
-  /* identical to box height */
-
+  font-size: 13px;
+  line-height: 14px;
   color: #e3e4e4;
 }
+
+.log-reg {
+  width: 104%;
+  position: absolute;
+  bottom: 0;
+  left: 0%;
+  margin: 0 0 10% 0;
+  background-color: #35373a;
+  border: #35373a;
+  border-radius: 8px;
+  height: 6%;
+  display: flex;
+}
+
+.auth-link {
+  flex: 1;
+  margin: 0 0;
+  text-align: center;
+  border: transparent;
+  background-color: #35373a;
+  color: #bfbfbf;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 450;
+  font-size: 12.5px;
+  line-height: 20px;
+  text-decoration: none;
+}
+.border1{
+  border-radius: 8px 0 0 8px;
+}
+.border2{
+  border-radius: 0 8px 8px 0;
+}
+
+a:hover {
+  background: rgba(128, 87, 242, 0.37);
+  color: #e3e4e4;
+}
+
+a.active {
+  background: #8057f2;
+  color: #e3e4e4;
+}
+
+a:not(.active):hover {
+  background: rgba(128, 87, 242, 0.37);
+  color: #e3e4e4;
+}
+
 </style>
