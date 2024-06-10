@@ -1,5 +1,5 @@
 <template>
-  <div class="widget_item event-list" style="margin: -50.7% 0 0 -5.7%; width: 56%">
+  <div class="widget_item event-list" style="margin: -111.7% 0 0 3%; width: 123.5%">
     <h2>Ивенты сейчас</h2>
     <div class="list_events">
       <div class="event-item" v-for="event in props.currentEvents" :key="event.title">
