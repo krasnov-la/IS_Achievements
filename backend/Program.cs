@@ -7,9 +7,22 @@ using Microsoft.IdentityModel.Tokens;
 using Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins, policy =>
+    {
+        policy.AllowAnyHeader();
+        policy.AllowAnyMethod();
+        policy.AllowAnyOrigin();
+    });
+});
+
 if (builder.Environment.IsDevelopment())
     builder.Configuration.AddJsonFile("super_secret.json", false);
-else 
+else
 {
     builder.Configuration.AddEnvironmentVariables("JwtKey");
     builder.Configuration.AddEnvironmentVariables("JwtIssuer");
@@ -17,14 +30,15 @@ else
     builder.Configuration.AddEnvironmentVariables("DbConnection");
 }
 var config = builder.Configuration;
-builder.Services.AddAuthentication(x => 
+builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(x => 
+}).AddJwtBearer(x =>
 {
-    x.TokenValidationParameters = new TokenValidationParameters {
+    x.TokenValidationParameters = new TokenValidationParameters
+    {
         ValidIssuer = config["JwtIssuer"],
         ValidAudience = config["JwtAudience"],
         IssuerSigningKey = new SymmetricSecurityKey(
@@ -38,7 +52,8 @@ builder.Services.AddAuthentication(x =>
 });
 builder.Services.AddAuthorization(x =>
 {
-    x.AddPolicy(PolicyData.AdminOnlyPolicyName, p => {
+    x.AddPolicy(PolicyData.AdminOnlyPolicyName, p =>
+    {
         p.RequireClaim(PolicyData.AdminClaimName, "true");
     });
 });
@@ -60,9 +75,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors(MyAllowSpecificOrigins);
+
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.MapControllers();

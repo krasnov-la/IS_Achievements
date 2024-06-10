@@ -23,11 +23,11 @@ public class AuthController(IPasswordService passwordService, ITokenService toke
         if (request.Login is null || request.Login == string.Empty)
             return BadRequest("Empty login");
 
-        if (request.Password is null)
+        if (request.Password is null || request.Password == string.Empty)
             return BadRequest("Empty password");
 
         if (await _unit.Users.GetById(request.Login) is not null)
-            return BadRequest("Login taken");
+            return BadRequest("Login already taken");
 
         var user = new User()
         {

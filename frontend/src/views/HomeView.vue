@@ -14,7 +14,7 @@
       <SideBar />
       <div style="width: 100%; margin-top: 7.5vh">
         <div class="widgets" style="display: flex; align-items: center">
-          <scoreboard />
+          <scoreboard :scoreboardData="scoreboardData" />
           <div v-if="loading" class="loading-indicator">Loading events...</div>
           <div v-else>
             <div style="position: relative; left: 63%; flex-wrap: wrap">
@@ -39,7 +39,23 @@ import Header from "@/components/Header.vue";
 
 const currentEvents = ref([]);
 const upcomingEvents = ref([]);
+const scoreboardData = ref([]);
 const loading = ref(true);
+
+const getScoreboard = async () => {
+  try {
+    const count = 10;
+    const offset = 0;
+
+    const response = await axios.get(
+      `${process.env.VUE_APP_API_URL}Scoreboard/GetData/${count}/${offset}`
+    );
+
+    scoreboardData.value = response.data;
+  } catch (error) {
+    console.error("Error fetching scoreboard data:", error);
+  }
+};
 
 const fetchCTFEvents = async () => {
   const currentTimestamp = Math.floor(Date.now() / 1000); // Current time in seconds
@@ -47,7 +63,7 @@ const fetchCTFEvents = async () => {
   const futureTimestamp = currentTimestamp + 60 * 60 * 24 * 30; // 30 days from now in seconds
 
   try {
-    // Fetch events from the API
+    // Fetch events from the CTF API
     const response = await axios.get(
       `http://localhost:8080/events/?limit=100&start=${pastTimestamp}&finish=${futureTimestamp}`
     );
@@ -74,6 +90,7 @@ const fetchCTFEvents = async () => {
 };
 
 onMounted(fetchCTFEvents);
+onMounted(getScoreboard);
 </script>
 
 <style scoped>

@@ -3,9 +3,9 @@
     <div class="registration_inner">
       <h2>Регистрация</h2>
       <span class="line-translation"></span>
-      <div class="registration_content">
+      <form @submit.prevent="submit" class="registration_content">
         <div class="registration_item">
-          <h3 class="item_title">Имя пользователя</h3>
+          <!-- <h3 class="item_title">Имя пользователя</h3>
           <input
             type="text"
             v-model="inputLogin"
@@ -14,31 +14,71 @@
           />
           <p class="item_error" :class="{ visible: inputLogin.length < 3 }">
             Имя пользователя должно содержать минимум 3 символа
-          </p>
+          </p> -->
         </div>
         <div class="registration_item">
           <h3 class="item_title">Логин</h3>
-          <input type="text" placeholder="Введите Логин" class="item_input" />
+          <input
+            type="text"
+            v-model="data.login"
+            placeholder="Введите Логин"
+            class="item_input"
+          />
           <p class="item_error">Введите действительный Логин</p>
         </div>
         <div class="registration_item">
           <h3 class="item_title">Пароль</h3>
-          <input type="text" placeholder="Введите пароль" class="item_input" />
+          <input
+            type="text"
+            v-model="data.password"
+            placeholder="Введите пароль"
+            class="item_input"
+          />
           <p class="item_error"></p>
         </div>
-      </div>
-      <span class="line-translation"></span>
-      <button>Зарегистрироваться</button>
+        <span class="line-translation"></span>
+        <button type="submit">Зарегистрироваться</button>
+      </form>
       <p class="have-account">
-        У вас уже есть аккаунт? <span class="have-account-link">Войти</span>
+        У вас уже есть аккаунт?
+        <router-link to="/login">
+          <span class="have-account-link">Войти</span>
+        </router-link>
       </p>
     </div>
   </div>
 </template>
 <script setup>
-import { ref } from "vue";
+import { reactive } from "vue";
+import { useRouter } from "vue-router";
+import axios from "axios";
 
-const inputLogin = ref("");
+const router = useRouter();
+
+const data = reactive({
+  login: "",
+  password: "",
+});
+
+const submit = async () => {
+  console.log(data);
+  const response = await axios
+    .post(`${process.env.VUE_APP_API_URL}Auth/Register`, {
+      login: data.login,
+      password: data.password,
+    })
+    .then((response) => {
+      console.log(response.response);
+      if (response.status == 200) {
+        alert("Successful");
+        router.push("/login");
+      } else {
+      }
+    })
+    .catch(function (error) {
+      alert(`Something went wrong. ${error.response.data}`);
+    });
+};
 </script>
 <style scoped lang="scss">
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
@@ -92,6 +132,7 @@ h2 {
   padding: 5px;
   width: 100%;
   height: 60px;
+  color: white;
 }
 
 .item_error {
