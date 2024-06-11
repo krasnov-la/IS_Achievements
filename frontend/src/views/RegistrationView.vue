@@ -62,17 +62,16 @@ const data = reactive({
 
 const submit = async () => {
   console.log(data);
-  const response = await axios
+  await axios
     .post(`${process.env.VUE_APP_API_URL}Auth/Register`, {
+      headers: { "Content-Type": "application/json" },
       login: data.login,
       password: data.password,
     })
     .then((response) => {
-      console.log(response.response);
       if (response.status == 200) {
         alert("Successful");
         router.push("/login");
-      } else {
       }
     })
     .catch(function (error) {

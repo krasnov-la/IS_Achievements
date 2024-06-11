@@ -15,7 +15,9 @@
       <div style="width: 100%; margin-top: 7.5vh">
         <div class="widgets" style="display: flex; align-items: center">
           <scoreboard :scoreboardData="scoreboardData" />
-          <div v-if="loading" class="loading-indicator">Loading events...</div>
+          <div v-if="loadingEvents" class="loading-indicator">
+            Loading events...
+          </div>
           <div v-else>
             <div style="position: relative; left: 63%; flex-wrap: wrap">
               <events-list :currentEvents="currentEvents" />
@@ -40,7 +42,7 @@ import Header from "@/components/Header.vue";
 const currentEvents = ref([]);
 const upcomingEvents = ref([]);
 const scoreboardData = ref([]);
-const loading = ref(true);
+const loadingEvents = ref(true);
 
 const getScoreboard = async () => {
   try {
@@ -65,14 +67,18 @@ const fetchCTFEvents = async () => {
   try {
     // Fetch events from the CTF API
     const response = await axios.get(
-      `http://localhost:8080/events/?limit=100&start=${pastTimestamp}&finish=${futureTimestamp}`
+      `http://localhost:8080/events/?limit=100&start=${pastTimestamp}&finish=${futureTimestamp}`,
+      {
+        headers: { "Content-Type": "application/json" },
+      }
     );
 
     const allEvents = response.data;
     // Filter current events (must not include ended events)
     currentEvents.value = allEvents.filter((event) => {
       const eventEndTime = new Date(event.finish).getTime();
-      return eventEndTime > Date.now(); // Event is still ongoing
+      const eventStartTime = new Date(event.start).getTime();
+      return eventEndTime > Date.now() && eventStartTime < Date.now(); // Event is still ongoing
     });
     currentEvents.value = currentEvents.value.slice(0, 5);
 
@@ -85,7 +91,7 @@ const fetchCTFEvents = async () => {
   } catch (error) {
     console.error("Error fetching CTF events:", error);
   } finally {
-    loading.value = false;
+    loadingEvents.value = false;
   }
 };
 

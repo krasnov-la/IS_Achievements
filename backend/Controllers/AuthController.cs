@@ -103,35 +103,17 @@ public class AuthController(IPasswordService passwordService, ITokenService toke
 
         await _unit.SaveAsync();
 
-        return Ok(new
-        {
-            JwtToken = _tokenService.GenerateAccessToken(claims),
-            RefreshToken = user.Refresh
+        HttpContext.Response.Cookies.Append("exp", "somescaryhash", new(){
+            Expires = DateTime.Now.AddMinutes(10)
         });
-    }
-
-    [HttpPost("[action]")]
-    public async Task<IActionResult> Refresh([FromBody] RefreshRequest request)
-    {
-        var claims = _tokenService.GetPrincipalFromExpToken(request.JwtToken);
-        var login = claims.First(c => c.Type == "Login").Value;
-        var user = await _unit.Users.GetById(login);
-        if (user is null)
-            return BadRequest("User nit found");
-        if (user.Refresh != request.RefreshToken)
-            return BadRequest("Refresh token invalid");
-
-        user.Refresh = _tokenService.GenerateRefreshToken();
-        user.RefreshExpire = DateTime.Now.AddDays(5);
-
-        _unit.Users.Update(user);
-
-        await _unit.SaveAsync();
+        HttpContext.Response.Cookies.Append("cookie-1", _tokenService.GenerateAccessToken(claims));
+        HttpContext.Response.Cookies.Append("cookie-2", user.Refresh, new(){
+            Expires = DateTime.Now.AddDays(5)
+        });
 
         return Ok(new
         {
-            JwtToken = _tokenService.GenerateAccessToken(claims),
-            RefreshToken = user.Refresh
+            user.Nickname
         });
     }
 

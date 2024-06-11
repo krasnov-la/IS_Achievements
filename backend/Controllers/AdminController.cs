@@ -8,7 +8,7 @@ using Services;
 namespace Controllers;
 
 [ApiController]
-//[Authorize(Policy = PolicyData.AdminOnlyPolicyName)]
+[Authorize(Policy = PolicyData.AdminOnlyPolicyName)]
 [Route("[controller]")]
 public class AdminController(IUnitOfWork unit) : ControllerBase
 {

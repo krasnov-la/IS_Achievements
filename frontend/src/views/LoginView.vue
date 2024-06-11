@@ -1,54 +1,105 @@
 <template>
   <div class="bg">
     <div class="card">
-
-      <div style="display: grid; place-items: center;">
-        <div class="h1">Вход в аккаунт</div>
-        <div class="separator" />
-      </div>
-
-      <div style="margin: 2.2vh 0 3vh 0">
-        <div class="h2">Логин</div>
-        <input placeholder="Введите Логин"/>
-      </div>
-
-      <div style="margin: 2.2vh 0 3vh 0">
-        <div style="display: flex; justify-content: space-between">
-          <div class="h2">Пароль</div>
-          <router-link to="" style="margin: 1.2vh 1.5vh 0 0" class="link">Забыли пароль?</router-link>
-        </div>
-        <input placeholder="Введите пароль"/>
-      </div>
-
-      <div style="display: flex;">
-        <label class="checkbox-container">
-          <input type="checkbox">
-          <span class="checkmark"></span>
-        </label>
-        <div style="margin: -0.55vh 0 0 3.5vh;" class="h3">Запомнить меня</div>
-      </div>
-
-      <div style="display: grid; place-items: center; margin-top: 3vh;">
-        <div class="separator" />
-        <div class="button">
-          Войти
+      <form @submit.prevent="submit">
+        <div style="display: grid; place-items: center">
+          <div class="h1">Вход в аккаунт</div>
+          <div class="separator" />
         </div>
 
-        <div style="display: flex; margin-bottom: 0.8vh">
-          <div class="h3">У вас еще нет аккаунта?</div>
-          <div class="link" style="margin-left: 2.5vh ">Зарегистрироваться</div>
+        <div style="margin: 2.2vh 0 3vh 0">
+          <div class="h2">Логин</div>
+          <input placeholder="Введите Логин" v-model="data.login" />
+        </div>
+
+        <div style="margin: 2.2vh 0 3vh 0">
+          <div style="display: flex; justify-content: space-between">
+            <div class="h2">Пароль</div>
+            <router-link to="" style="margin: 1.2vh 1.5vh 0 0" class="link"
+              >Забыли пароль?</router-link
+            >
           </div>
-      </div>
+          <input placeholder="Введите пароль" v-model="data.password" />
+        </div>
+
+        <div style="display: flex">
+          <label class="checkbox-container">
+            <input type="checkbox" />
+            <span class="checkmark"></span>
+          </label>
+          <div style="margin: -0.55vh 0 0 3.5vh" class="h3">Запомнить меня</div>
+        </div>
+
+        <div style="display: grid; place-items: center; margin-top: 3vh">
+          <div class="separator" />
+          <button class="button" type="submit">Войти</button>
+
+          <div style="display: flex; margin-bottom: 0.8vh">
+            <div class="h3">У вас еще нет аккаунта?</div>
+            <div class="link" style="margin-left: 2.5vh">
+              Зарегистрироваться
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 </template>
 
-<style>
+<script setup>
+import axios from "axios";
+import { reactive } from "vue";
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
+const data = reactive({
+  login: "",
+  password: "",
+});
 
-.bg{
+const router = useRouter();
+const store = useStore();
+
+const submit = async () => {
+  await axios
+    .post(
+      `${process.env.VUE_APP_API_URL}Auth/Login`,
+      {
+        login: data.login,
+        password: data.password,
+      },
+      {
+        withCredentials: true,
+        headers: { "Content-Type": "application/json" },
+      }
+    )
+    .then((response) => {
+      if (response.status == 200) {
+        store.dispatch("setAuth", true);
+
+        //TODO: reciving user data from api and move to home page
+        let user = {
+          nickname: "user name ^_^",
+          score: "100",
+        };
+
+        store.dispatch("setUser", user);
+
+        router.push("/");
+      }
+    })
+    .catch(function (error) {
+      if (error.response.data == "User not found")
+        alert(`${error.response.data}`);
+      else alert(`Wrong user name or password`);
+    });
+};
+</script>
+
+<style>
+.bg {
   width: 100%;
   height: 100%;
-  background-color: #1C1E1F;
+  background-color: #1c1e1f;
   display: grid;
   place-items: center;
 }
@@ -62,10 +113,10 @@
   background-color: #232627;
 
   border-radius: 10pt;
-  border: 0.8px solid #35373A;
+  border: 0.8px solid #35373a;
 }
 
-.h1{
+.h1 {
   font-family: "Inter";
   font-style: normal;
   font-weight: 550;
@@ -75,15 +126,14 @@
   color: #e3e4e4;
 }
 
-.separator{
+.separator {
   width: 100%;
   height: 0.7px;
   background-color: #35373a;
   margin: 2.7vh 0 2.7vh 0;
-
 }
 
-.h2{
+.h2 {
   font-family: "Inter";
   font-style: normal;
   font-weight: 550;
@@ -94,45 +144,44 @@
   color: #e3e4e4;
 }
 
-input{
-  background-color: #35373A;
-  border: 0.8px solid #45484C;
+input {
+  background-color: #35373a;
+  border: 0.8px solid #45484c;
   border-radius: 9px;
   width: 100%;
   height: 5.2vh;
-  padding-left: 3.2vh ;
+  padding-left: 3.2vh;
 }
 
-input::placeholder{
-  color: #72787D;
+input::placeholder {
+  color: #72787d;
   font-size: 9.8pt;
   transform: scaleX(1.05);
-
 }
 
-.link{
+.link {
   font-size: 9pt;
   font-weight: lighter;
-  -webkit-text-stroke: 0.5px #A69AE8;
+  -webkit-text-stroke: 0.5px #a69ae8;
   transform: scaleX(1.1);
   margin: 0 0 0.5vh 0.9vh;
   text-decoration: none;
 
-  color: #A69AE8;
+  color: #a69ae8;
 }
 
-.h3{
+.h3 {
   font-size: 9pt;
   font-weight: lighter;
-  -webkit-text-stroke: 0.5px #72787D;
+  -webkit-text-stroke: 0.5px #72787d;
   transform: scaleX(1.1);
   margin: 0 0 0.5vh 0.9vh;
   text-decoration: none;
 
-  color: #72787D;;
+  color: #72787d;
 }
 
-.button{
+.button {
   width: 100%;
   height: 6vh;
   background-color: #8057f2;
@@ -143,7 +192,6 @@ input::placeholder{
   color: #e3e4e4;
   font-weight: 570;
   margin: 0.5vh 0 3vh 0;
-
 }
 
 .checkbox-container {
@@ -167,12 +215,12 @@ input::placeholder{
   left: 0;
   height: 20px;
   width: 20px;
-  background-color: #35373A;
+  background-color: #35373a;
   border-radius: 4px;
 }
 
 .checkbox-container input:checked ~ .checkmark {
-  background-color: #35373A;
+  background-color: #35373a;
 }
 
 .checkmark:after {
@@ -196,7 +244,4 @@ input::placeholder{
   background-color: transparent; /* чтобы галочка была только из границ */
   border-color: #8a2be2; /* фиолетовая галочка */
 }
-
 </style>
-<script setup>
-</script>
