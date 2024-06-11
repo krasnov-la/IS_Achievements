@@ -36,7 +36,7 @@ export default {
   top: 10pt;
   color: #e3e4e4;
   margin-left: 3%;
-  font-size: 19pt;
+  font-size: 18pt;
   font-weight: 450;
   -webkit-text-stroke: 0.4px #e3e4e4;
   transform: scaleX(1.05);
@@ -47,7 +47,7 @@ export default {
   background-color: #232627;
   width: 90%;
   margin-left: 260px;
-  height: 8.8vh;
+  height: 8vh;
   border-bottom: 1pt solid #35373a;
   font-family: Inter;
   align-items: center;

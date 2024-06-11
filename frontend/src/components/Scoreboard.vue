@@ -50,7 +50,7 @@ h2 {
   font-weight: 550;
   font-size: 23.5px;
   line-height: 36px;
-  margin: 3% 2% 4% 3.8%;
+  margin: 2.5% 2% 4% 3%;
 
   color: #e3e4e4;
 }

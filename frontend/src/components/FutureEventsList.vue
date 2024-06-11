@@ -1,5 +1,5 @@
 <template>
-  <div class="widget_item event-list" style="margin: 6% 0 0 3%; width: 123.5%">
+  <div class="widget_item event-list" style="margin: 4.5% 0 0 -0.2%; width: 95.8%">
     <h2>Будущие ивенты</h2>
     <div class="list_events">
       <div
