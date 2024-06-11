@@ -1,5 +1,6 @@
 using System.Text;
 using Auth;
+using backend.Auth;
 using DataAccess;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -78,6 +79,8 @@ if (app.Environment.IsDevelopment())
 app.UseCors(MyAllowSpecificOrigins);
 
 app.UseHttpsRedirection();
+
+app.UseMiddleware<RefreshMiddleware>();
 
 app.UseAuthentication();
 
