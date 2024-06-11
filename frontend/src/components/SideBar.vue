@@ -5,24 +5,58 @@
         <img class="logo" src="../assets/logo.svg" alt="" />
         <h1>.NET Creations</h1>
       </div>
-      <router-link to="/" :class="{ active: isActive('/') }" @click.native="() => { setActive('/'); changeText('Главная страница'); }">
+      <router-link
+        to="/"
+        :class="{ active: isActive('/') }"
+        @click.native="
+          () => {
+            setActive('/');
+            changeText('Главная страница');
+          }
+        "
+      >
         <div class="stripe" :class="{ active: isActive('/') }"></div>
         Главная страница
       </router-link>
-      <a href="" :class="{ active: isActive('/events') }" @click="() => { setActive('/events'); changeText('Текущие ивенты'); }">
+      <a
+        href=""
+        :class="{ active: isActive('/events') }"
+        @click="
+          () => {
+            setActive('/events');
+            changeText('Текущие ивенты');
+          }
+        "
+      >
         <div class="stripe" :class="{ active: isActive('/events') }"></div>
         Текущие ивенты
       </a>
-      <a href="" :class="{ active: isActive('/future-events') }" @click="() => { setActive('/future-events'); changeText('Будущие ивенты'); }">
-        <div class="stripe" :class="{ active: isActive('/future-events') }"></div>
+      <a
+        href=""
+        :class="{ active: isActive('/future-events') }"
+        @click="
+          () => {
+            setActive('/future-events');
+            changeText('Будущие ивенты');
+          }
+        "
+      >
+        <div
+          class="stripe"
+          :class="{ active: isActive('/future-events') }"
+        ></div>
         Будущие ивенты
       </a>
 
       <template v-if="isAuthenticated">
-        <router-link to="/PersonalArea" @click="changeText('Личный кабинет')" class="profile">
+        <router-link
+          to="/PersonalArea"
+          @click="changeText('Личный кабинет')"
+          class="profile"
+        >
           <img class="profile-img" :src="user?.profileImage || ''" alt="" />
           <div>
-            <h6 class="profile-name">{{ user?.name || 'User' }}</h6>
+            <h6 class="profile-name">{{ user?.nickname || "User" }}</h6>
             <p class="profile-score">Баллы: {{ user?.score || 0 }}</p>
           </div>
         </router-link>
@@ -30,12 +64,27 @@
 
       <template v-else>
         <div class="log-reg">
-          <router-link to="/login" class="auth-link border1" @click.native="changeText('Вход')">
-           <div style="margin-left: 15%"> Вход</div>
+          <router-link
+            to="/login"
+            class="auth-link border1"
+            @click.native="changeText('Вход')"
+          >
+            <div style="margin-left: 15%">Вход</div>
           </router-link>
-          <div style="width: 0.8pt; height: 20pt; background-color: #6b6b6b; margin: 4% 0 0 -25%"/>
-          <router-link to="/Registration" class="auth-link border2" @click.native="changeText('Регистрация')">
-            <div style="margin-left: 15%"> Регистрация</div>
+          <div
+            style="
+              width: 0.8pt;
+              height: 20pt;
+              background-color: #6b6b6b;
+              margin: 4% 0 0 -25%;
+            "
+          />
+          <router-link
+            to="/Registration"
+            class="auth-link border2"
+            @click.native="changeText('Регистрация')"
+          >
+            <div style="margin-left: 15%">Регистрация</div>
           </router-link>
         </div>
       </template>
@@ -43,41 +92,26 @@
   </div>
 </template>
 
-<script>
-import { useStore } from 'vuex';
-export default {
-  name: 'SideBar',
-  setup() {
-    const store = useStore();
+<script setup>
+import { ref, computed } from "vue";
+import { useStore } from "vuex";
 
-    const changeText = (newText) => {
-      store.dispatch('updateText', newText);
-    };
+const store = useStore();
 
-    return { changeText };
-  },
-  data() {
-    return {
-      activePath: '/'
-    };
-  },
-  computed: {
-    isAuthenticated() {
-      return this.$store.getters.isAuthenticated;
-    },
-    user() {
-      return this.$store.getters.user;
-    }
-  },
-  methods: {
-    setActive(path) {
-      this.activePath = path;
-    },
-    isActive(path) {
-      return this.activePath === path;
-    }
-  }
+const activePath = ref("/");
+
+const changeText = (newText) => {
+  store.dispatch("updateText", newText);
 };
+
+const isAuthenticated = computed(() => store.getters.isAuthenticated);
+const user = computed(() => store.getters.user);
+
+const setActive = (path) => {
+  activePath.value = path;
+};
+
+const isActive = (path) => activePath.value === path;
 </script>
 
 <style scoped>
@@ -242,10 +276,10 @@ a:nth-child(4)::before {
   line-height: 20px;
   text-decoration: none;
 }
-.border1{
+.border1 {
   border-radius: 8px 0 0 8px;
 }
-.border2{
+.border2 {
   border-radius: 0 8px 8px 0;
 }
 
@@ -263,5 +297,4 @@ a:not(.active):hover {
   background: rgba(128, 87, 242, 0.37);
   color: #e3e4e4;
 }
-
 </style>
