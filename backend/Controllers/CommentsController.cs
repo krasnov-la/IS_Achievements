@@ -7,7 +7,7 @@ using Services;
 namespace Controllers;
 
 [ApiController]
-[Route("Controller")]
+[Route("[Controller]")]
 [Authorize(Policy = PolicyData.AdminOnlyPolicyName)]
 public class CommentsController(IUnitOfWork unit) : ControllerBase
 {

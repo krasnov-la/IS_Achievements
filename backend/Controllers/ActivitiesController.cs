@@ -7,7 +7,7 @@ using Services;
 namespace Controllers;
 
 [ApiController]
-[Route("Controller")]
+[Route("[Controller]")]
 [Authorize(Policy = PolicyData.AdminOnlyPolicyName)]
 public class ActivitiesController(IUnitOfWork unit) : ControllerBase
 {
@@ -52,7 +52,7 @@ public class ActivitiesController(IUnitOfWork unit) : ControllerBase
         );
     }
 
-    [HttpPost("{id}")]
+    [HttpPut("{id}")]
     public async Task<IActionResult> UpdateActivity([FromBody] ActivityRequest request, [FromRoute] Guid id)
     {
         var loginClaim = HttpContext.User.FindFirst(c => c.Type == "Login");
