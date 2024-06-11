@@ -11,21 +11,31 @@
         <p class="name1">Имя / никнэйм</p>
         <p class="score1">Количество баллов</p>
       </div>
-      <div
-        class="table-item"
-        v-for="player in props.scoreboardData"
-        :key="player.id"
-      >
-        <p class="number">#{{ player.place }}</p>
-        <img class="profile-img" src="" alt="" />
-        <p class="name">{{ player.nick }}</p>
-        <p class="score">{{ player.score.toLocaleString("ru") }} баллов</p>
+      <div v-if="isScoreboardEmpty" class="loading-animation">
+        <div class="loading-spinner"></div>
+        Loading scoreboard...
+      </div>
+      <div v-else>
+        <div
+          class="table-item"
+          v-for="player in props.scoreboardData"
+          :key="player.id"
+        >
+          <p class="number">#{{ player.place }}</p>
+          <img class="profile-img" src="" alt="" />
+          <p class="name">{{ player.nick }}</p>
+          <p class="score">{{ player.score.toLocaleString("ru") }} баллов</p>
+        </div>
       </div>
     </div>
   </div>
 </template>
+
 <script setup>
-import { ref, createApp } from "vue";
+import { computed } from "vue";
+const isScoreboardEmpty = computed(() => {
+  return props.scoreboardData.length === 0;
+});
 const props = defineProps({
   scoreboardData: {
     type: Array,
@@ -163,5 +173,27 @@ display: flex; */
   width: 37pt;
   height: 37pt;
   margin: -2% 0 0 0;
+}
+.loading-animation {
+  text-align: center;
+  padding: 20px;
+  font-size: 1.2em;
+  color: #e3e4e4;
+}
+
+.loading-spinner {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #e3e4e4;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 </style>
