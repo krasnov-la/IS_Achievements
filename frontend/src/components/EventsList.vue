@@ -1,22 +1,32 @@
 <template>
-  <div class="widget_item event-list" style="margin: -111.7% 0 0 3%; width: 123.5%">
+  <div
+    class="widget_item event-list"
+    style="margin: -111.7% 0 0 3%; width: 123.5%"
+  >
     <h2>Ивенты сейчас</h2>
     <div class="list_events">
-      <div class="event-item" v-for="event in props.currentEvents" :key="event.title">
-        <div class="img-container">
-          <img :src="event.logo" alt="" class="img" />
-        </div>
-        <div class="event-text">
-          <h4>{{ event.title }}</h4>
-          <div style="width: 119%; height: 28px">
-            <p>{{ event.url }}</p>
+      <div v-if="currentEvents.length === 0" class="no-events">
+        Нет текущих мероприятий
+      </div>
+      <div v-else>
+        <div
+          class="event-item"
+          v-for="event in currentEvents"
+          :key="event.title"
+        >
+          <div class="img-container">
+            <img :src="event.logo" alt="" class="img" />
           </div>
-
+          <div class="event-text">
+            <h4>{{ event.title }}</h4>
+            <div style="width: 119%; height: 28px">
+              <p>{{ event.url }}</p>
+            </div>
+          </div>
+          <div style="display: flex; align-items: end">
+            <button class="link-full-info"></button>
+          </div>
         </div>
-        <div style="display: flex; align-items: end">
-          <button class="link-full-info"></button>
-        </div>
-
       </div>
     </div>
   </div>
@@ -112,4 +122,11 @@ p {
   transform: translateX(6px) rotate(135deg);
 }
 
+.no-events {
+  text-align: center;
+  font-family: "Inter";
+  font-size: 18px;
+  color: #e3e4e4;
+  padding: 20px;
+}
 </style>
