@@ -1,10 +1,17 @@
 <template>
   <Header />
-  <div style="margin-left: 260px; width: calc(100% - 260px); height: 100%; background-color: #1c1e1f; display: flex; flex-wrap: wrap;">
-  <SideBar />
-    <div style="width: 100%;margin-top: 10vh">
-
-
+  <div
+    style="
+      margin-left: 260px;
+      width: calc(100% - 260px);
+      height: 100%;
+      background-color: #1c1e1f;
+      display: flex;
+      flex-wrap: wrap;
+    "
+  >
+    <SideBar />
+    <div style="width: 100%; margin-top: 10vh">
       <div class="container" style="margin-left: 1.5vh; margin-right: 1.5vh">
         <div class="card">
           <div class="pfp" />
@@ -17,7 +24,7 @@
                 margin-bottom: 6pt;
               "
             >
-              User228
+              {{ user?.nickname || "User" }}
             </div>
             <div style="margin-left: 2.2%">
               <div class="h5">Иванов Иван Иванович</div>
@@ -42,19 +49,19 @@
         <div class="card">
           <div class="pic2" />
           <div class="h2">Баллы</div>
-          <div class="h3">12 333</div>
+          <div class="h3">{{ user?.score || 0 }}</div>
           <div class="h4">Накопленные баллы за достижения</div>
         </div>
 
         <div class="card">
           <div class="pic1" />
           <div class="h2">Место в рейтинге</div>
-          <div class="h3">1 735</div>
+          <div class="h3">{{ user?.place || 0 }}</div>
           <div class="h4">Позиция в общем рейтинге студентов</div>
         </div>
       </div>
 
-      <div class="table" style="margin-left: 6vh;">
+      <div class="table" style="margin-left: 6vh">
         <div class="dots"></div>
         <div class="h1">Мое портфолио</div>
         <div class="row">
@@ -83,6 +90,10 @@
 <script setup>
 import SideBar from "@/components/SideBar.vue";
 import Header from "@/components/Header.vue";
+import { useStore } from "vuex";
+import { computed } from "vue";
+const store = useStore();
+const user = computed(() => store.getters.user);
 </script>
 
 <style scoped>

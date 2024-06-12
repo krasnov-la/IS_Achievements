@@ -6,7 +6,11 @@ export default createStore({
   state: {
     text: 'Главная страница',
     authenticated: false,
-    user: null,
+    user: {
+      nickname: "",
+      score: "",
+      place: "0"
+    },
   },
   mutations: {
     SET_TEXT: (state, newText) => state.text = newText,

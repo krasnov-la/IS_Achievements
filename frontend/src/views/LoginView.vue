@@ -60,8 +60,8 @@ const router = useRouter();
 const store = useStore();
 
 const submit = async () => {
-  await axios
-    .post(
+  try {
+    const response = await axios.post(
       `${process.env.VUE_APP_API_URL}Auth/Login`,
       {
         login: data.login,
@@ -71,27 +71,18 @@ const submit = async () => {
         withCredentials: true,
         headers: { "Content-Type": "application/json" },
       }
-    )
-    .then((response) => {
-      if (response.status == 200) {
-        store.dispatch("setAuth", true);
+    );
 
-        //TODO: reciving user data from api and move to home page
-        let user = {
-          nickname: "user name ^_^",
-          score: "100",
-        };
-
-        store.dispatch("setUser", user);
-
-        router.push("/");
-      }
-    })
-    .catch(function (error) {
-      if (error.response.data == "User not found")
-        alert(`${error.response.data}`);
-      else alert(`Wrong user name or password`);
-    });
+    if (response.status == 200) {
+      store.dispatch("setAuth", true);
+    }
+  } catch (error) {
+    if (error.response.data == "User not found")
+      alert(`${error.response.data}`);
+    else alert(`Wrong user name or password`);
+  } finally {
+    router.push("/");
+  }
 };
 </script>
 
