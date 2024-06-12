@@ -15,7 +15,7 @@ public class StudentController(AppDbContext dbContext, IImageService imageServic
     IImageService _imageService = imageService;
 
     [HttpGet("[action]"), Authorize]
-    public IActionResult GetRating()
+    public IActionResult GetInfo()
     {
         var loginClaim = HttpContext.User.FindFirst(c => c.Type == "Login");
         if (loginClaim is null)
@@ -40,8 +40,9 @@ public class StudentController(AppDbContext dbContext, IImageService imageServic
             u => new { u.Login, u.Nickname },
             (key, group) => new
             {
+                key.Nickname,
                 key.Login,
-                Score = group.Sum(x => x.Score)
+                Score = group.Sum(x => x.Score),
             }
         )
         .OrderByDescending(x => x.Score)
@@ -50,14 +51,40 @@ public class StudentController(AppDbContext dbContext, IImageService imageServic
         {
             Place = index + 1,
             x.Login,
-            x.Score
+            x.Score,
+            x.Nickname
         });
 
-        var ratingPlace = ratingList.Where(x => x.Login == login)
-                                    .Select(x => x.Place)
-                                    .FirstOrDefault();
+        var studentInfo = ratingList
+        .Where(x => x.Login == login)
+        .Select(x => new
+        {
+            x.Nickname,
+            x.Score,
+            x.Place
+        })
+        .FirstOrDefault();
 
-        return Ok(ratingPlace);
+        var StudentResponse = new StudentResponse();
+
+        if (studentInfo is null)
+        {
+            var nickname = _db.Users
+            .Where(x => x.Login == login)
+            .Select(x => x.Nickname)
+            .First();
+            StudentResponse.Nickname = nickname;
+            StudentResponse.Score = 0;
+            StudentResponse.Place = 0;
+        }
+        else
+        {
+            (StudentResponse.Nickname,
+            StudentResponse.Score,
+            StudentResponse.Place) = (studentInfo.Nickname, studentInfo.Score, studentInfo.Place);
+        }
+
+        return Ok(StudentResponse);
     }
 
     [HttpGet("[action]"), Authorize]
