@@ -64,11 +64,7 @@
 
       <template v-else>
         <div class="log-reg">
-          <router-link
-            to="/login"
-            class="auth-link border1"
-            @click.native="changeText('Вход')"
-          >
+          <router-link to="/login" class="auth-link border1">
             <div style="margin-left: 15%">Вход</div>
           </router-link>
           <div
