@@ -76,7 +76,7 @@
               width: 0.8pt;
               height: 20pt;
               background-color: #6b6b6b;
-              margin: 4% 0 0 -25%;
+              margin: 0% 0 0 -25%;
             "
           />
           <router-link
@@ -151,24 +151,6 @@ h1 {
   line-height: 32px;
   margin-left: 1pt;
   color: #e3e4e4;
-}
-
-a {
-  margin: 1% -4% 7% 0%;
-  display: block;
-  align-items: center;
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 450;
-  font-size: 12.5px;
-  line-height: 20px;
-  color: #bfbfbf;
-  text-decoration: none;
-  border: 0.9px solid #6b6b6b;
-  border-radius: 8px;
-  padding: 0 4%;
-  display: flex;
-  align-items: center;
 }
 
 .log-reg a:nth-child(2)::before {
@@ -249,6 +231,22 @@ a:nth-child(4)::before {
   color: #e3e4e4;
 }
 
+a {
+  margin: 1% -4% 7% 0%;
+  align-items: center;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 450;
+  font-size: 12.5px;
+  line-height: 20px;
+  color: #bfbfbf;
+  text-decoration: none;
+  border: 0.9px solid #6b6b6b;
+  border-radius: 8px;
+  padding: 0 4%;
+  display: flex;
+}
+
 .log-reg {
   width: 104%;
   position: absolute;
@@ -258,7 +256,8 @@ a:nth-child(4)::before {
   background-color: #35373a;
   border: #35373a;
   border-radius: 8px;
-  height: 6%;
+  line-height: 20px;
+  padding: 3.5% 0;
   display: flex;
 }
 

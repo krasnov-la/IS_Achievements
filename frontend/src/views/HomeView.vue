@@ -2,7 +2,7 @@
   <Header />
   <div style="width: 100%; height: 100%; background-color: #1c1e1f">
     <div
-      style="
+        style="
         margin-left: 260px;
         width: calc(100% - 260px);
         height: fit-content;
@@ -13,16 +13,14 @@
     >
       <SideBar />
       <div style="width: 100%; margin-top: 7.5vh">
-        <div class="widgets" style="display: flex; align-items: center">
-          <scoreboard :scoreboardData="scoreboardData" />
+        <div class="widgets" style="display: flex; align-items: flex-start;">
+          <scoreboard :scoreboardData="scoreboardData" class="widget_item" />
           <div v-if="loadingEvents" class="loading-indicator">
             Loading events...
           </div>
-          <div v-else>
-            <div style="position: relative; left: 63%; flex-wrap: wrap">
-              <events-list :currentEvents="currentEvents" />
-              <future-events-list :upcomingEvents="upcomingEvents" />
-            </div>
+          <div v-else class="events-container" style="display: flex; flex-direction: column; flex-grow: 1;">
+            <events-list :currentEvents="currentEvents" class="widget_item" />
+            <future-events-list :upcomingEvents="upcomingEvents" class="widget_item" />
           </div>
         </div>
       </div>
@@ -50,7 +48,7 @@ const getScoreboard = async () => {
     const offset = 0;
 
     const response = await axios.get(
-      `${process.env.VUE_APP_API_URL}Scoreboard/GetData/${count}/${offset}`
+        `${process.env.VUE_APP_API_URL}Scoreboard/GetData/${count}/${offset}`
     );
 
     scoreboardData.value = response.data;
@@ -67,10 +65,10 @@ const fetchCTFEvents = async () => {
   try {
     // Fetch events from the CTF API
     const response = await axios.get(
-      `http://localhost:8080/events/?limit=100&start=${pastTimestamp}&finish=${futureTimestamp}`,
-      {
-        headers: { "Content-Type": "application/json" },
-      }
+        `http://localhost:8080/events/?limit=100&start=${pastTimestamp}&finish=${futureTimestamp}`,
+        {
+          headers: { "Content-Type": "application/json" },
+        }
     );
 
     const allEvents = response.data;
@@ -117,10 +115,8 @@ body {
   background: #1c1e1f;
 }
 header {
-  /* position: absolute; */
   width: 100%;
   background: #232627;
-  /* height: 50px; */
   padding: 10px 10px;
   border: 1px solid #35373a;
   font-family: Inter;
@@ -134,32 +130,27 @@ header {
 .widget_item {
   background: #232627;
   border: 1px solid #35373a;
-  border-radius: 18px;
-  background: #232627;
   border-radius: 13px;
-  margin: 2% 0 0 -45%;
+  margin: 2%;
+  flex: 1;
 }
 h2 {
-  /* Scoreboard */
-
   font-family: Inter;
   font-style: normal;
   font-weight: 600;
   font-size: 30px;
   line-height: 36px;
-
   color: #e3e4e4;
 }
 .widgets {
   overflow-x: hidden;
-  /* height: 100%; */
-  padding: 2%;
-  align-items: start;
+  padding: 1% 0.8%;
+  align-items: flex-start;
 }
 @media screen and (min-width: 150px) {
   .widgets {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
   }
   .scoreboard {
     min-width: 52% !important;
