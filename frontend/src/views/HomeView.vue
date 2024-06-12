@@ -2,7 +2,7 @@
   <Header />
   <div style="width: 100%; height: 100%; background-color: #1c1e1f">
     <div
-        style="
+      style="
         margin-left: 260px;
         width: calc(100% - 260px);
         height: fit-content;
@@ -13,14 +13,21 @@
     >
       <SideBar />
       <div style="width: 100%; margin-top: 7.5vh">
-        <div class="widgets" style="display: flex; align-items: flex-start;">
+        <div class="widgets" style="display: flex; align-items: flex-start">
           <scoreboard :scoreboardData="scoreboardData" class="widget_item" />
           <div v-if="loadingEvents" class="loading-indicator">
             Loading events...
           </div>
-          <div v-else class="events-container" style="display: flex; flex-direction: column; flex-grow: 1;">
+          <div
+            v-else
+            class="events-container"
+            style="display: flex; flex-direction: column; flex-grow: 1"
+          >
             <events-list :currentEvents="currentEvents" class="widget_item" />
-            <future-events-list :upcomingEvents="upcomingEvents" class="widget_item" />
+            <future-events-list
+              :upcomingEvents="upcomingEvents"
+              class="widget_item"
+            />
           </div>
         </div>
       </div>
@@ -36,11 +43,13 @@ import Scoreboard from "../components/Scoreboard.vue";
 import axios from "axios";
 import { onMounted, ref } from "vue";
 import Header from "@/components/Header.vue";
+import { useStore } from "vuex";
 
 const currentEvents = ref([]);
 const upcomingEvents = ref([]);
 const scoreboardData = ref([]);
 const loadingEvents = ref(true);
+const store = useStore();
 
 const getScoreboard = async () => {
   try {
@@ -48,7 +57,7 @@ const getScoreboard = async () => {
     const offset = 0;
 
     const response = await axios.get(
-        `${process.env.VUE_APP_API_URL}Scoreboard/GetData/${count}/${offset}`
+      `${process.env.VUE_APP_API_URL}Scoreboard/GetData/${count}/${offset}`
     );
 
     scoreboardData.value = response.data;
@@ -65,10 +74,10 @@ const fetchCTFEvents = async () => {
   try {
     // Fetch events from the CTF API
     const response = await axios.get(
-        `http://localhost:8080/events/?limit=100&start=${pastTimestamp}&finish=${futureTimestamp}`,
-        {
-          headers: { "Content-Type": "application/json" },
-        }
+      `http://localhost:8080/events/?limit=100&start=${pastTimestamp}&finish=${futureTimestamp}`,
+      {
+        headers: { "Content-Type": "application/json" },
+      }
     );
 
     const allEvents = response.data;
@@ -93,8 +102,25 @@ const fetchCTFEvents = async () => {
   }
 };
 
+const getStundetInfo = async () => {
+  try {
+    const userResponse = await axios.get(
+      `${process.env.VUE_APP_API_URL}Student/GetInfo`,
+      {
+        withCredentials: true,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    const user = await userResponse.data;
+    store.dispatch("setUser", user);
+  } catch (error) {
+    console.log(`error with userResponse ${error}`);
+  }
+};
+
 onMounted(fetchCTFEvents);
 onMounted(getScoreboard);
+onMounted(getStundetInfo);
 </script>
 
 <style scoped>
