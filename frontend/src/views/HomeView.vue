@@ -103,7 +103,7 @@ const fetchCTFEvents = async () => {
   }
 };
 
-const getStundetInfo = async () => {
+const getStudentInfo = async () => {
   try {
     const userResponse = await axios.get(
       `${process.env.VUE_APP_API_URL}Student/GetInfo`,
@@ -121,7 +121,7 @@ const getStundetInfo = async () => {
 
 onMounted(fetchCTFEvents);
 onMounted(getScoreboard);
-onMounted(getStundetInfo);
+onMounted(getStudentInfo);
 </script>
 
 <style scoped>
