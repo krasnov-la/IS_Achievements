@@ -75,11 +75,7 @@
               margin: 0% 0 0 -25%;
             "
           />
-          <router-link
-            to="/Registration"
-            class="auth-link border2"
-            @click.native="changeText('Регистрация')"
-          >
+          <router-link to="/Registration" class="auth-link border2">
             <div style="margin-left: 15%">Регистрация</div>
           </router-link>
         </div>
