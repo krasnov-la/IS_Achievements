@@ -15,16 +15,17 @@
       <div style="width: 100%; margin-top: 7.5vh">
         <div class="widgets" style="display: flex; align-items: flex-start">
           <scoreboard :scoreboardData="scoreboardData" class="widget_item" />
-          <div v-if="loadingEvents" class="loading-indicator">
-            Loading events...
-          </div>
           <div
-            v-else
             class="events-container"
             style="display: flex; flex-direction: column; flex-grow: 1"
           >
-            <events-list :currentEvents="currentEvents" class="widget_item" />
+            <events-list
+              :loadingEvents="loadingEvents"
+              :currentEvents="currentEvents"
+              class="widget_item"
+            />
             <future-events-list
+              :loadingEvents="loadingEvents"
               :upcomingEvents="upcomingEvents"
               class="widget_item"
             />

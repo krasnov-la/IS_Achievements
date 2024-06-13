@@ -8,12 +8,11 @@
     <div class="table">
       <div class="table-header">
         <p class="number1">Номер позиции</p>
-        <p class="name1">Имя / никнэйм</p>
+        <p class="name1">Никнейм</p>
         <p class="score1">Количество баллов</p>
       </div>
-      <div v-if="isScoreboardEmpty" class="loading-animation">
+      <div v-if="isScoreboardEmpty" class="loading-indicator">
         <div class="loading-spinner"></div>
-        Loading scoreboard...
       </div>
       <div v-else>
         <div
@@ -174,21 +173,28 @@ display: flex; */
   height: 37pt;
   margin: -2% 0 0 0;
 }
-.loading-animation {
-  text-align: center;
-  padding: 20px;
-  font-size: 1.2em;
+
+.loading-indicator {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 550;
+  font-size: 30px;
   color: #e3e4e4;
+  text-align: center;
+  margin: 20px;
+  font-size: 1.5em;
 }
 
-.loading-spinner {
+.loading-indicator::after {
+  content: "";
   display: inline-block;
-  width: 40px;
-  height: 40px;
-  border: 4px solid rgba(255, 255, 255, 0.3);
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
+  border: 2px solid currentColor;
   border-radius: 50%;
-  border-top-color: #e3e4e4;
-  animation: spin 1s ease-in-out infinite;
+  border-top-color: transparent;
+  animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
