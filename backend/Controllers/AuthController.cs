@@ -138,5 +138,26 @@ public class AuthController(IPasswordService passwordService, ITokenService toke
         _unit.Users.Update(user);
         await _unit.SaveAsync();
         return Ok("Nickname changed");
+    
+    }
+    [HttpGet("[action]")]
+    public async Task<IActionResult> Logout()
+    {
+        var login = HttpContext.User.FindFirst(c => c.Type == "Login")?.Value;
+        if (login is null) return BadRequest("User not authenticated");
+        var user = await _unit.Users.GetById(login);
+        if (user is null) return BadRequest("User not found");
+
+        user.Refresh = "";
+        user.RefreshExpire = DateTime.Now;
+
+        _unit.Users.Update(user);
+        await _unit.SaveAsync();     
+
+        HttpContext.Response.Cookies.Delete("exp");
+        HttpContext.Response.Cookies.Delete("cookie-1");
+        HttpContext.Response.Cookies.Delete("cookie-2");
+
+        return Ok();
     }
 }
