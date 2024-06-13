@@ -140,7 +140,7 @@ public class AuthController(IPasswordService passwordService, ITokenService toke
         return Ok("Nickname changed");
     
     }
-    [HttpGet("[action]")]
+    [HttpPost("[action]")]
     public async Task<IActionResult> Logout()
     {
         var login = HttpContext.User.FindFirst(c => c.Type == "Login")?.Value;
