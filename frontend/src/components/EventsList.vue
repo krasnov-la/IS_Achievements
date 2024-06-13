@@ -5,26 +5,29 @@
   >
     <h2>Ивенты сейчас</h2>
     <div class="list_events">
-      <div v-if="currentEvents.length === 0" class="no-events">
-        Нет текущих мероприятий
-      </div>
+      <div v-if="props.loadingEvents" class="loading-indicator"></div>
       <div v-else>
-        <div
-          class="event-item"
-          v-for="event in currentEvents"
-          :key="event.title"
-        >
-          <div class="img-container">
-            <img :src="event.logo" alt="" class="img" />
-          </div>
-          <div class="event-text">
-            <h4>{{ event.title }}</h4>
-            <div style="width: 119%; height: 28px">
-              <p>{{ event.url }}</p>
+        <div v-if="currentEvents.length === 0" class="no-events">
+          Нет текущих мероприятий
+        </div>
+        <div v-else>
+          <div
+            class="event-item"
+            v-for="event in currentEvents"
+            :key="event.title"
+          >
+            <div class="img-container">
+              <img :src="event.logo" alt="" class="img" />
             </div>
-          </div>
-          <div style="display: flex; align-items: end">
-            <button class="link-full-info"></button>
+            <div class="event-text">
+              <h4>{{ event.title }}</h4>
+              <div style="width: 119%; height: 28px">
+                <p>{{ event.url }}</p>
+              </div>
+            </div>
+            <div style="display: flex; align-items: end">
+              <button class="link-full-info"></button>
+            </div>
           </div>
         </div>
       </div>
@@ -34,6 +37,10 @@
 
 <script setup>
 const props = defineProps({
+  loadingEvents: {
+    type: Boolean,
+    default: () => true,
+  },
   currentEvents: {
     type: Array,
     default: () => [],
@@ -128,5 +135,34 @@ p {
   font-size: 18px;
   color: #e3e4e4;
   padding: 20px;
+}
+
+.loading-indicator {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 30px;
+  color: #e3e4e4;
+  text-align: center;
+  margin: 20px;
+  font-size: 1.5em;
+}
+
+.loading-indicator::after {
+  content: "";
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 </style>

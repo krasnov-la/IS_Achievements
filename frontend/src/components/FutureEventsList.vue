@@ -1,8 +1,13 @@
 <template>
-  <div class="widget_item event-list" style="margin: 4.5% 0 0 -0.2%; width: 95.8%">
+  <div
+    class="widget_item event-list"
+    style="margin: 4.5% 0 0 -0.2%; width: 95.8%"
+  >
     <h2>Будущие ивенты</h2>
     <div class="list_events">
+      <div v-if="props.loadingEvents" class="loading-indicator"></div>
       <div
+        v-else
         class="event-item"
         v-for="event in props.upcomingEvents"
         :key="event.title"
@@ -26,6 +31,10 @@
 
 <script setup>
 const props = defineProps({
+  loadingEvents: {
+    type: Boolean,
+    default: () => true,
+  },
   upcomingEvents: {
     type: Array,
     default: () => [],
@@ -34,7 +43,6 @@ const props = defineProps({
 </script>
 
 <style scoped>
-
 .event-item {
   display: flex;
   align-items: center;
@@ -115,4 +123,32 @@ p {
   transform: translateX(6px) rotate(135deg);
 }
 
+.loading-indicator {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 30px;
+  color: #e3e4e4;
+  text-align: center;
+  margin: 20px;
+  font-size: 1.5em;
+}
+
+.loading-indicator::after {
+  content: "";
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 </style>
