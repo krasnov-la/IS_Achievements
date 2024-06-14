@@ -1,0 +1,12 @@
+services:
+  web: 
+    build: backend/
+    ports:
+      - "5001:8080"
+    env_file:
+      - backend/back.env
+    
+  postgres:
+    build: database/
+    env_file:
+      - database/db.env
