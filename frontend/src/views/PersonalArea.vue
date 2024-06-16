@@ -10,7 +10,7 @@
       flex-wrap: wrap;
     "
   >
-    <SideBar />
+    <SideBarPersonal />
     <div style="width: 100%; margin-top: 10vh">
       <div class="container" style="margin-left: 1.5vh; margin-right: 1.5vh">
         <div class="card">
@@ -92,6 +92,7 @@ import SideBar from "@/components/SideBar.vue";
 import Header from "@/components/Header.vue";
 import { useStore } from "vuex";
 import { computed } from "vue";
+import SideBarPersonal from "@/components/SideBarPersonal.vue";
 const store = useStore();
 const user = computed(() => store.getters.user);
 </script>

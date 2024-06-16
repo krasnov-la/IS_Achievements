@@ -72,7 +72,7 @@
               width: 0.8pt;
               height: 20pt;
               background-color: #6b6b6b;
-              margin: 0% 0 0 -25%;
+              margin: 3.5% 0 3.5% -25%;
             "
           />
           <router-link to="/Registration" class="auth-link border2">
@@ -159,7 +159,7 @@ a:nth-child(2)::before {
 
 a:nth-child(3)::before {
   content: url("../assets/ico/events.svg");
-  margin: 2.1% 5% -1.2% 2.2%;
+  margin: 2.1% 6% -1.2% 2.2%;
 }
 
 a:nth-child(4)::before {
@@ -249,7 +249,6 @@ a {
   border: #35373a;
   border-radius: 8px;
   line-height: 20px;
-  padding: 3.5% 0;
   display: flex;
 }
 
