@@ -36,11 +36,8 @@ public class AdminController(IUnitOfWork unit) : ControllerBase
     [HttpPost("[action]")]
     public async Task<IActionResult> Score([FromBody] ScoreRequest request)
     {
-        var loginClaim = HttpContext.User.FindFirst(c => c.Type == "Login");
-        if (loginClaim is null)
-            return BadRequest("User not authenticated");
-
-        var login = loginClaim.Value;
+        var login = HttpContext.User.FindFirst(c => c.Type == "Login")?.Value;
+        if (login is null) return BadRequest("User not authenticated");
 
         var verificationReq = await _unit.Requests.GetById(request.ReqId);
         if (verificationReq is null) return BadRequest("Request not found");
@@ -59,7 +56,6 @@ public class AdminController(IUnitOfWork unit) : ControllerBase
         });
 
         await _unit.SaveAsync();
-
         return Ok(achievementId);
     }
 }

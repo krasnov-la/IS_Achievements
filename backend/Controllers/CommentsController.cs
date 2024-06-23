@@ -50,8 +50,10 @@ public class CommentsController(IUnitOfWork unit) : ControllerBase
     {
         var comm = await _unit.Comments.GetById(id);
         if (comm is null) return NotFound();
+
         comm.RequestId = request.ReqId;
         comm.Text = request.Text;
+        
         _unit.Comments.Update(comm);
         await _unit.SaveAsync();
         return Ok();
@@ -62,6 +64,7 @@ public class CommentsController(IUnitOfWork unit) : ControllerBase
     {
         var comm = await _unit.Comments.GetById(id);
         if (comm is null) return NotFound();
+        
         _unit.Comments.Delete(comm);
         await _unit.SaveAsync();
         return Ok();

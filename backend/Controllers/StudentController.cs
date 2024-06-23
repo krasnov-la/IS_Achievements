@@ -17,11 +17,8 @@ public class StudentController(AppDbContext dbContext, IImageService imageServic
     [HttpGet("[action]"), Authorize]
     public IActionResult GetInfo()
     {
-        var loginClaim = HttpContext.User.FindFirst(c => c.Type == "Login");
-        if (loginClaim is null)
-            return BadRequest("User not authenticated");
-
-        var login = loginClaim.Value;
+        var login = HttpContext.User.FindFirst(c => c.Type == "Login")?.Value;
+        if (login is null) return BadRequest("User not authenticated");
 
         var ratingList = _db.VerificationRequests
         .Join(
@@ -67,24 +64,17 @@ public class StudentController(AppDbContext dbContext, IImageService imageServic
 
         var StudentResponse = new StudentResponse();
 
-        if (studentInfo is null)
-        {
-            var nickname = _db.Users
-            .Where(x => x.Login == login)
-            .Select(x => x.Nickname)
-            .First();
-            StudentResponse.Nickname = nickname;
-            StudentResponse.Score = 0;
-            StudentResponse.Place = 0;
-        }
-        else
-        {
-            (StudentResponse.Nickname,
-            StudentResponse.Score,
-            StudentResponse.Place) = (studentInfo.Nickname, studentInfo.Score, studentInfo.Place);
-        }
+        studentInfo ??= new {
+                Nickname = _db.Users.Where(x => x.Login == login).Select(x => x.Nickname).First(),
+                Score = 0f,
+                Place = 0
+            };
 
-        return Ok(StudentResponse);
+        return Ok(new {
+            studentInfo.Nickname,
+            studentInfo.Score,
+            studentInfo.Place
+        });
     }
 
     [HttpGet("[action]"), Authorize]
@@ -196,11 +186,8 @@ public class StudentController(AppDbContext dbContext, IImageService imageServic
     [Authorize]
     public IActionResult NewRequest([FromBody] NewRequest request)
     {
-        var loginClaim = HttpContext.User.FindFirst(c => c.Type == "Login");
-        if (loginClaim is null)
-            return BadRequest("User not authenticated");
-
-        var login = loginClaim.Value;
+        var login = HttpContext.User.FindFirst(c => c.Type == "Login")?.Value;
+        if (login is null) return BadRequest("User not authenticated");
 
         if (request.ImageNames.Any(img => !_imageService.Validate(img)))
             return BadRequest("Invalid images!!!");
@@ -216,16 +203,13 @@ public class StudentController(AppDbContext dbContext, IImageService imageServic
         _db.Add(newReq);
 
         foreach (string name in request.ImageNames)
-        {
             _db.Images.Add(new Image()
             {
                 FileName = name,
                 RequestId = newReq.Id
             });
-        }
 
         _db.SaveChanges();
-
         return Ok(newReq.Id);
     }
 }

@@ -55,11 +55,8 @@ public class ActivitiesController(IUnitOfWork unit) : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateActivity([FromBody] ActivityRequest request, [FromRoute] Guid id)
     {
-        var loginClaim = HttpContext.User.FindFirst(c => c.Type == "Login");
-        if (loginClaim is null)
-            return BadRequest("User not authenticated");
-
-        var login = loginClaim.Value;
+        var login = HttpContext.User.FindFirst(c => c.Type == "Login")?.Value;
+        if (login is null) return BadRequest("User not authenticated");
 
         var activity = await _unit.Activities.GetById(id);
         if (activity is null) return NotFound();
@@ -78,6 +75,7 @@ public class ActivitiesController(IUnitOfWork unit) : ControllerBase
     {
         var activity = await _unit.Activities.GetById(id);
         if (activity is null) return NotFound();
+        
         _unit.Activities.Delete(activity);
         await _unit.SaveAsync();
         return Ok();
