@@ -20,12 +20,6 @@ public class AuthController(IPasswordService passwordService, ITokenService toke
     [HttpPost("[action]")]
     public async Task<IActionResult> Register([FromBody] CredentialsRequest request)
     {
-        if (request.Login is null || request.Login == string.Empty)
-            return BadRequest("Empty login");
-
-        if (request.Password is null || request.Password == string.Empty)
-            return BadRequest("Empty password");
-
         if (await _unit.Users.GetById(request.Login) is not null)
             return BadRequest("Login already taken");
 
@@ -48,12 +42,6 @@ public class AuthController(IPasswordService passwordService, ITokenService toke
     [Authorize(Policy = PolicyData.AdminOnlyPolicyName)]
     public async Task<IActionResult> RegisterAdmin([FromBody] CredentialsRequest request)
     {
-        if (request.Login is null || request.Login == string.Empty)
-            return BadRequest("Empty login");
-
-        if (request.Password is null)
-            return BadRequest("Empty password");
-
         if (await _unit.Users.GetById(request.Login) is not null)
             return BadRequest("Login taken");
 
@@ -76,12 +64,6 @@ public class AuthController(IPasswordService passwordService, ITokenService toke
     [HttpPost("[action]")]
     public async Task<IActionResult> Login([FromBody] CredentialsRequest request)
     {
-        if (request.Login is null || request.Login == string.Empty)
-            return BadRequest("Empty login");
-
-        if (request.Password is null)
-            return BadRequest("Empty password");
-
         var user = await _unit.Users.GetById(request.Login);
 
         if (user is null) return BadRequest("User not found");
@@ -121,18 +103,11 @@ public class AuthController(IPasswordService passwordService, ITokenService toke
     [Authorize]
     public async Task<IActionResult> Rename([FromRoute] string new_nick)
     {
-        var loginClaim = HttpContext.User.FindFirst(c => c.Type == "Login");
-        if (loginClaim == null)
-        {
-            return BadRequest("User not authenticated");
-        }
+        var login = HttpContext.User.FindFirst(c => c.Type == "Login")?.Value;
+        if (login is null) return BadRequest("User not authenticated");
 
-        var login = loginClaim.Value;
         var user = await _unit.Users.GetById(login);
-        if (user is null)
-        {
-            return BadRequest("User not found");
-        }
+        if (user is null) return BadRequest("User not found");
 
         user.Nickname = new_nick;
         _unit.Users.Update(user);
