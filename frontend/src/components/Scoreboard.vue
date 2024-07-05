@@ -50,32 +50,32 @@ h2 {
   font-size: 23.5px;
   line-height: 36px;
   margin: 2.5% 2% 4% 3%;
-
   color: #e3e4e4;
 }
+
 .widget_item {
   background: #232627;
-  background: #35373a;
   border-radius: 20px;
 }
+
 .scoreboard-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
 .sort {
   width: 6px;
   height: 28px;
   cursor: pointer;
 }
+
 .table {
-  /* height: 100%; */
   padding-bottom: 4%;
 }
 
 .table-header {
   position: relative;
-
   font-family: "Inter";
   font-style: normal;
   font-weight: 500;
@@ -86,11 +86,9 @@ h2 {
   min-height: 35px;
   width: 100%;
 }
+
 .table-item {
-  /* doppio23s */
   width: 100%;
-  /* justify-content: space-around;
-display: flex; */
   position: relative;
   font-family: "Inter";
   font-style: normal;
@@ -99,16 +97,18 @@ display: flex; */
   line-height: 18px;
   display: flex;
   align-items: center;
-
   color: #ffffff;
   min-height: 55px;
 }
-/* .table-item:nth-child(2n) {
-    background: #35373A;
-} */
-.table-item:nth-child(2n + 1) {
-  background: #343839;
+
+.table-item:nth-child(odd) {
+  background: #232627;
 }
+
+.table-item:nth-child(even) {
+  background: #35373a;
+}
+
 .profile-img {
   width: 35px;
   height: 35px;
@@ -117,6 +117,7 @@ display: flex; */
   position: absolute;
   left: 31%;
 }
+
 .number1 {
   position: absolute;
   font-weight: 500;
@@ -125,6 +126,7 @@ display: flex; */
   min-width: 80pt;
   left: 4.5%;
 }
+
 .number {
   position: absolute;
   font-weight: 340;
@@ -133,6 +135,7 @@ display: flex; */
   min-width: 80pt;
   left: 4.6%;
 }
+
 .name1 {
   position: absolute;
   font-weight: 500;
@@ -141,6 +144,7 @@ display: flex; */
   min-width: 80pt;
   left: 31%;
 }
+
 .name {
   position: absolute;
   font-weight: 340;
@@ -149,6 +153,7 @@ display: flex; */
   min-width: 80pt;
   left: 38.5%;
 }
+
 .score1 {
   position: absolute;
   font-weight: 500;
@@ -157,6 +162,7 @@ display: flex; */
   min-width: 80pt;
   left: 73%;
 }
+
 .score {
   position: absolute;
   font-weight: 340;
@@ -165,6 +171,7 @@ display: flex; */
   min-width: 80pt;
   left: 73.1%;
 }
+
 .dots {
   content: url("../assets/ico/dots.svg");
   padding: 5pt;

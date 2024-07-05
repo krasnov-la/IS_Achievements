@@ -24,7 +24,8 @@ public class AdminController(IUnitOfWork unit) : ControllerBase
                 orderBy: r => r.DateTime
             );
 
-        return Ok(data.Select( r => new {
+        return Ok(data.Select(r => new
+        {
             r.Id,
             r.EventName,
             r.Description,
@@ -47,7 +48,8 @@ public class AdminController(IUnitOfWork unit) : ControllerBase
 
         var achievementId = Guid.NewGuid();
 
-        _unit.Achievements.Insert(new Achievement(){
+        _unit.Achievements.Insert(new Achievement()
+        {
             Id = achievementId,
             Score = request.Score,
             VerificationDatetime = DateTime.Now,

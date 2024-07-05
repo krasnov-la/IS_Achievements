@@ -10,13 +10,13 @@
         :class="{ active: isActive('/') }"
         @click.native="
           () => {
-            setActive('/');
-            changeText('Главная страница');
+            setActive('/PersonalArea');
+            changeText('Личный кабинет');
           }
         "
       >
         <div class="stripe" :class="{ active: isActive('/') }"></div>
-        Главная страница
+        Личный кабинет
       </router-link>
       <a
         href=""
@@ -24,12 +24,12 @@
         @click="
           () => {
             setActive('/events');
-            changeText('Текущие ивенты');
+            changeText('Добавить достижение');
           }
         "
       >
         <div class="stripe" :class="{ active: isActive('/events') }"></div>
-        Текущие ивенты
+        Добавить достижение
       </a>
       <a
         href=""
@@ -37,7 +37,7 @@
         @click="
           () => {
             setActive('/future-events');
-            changeText('Будущие ивенты');
+            changeText('Редактировать профиль');
           }
         "
       >
@@ -45,51 +45,27 @@
           class="stripe"
           :class="{ active: isActive('/future-events') }"
         ></div>
-        Будущие ивенты
+        Редактировать профиль
       </a>
-
-      <template v-if="isAuthenticated">
-        <router-link
-          to="/PersonalArea"
-          @click="changeText('Личный кабинет')"
-          class="profile"
-        >
-          <img class="profile-img" :src="user?.profileImage || ''" alt="" />
-          <div>
-            <h6 class="profile-name">{{ user?.nickname || "User" }}</h6>
-            <p class="profile-score">Баллы: {{ user?.score || 0 }}</p>
-          </div>
-        </router-link>
-      </template>
-
-      <template v-else>
-        <div class="log-reg">
-          <router-link to="/login" class="auth-link border1">
-            <div style="margin-left: 15%">Вход</div>
-          </router-link>
-          <div
-            style="
-              width: 0.8pt;
-              height: 20pt;
-              background-color: #6b6b6b;
-              margin: 3.5% 0 3.5% -25%;
-            "
-          />
-          <router-link to="/Registration" class="auth-link border2">
-            <div style="margin-left: 15%">Регистрация</div>
-          </router-link>
-        </div>
-      </template>
+      <a :class="{ active: isActive('/future') }" @click="logout">
+        <div class="stripe" :class="{ active: isActive('/future') }"></div>
+        Выйти из аккаунта
+      </a>
+      <router-link to="/" class="profile" style="height: 32pt">
+        На главную страницу
+      </router-link>
     </div>
   </div>
 </template>
 
 <script setup>
+import axios from "axios";
 import { ref, computed } from "vue";
 import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 
 const store = useStore();
-
+const router = useRouter();
 const activePath = ref("/");
 
 const changeText = (newText) => {
@@ -104,6 +80,28 @@ const setActive = (path) => {
 };
 
 const isActive = (path) => activePath.value === path;
+
+const logout = async () => {
+  try {
+    const response = await axios.post(
+      `${process.env.VUE_APP_API_URL}Auth/Logout`,
+      {},
+      {
+        withCredentials: true,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    if (response.status === 200) {
+      store.dispatch("setAuth", false);
+      console.log("hello;");
+    }
+  } catch (error) {
+    console.log(error);
+  } finally {
+    console.log(localStorage);
+    router.push("/");
+  }
+};
 </script>
 
 <style scoped>
@@ -145,26 +143,29 @@ h1 {
   color: #e3e4e4;
 }
 
-.log-reg a:nth-child(2)::before {
-  content: none;
-}
-.log-reg a:nth-child(3)::before {
-  content: none;
-}
-
 a:nth-child(2)::before {
-  content: url("../assets/ico/home.svg");
-  margin: 1.9% 5% -1% 1.5%;
+  content: url("../assets/ico/user.svg");
+  margin: 1.9% 4% -1% 1%;
 }
 
 a:nth-child(3)::before {
-  content: url("../assets/ico/events.svg");
-  margin: 2.1% 6% -1.2% 2.2%;
+  content: url("../assets/ico/add.svg");
+  margin: 2.1% 4% -1.2% 2%;
 }
 
 a:nth-child(4)::before {
-  content: url("../assets/ico/time.svg");
-  margin: 1.8% 5% -0.9% 2.2%;
+  content: url("../assets/ico/edit.svg");
+  margin: 1.8% 6% -0.9% 2.2%;
+}
+
+a:nth-child(5)::before {
+  content: url("../assets/ico/exit.svg");
+  margin: 1.8% 3% -0.9% 2.2%;
+}
+
+a:nth-child(6)::before {
+  content: url("../assets/ico/left.svg");
+  margin: 1.8% 4% -0.9% 2.2%;
 }
 
 .stripe {
@@ -195,34 +196,6 @@ a:nth-child(4)::before {
   border: #35373a;
 }
 
-.profile-img {
-  width: 35px;
-  height: 35px;
-  background: #a69ae8;
-  border-radius: 50%;
-  margin: 0 5% 0 0;
-}
-
-.profile-score {
-  margin: 13% 0 13% 0;
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 300;
-  font-size: 10px;
-  line-height: 10px;
-  color: #e3e4e4;
-}
-
-.profile-name {
-  margin: 10% 0 0 0;
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 500;
-  font-size: 13px;
-  line-height: 14px;
-  color: #e3e4e4;
-}
-
 a {
   margin: 1% -4% 7% 0%;
   align-items: center;
@@ -237,40 +210,6 @@ a {
   border-radius: 8px;
   padding: 0 4%;
   display: flex;
-}
-
-.log-reg {
-  width: 104%;
-  position: absolute;
-  bottom: 0;
-  left: 0%;
-  margin: 0 0 10% 0;
-  background-color: #35373a;
-  border: #35373a;
-  border-radius: 8px;
-  line-height: 20px;
-  display: flex;
-}
-
-.auth-link {
-  flex: 1;
-  margin: 0 0;
-  text-align: center;
-  border: transparent;
-  background-color: #35373a;
-  color: #bfbfbf;
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 450;
-  font-size: 12.5px;
-  line-height: 20px;
-  text-decoration: none;
-}
-.border1 {
-  border-radius: 8px 0 0 8px;
-}
-.border2 {
-  border-radius: 0 8px 8px 0;
 }
 
 a:hover {

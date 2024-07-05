@@ -36,9 +36,13 @@
 
           <div style="display: flex; margin-bottom: 0.8vh">
             <div class="h3">У вас еще нет аккаунта?</div>
-            <div class="link" style="margin-left: 2.5vh">
+            <router-link
+              to="/Registration"
+              class="link"
+              style="margin-left: 2.5vh"
+            >
               Зарегистрироваться
-            </div>
+            </router-link>
           </div>
         </div>
       </form>
@@ -141,13 +145,20 @@ input {
   border-radius: 9px;
   width: 100%;
   height: 5.2vh;
-  padding-left: 3.2vh;
+  padding-left: 2vh;
+  color: #a9aaaf;
 }
 
 input::placeholder {
   color: #72787d;
   font-size: 9.8pt;
-  transform: scaleX(1.05);
+}
+
+input:focus {
+  border-color: #a69ae8;
+  color: #a9aaaf;
+  outline: none;
+  font-size: 9.8pt;
 }
 
 .link {
@@ -234,5 +245,15 @@ input::placeholder {
   transform: rotate(45deg);
   background-color: transparent; /* чтобы галочка была только из границ */
   border-color: #8a2be2; /* фиолетовая галочка */
+}
+.item_error {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 300;
+  font-size: 20px;
+  line-height: 24px;
+  color: #a2411e;
+  transition: 0.2s;
+  opacity: 0;
 }
 </style>

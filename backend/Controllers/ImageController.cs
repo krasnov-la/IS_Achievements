@@ -10,7 +10,7 @@ public class ImageController : ControllerBase
 {
     IImageService _imageService;
     public ImageController(IImageService imageService)
-    {   
+    {
         _imageService = imageService;
     }
 

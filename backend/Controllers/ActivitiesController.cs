@@ -24,7 +24,8 @@ public class ActivitiesController(IUnitOfWork unit) : ControllerBase
 
         var actId = Guid.NewGuid();
 
-        _unit.Activities.Insert(new Activity(){
+        _unit.Activities.Insert(new Activity()
+        {
             Id = actId,
             Name = request.Name,
             Datetime = request.DateTime,
@@ -36,14 +37,15 @@ public class ActivitiesController(IUnitOfWork unit) : ControllerBase
 
         return Ok(actId);
     }
-    
+
     [HttpGet("{id}")]
     public async Task<IActionResult> ReadActivity([FromRoute] Guid id)
     {
         var activity = await _unit.Activities.GetById(id);
         if (activity is null) return NotFound();
         return Ok(
-            new {
+            new
+            {
                 activity.Id,
                 activity.Name,
                 activity.Datetime,

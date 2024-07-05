@@ -21,7 +21,8 @@ public class CommentsController(IUnitOfWork unit) : ControllerBase
 
         var commId = Guid.NewGuid();
 
-        _unit.Comments.Insert(new Comment(){
+        _unit.Comments.Insert(new Comment()
+        {
             Id = commId,
             Datetime = DateTime.Now,
             Text = request.Text,
@@ -37,7 +38,8 @@ public class CommentsController(IUnitOfWork unit) : ControllerBase
     {
         var comm = await _unit.Comments.GetById(id);
         if (comm is null) return NotFound();
-        return Ok(new {
+        return Ok(new
+        {
             comm.Id,
             comm.Text,
             comm.Datetime,
