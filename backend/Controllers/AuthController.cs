@@ -103,11 +103,13 @@ public class AuthController(IPasswordService passwordService, ITokenService toke
 
         await _unit.SaveAsync();
 
-        HttpContext.Response.Cookies.Append("exp", "somescaryhash", new(){
+        HttpContext.Response.Cookies.Append("exp", "somescaryhash", new()
+        {
             Expires = DateTime.Now.AddMinutes(10)
         });
         HttpContext.Response.Cookies.Append("cookie-1", _tokenService.GenerateAccessToken(claims));
-        HttpContext.Response.Cookies.Append("cookie-2", user.Refresh, new(){
+        HttpContext.Response.Cookies.Append("cookie-2", user.Refresh, new()
+        {
             Expires = DateTime.Now.AddDays(5)
         });
 
@@ -138,7 +140,7 @@ public class AuthController(IPasswordService passwordService, ITokenService toke
         _unit.Users.Update(user);
         await _unit.SaveAsync();
         return Ok("Nickname changed");
-    
+
     }
     [HttpPost("[action]")]
     public async Task<IActionResult> Logout()
@@ -152,7 +154,7 @@ public class AuthController(IPasswordService passwordService, ITokenService toke
         user.RefreshExpire = DateTime.Now;
 
         _unit.Users.Update(user);
-        await _unit.SaveAsync();     
+        await _unit.SaveAsync();
 
         HttpContext.Response.Cookies.Delete("exp");
         HttpContext.Response.Cookies.Delete("cookie-1");
