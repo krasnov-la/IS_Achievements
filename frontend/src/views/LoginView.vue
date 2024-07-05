@@ -36,7 +36,11 @@
 
           <div style="display: flex; margin-bottom: 0.8vh">
             <div class="h3">У вас еще нет аккаунта?</div>
-            <router-link to="/Registration" class="link" style="margin-left: 2.5vh">
+            <router-link
+              to="/Registration"
+              class="link"
+              style="margin-left: 2.5vh"
+            >
               Зарегистрироваться
             </router-link>
           </div>
@@ -252,5 +256,4 @@ input:focus {
   transition: 0.2s;
   opacity: 0;
 }
-
 </style>

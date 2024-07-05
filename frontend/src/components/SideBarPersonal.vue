@@ -6,9 +6,9 @@
         <h1>.NET Creations</h1>
       </div>
       <router-link
-          to="/"
-          :class="{ active: isActive('/') }"
-          @click.native="
+        to="/"
+        :class="{ active: isActive('/') }"
+        @click.native="
           () => {
             setActive('/PersonalArea');
             changeText('Личный кабинет');
@@ -19,9 +19,9 @@
         Личный кабинет
       </router-link>
       <a
-          href=""
-          :class="{ active: isActive('/events') }"
-          @click="
+        href=""
+        :class="{ active: isActive('/events') }"
+        @click="
           () => {
             setActive('/events');
             changeText('Добавить достижение');
@@ -32,9 +32,9 @@
         Добавить достижение
       </a>
       <a
-          href=""
-          :class="{ active: isActive('/future-events') }"
-          @click="
+        href=""
+        :class="{ active: isActive('/future-events') }"
+        @click="
           () => {
             setActive('/future-events');
             changeText('Редактировать профиль');
@@ -42,32 +42,16 @@
         "
       >
         <div
-            class="stripe"
-            :class="{ active: isActive('/future-events') }"
+          class="stripe"
+          :class="{ active: isActive('/future-events') }"
         ></div>
         Редактировать профиль
       </a>
-      <a
-          href=""
-          :class="{ active: isActive('/future') }"
-          @click="
-          () => {
-            setActive('/future');
-            changeText('Выйти из аккаунта');
-          }
-        "
-      >
-        <div
-            class="stripe"
-            :class="{ active: isActive('/future') }"
-        ></div>
+      <a :class="{ active: isActive('/future') }" @click="logout">
+        <div class="stripe" :class="{ active: isActive('/future') }"></div>
         Выйти из аккаунта
       </a>
-      <router-link
-          to="/"
-          class="profile"
-          style="height: 32pt;"
-      >
+      <router-link to="/" class="profile" style="height: 32pt">
         На главную страницу
       </router-link>
     </div>
@@ -75,11 +59,13 @@
 </template>
 
 <script setup>
+import axios from "axios";
 import { ref, computed } from "vue";
 import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 
 const store = useStore();
-
+const router = useRouter();
 const activePath = ref("/");
 
 const changeText = (newText) => {
@@ -94,6 +80,28 @@ const setActive = (path) => {
 };
 
 const isActive = (path) => activePath.value === path;
+
+const logout = async () => {
+  try {
+    const response = await axios.post(
+      `${process.env.VUE_APP_API_URL}Auth/Logout`,
+      {},
+      {
+        withCredentials: true,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    if (response.status === 200) {
+      store.dispatch("setAuth", false);
+      console.log("hello;");
+    }
+  } catch (error) {
+    console.log(error);
+  } finally {
+    console.log(localStorage);
+    router.push("/");
+  }
+};
 </script>
 
 <style scoped>
