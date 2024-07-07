@@ -1,9 +1,12 @@
 using System.Buffers;
+using System.Reflection.Emit;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Services;
 
-namespace backend.Auth;
+namespace Auth;
+
+//Я ЗНАЮ, ЧТО GOTO ЭТО ХАРАМ, НО ЗДЕСЬ ЭТО УПРОЩАЕТ КОД, ЧЕСТНО!!!! 
 public class RefreshMiddleware(RequestDelegate next)
 {
     private readonly RequestDelegate _next = next;
@@ -12,45 +15,41 @@ public class RefreshMiddleware(RequestDelegate next)
     {
         var indicate = context.Request.Cookies["exp"];
         var token = context.Request.Cookies["cookie-1"];
-        bool auth = true;
-        if (string.IsNullOrEmpty(indicate))  
-        {
-            var refresh = context.Request.Cookies["cookie-2"];
-            if (!string.IsNullOrEmpty(token) && !string.IsNullOrEmpty(refresh))
-            {
-                var claims = tokenService.GetPrincipalFromExpToken(token);
-                var login = claims.First(c => c.Type == "Login").Value;
-                var user = await unit.Users.GetById(login);
-                if (user is null || user.Refresh != refresh || user.RefreshExpire > DateTime.Now)
-                {
-                    context.Response.StatusCode = 401;
-                    return;
-                }
+        var refresh = context.Request.Cookies["cookie-2"];
+        
+        if (refresh is null || token is null) goto End;
 
-                user.Refresh = tokenService.GenerateRefreshToken();
-                user.RefreshExpire = DateTime.Now.AddDays(5);
+        if (indicate is not null) goto AddHeaderThenEnd;
 
-                unit.Users.Update(user);
+        var claims = tokenService.GetPrincipalFromExpToken(token);
+        var login = claims.First(c => c.Type == "Login").Value;
+        var user = await unit.Users.GetById(login);
 
-                await unit.SaveAsync();
+        if (user is null || user.Refresh != refresh || user.RefreshExpire > DateTime.Now)
+            goto End;
 
-                token = tokenService.GenerateAccessToken(claims);
+        //Refresh
 
-                context.Response.Cookies.Append("exp", "somescaryhash", new(){
-                    Expires = DateTime.Now.AddMinutes(10)
-                });
-                context.Response.Cookies.Append("cookie-1", token);
-                context.Response.Cookies.Append("cookie-2", user.Refresh, new(){
-                    Expires = user.RefreshExpire
-                });
-            }
-            else 
-                auth = false;
-        }
+        user.Refresh = tokenService.GenerateRefreshToken();
+        user.RefreshExpire = DateTime.Now.AddDays(5);
+
+        unit.Users.Update(user);
+
+        await unit.SaveAsync();
+
+        token = tokenService.GenerateAccessToken(claims);
+
+        context.Response.Cookies.Append("exp", "somescaryhash", new(){
+            Expires = DateTime.Now.AddMinutes(10)
+        });
+        context.Response.Cookies.Append("cookie-1", token);
+        context.Response.Cookies.Append("cookie-2", user.Refresh, new(){
+            Expires = user.RefreshExpire
+        });
     
-        if (auth)
-            context.Request.Headers.Append("Authorization", "Bearer " + token);
-
+        AddHeaderThenEnd:
+        context.Request.Headers.Append("Authorization", "Bearer " + token);
+        End:
         await _next.Invoke(context);
     }
 }
