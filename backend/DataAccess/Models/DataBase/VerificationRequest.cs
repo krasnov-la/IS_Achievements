@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 namespace DataAccess.Models;
 
 public class VerificationRequest
@@ -13,5 +14,6 @@ public class VerificationRequest
     public bool IsOpen { get; set; } = true;
 
     //EF Navigation
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public User Owner {get; set;} = null!;
 }

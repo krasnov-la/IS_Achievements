@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 namespace DataAccess.Models;
 
 public class Comment
@@ -10,5 +11,6 @@ public class Comment
     public Guid RequestId { get; set; }
 
     //EF Navigation
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public VerificationRequest Request { get; set; } = null!;
 }

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace DataAccess.Models;
 
@@ -13,5 +14,6 @@ public class Activity
     public string AdminLogin {get; set;} = null!;
 
     //EF Navigaion
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public User Admin {get; set;} = null!;
 }

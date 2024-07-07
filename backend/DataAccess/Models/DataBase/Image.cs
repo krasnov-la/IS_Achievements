@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Models;
@@ -9,5 +10,6 @@ public class Image
     public Guid RequestId { get; set; }
 
     //EF Navigation
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public VerificationRequest Request {get; set;} = null!;
 }
