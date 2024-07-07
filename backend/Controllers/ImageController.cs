@@ -22,7 +22,7 @@ public class ImageController : ControllerBase
         return Ok(file);
     }
 
-    [HttpPost("[action]")]
+    [HttpPost]
     [Authorize]
     public IActionResult UploadImage(IFormFile img)
     {
