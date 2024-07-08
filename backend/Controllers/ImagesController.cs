@@ -6,10 +6,10 @@ namespace Controllers;
 
 [Route("[controller]")]
 [ApiController]
-public class ImageController : ControllerBase
+public class ImagesController : ControllerBase
 {
     IImageService _imageService;
-    public ImageController(IImageService imageService)
+    public ImagesController(IImageService imageService)
     {
         _imageService = imageService;
     }
