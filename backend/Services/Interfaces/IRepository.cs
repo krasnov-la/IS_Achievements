@@ -12,6 +12,10 @@ public interface IRepository<TEntity> where TEntity : class
         Expression<Func<TEntity, TKey>>? orderBy = null
     );
 
+    Task<IEnumerable<TEntity>> Get(
+        Expression<Func<TEntity, bool>>? filter = null
+    );
+
     Task<TEntity?> GetById<TId>(TId id);
 
     void Insert(TEntity entity);

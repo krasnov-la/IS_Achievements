@@ -28,6 +28,14 @@ public class GenericRepository<TEntity> : IRepository<TEntity> where TEntity : c
         return await query.ToListAsync();
     }
 
+    public async Task<IEnumerable<TEntity>> Get(Expression<Func<TEntity, bool>>? filter = null)
+    {
+        IQueryable<TEntity> query = _set;
+        if (filter is not null)
+            query = query.Where(filter);
+        return await query.ToListAsync();
+    }
+
     public async Task<TEntity?> GetById<TId>(TId id)
     {
         return await _set.FindAsync(id);
