@@ -16,11 +16,9 @@ public class ActivitiesController(IUnitOfWork unit) : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateActivity([FromBody] ActivityRequest request)
     {
-        var loginClaim = HttpContext.User.FindFirst(c => c.Type == "Login");
-        if (loginClaim is null)
-            return BadRequest("User not authenticated");
-
-        var login = loginClaim.Value;
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+        var login = HttpContext.User.FindFirst(c => c.Type == "Login").Value;
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
         var actId = Guid.NewGuid();
 
@@ -57,8 +55,9 @@ public class ActivitiesController(IUnitOfWork unit) : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateActivity([FromBody] ActivityRequest request, [FromRoute] Guid id)
     {
-        var login = HttpContext.User.FindFirst(c => c.Type == "Login")?.Value;
-        if (login is null) return BadRequest("User not authenticated");
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+        var login = HttpContext.User.FindFirst(c => c.Type == "Login").Value;
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
         var activity = await _unit.Activities.GetById(id);
         if (activity is null) return NotFound();

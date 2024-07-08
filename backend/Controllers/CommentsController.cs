@@ -8,12 +8,13 @@ namespace Controllers;
 
 [ApiController]
 [Route("[Controller]")]
-[Authorize(Policy = PolicyData.AdminOnlyPolicyName)]
 public class CommentsController(IUnitOfWork unit) : ControllerBase
 {
+    //TODO: Информация о комментаторе(мб)
     readonly IUnitOfWork _unit = unit;
 
     [HttpPost]
+    [Authorize(Policy = PolicyData.AdminOnlyPolicyName)]
     public async Task<IActionResult> CreateComment([FromBody] CommentRequest request)
     {
         var verificationReq = await _unit.Requests.GetById(request.ReqId);
@@ -34,6 +35,7 @@ public class CommentsController(IUnitOfWork unit) : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [Authorize]
     public async Task<IActionResult> ReadComment([FromRoute] Guid id)
     {
         var comm = await _unit.Comments.GetById(id);
@@ -48,6 +50,7 @@ public class CommentsController(IUnitOfWork unit) : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Policy = PolicyData.AdminOnlyPolicyName)]
     public async Task<IActionResult> UpdateComment([FromBody] CommentRequest request, [FromRoute] Guid id)
     {
         var comm = await _unit.Comments.GetById(id);
@@ -62,6 +65,7 @@ public class CommentsController(IUnitOfWork unit) : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Policy = PolicyData.AdminOnlyPolicyName)]
     public async Task<IActionResult> DeleteComment(Guid id)
     {
         var comm = await _unit.Comments.GetById(id);
