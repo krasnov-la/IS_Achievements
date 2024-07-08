@@ -18,50 +18,6 @@ public class AuthController(IPasswordService passwordService, ITokenService toke
     IUnitOfWork _unit = unit;
 
     [HttpPost("[action]")]
-    public async Task<IActionResult> Register([FromBody] CredentialsRequest request)
-    {
-        if (await _unit.Users.GetById(request.Login) is not null)
-            return BadRequest("Login already taken");
-
-        var user = new User()
-        {
-            Login = request.Login,
-            Nickname = request.Login,
-            Refresh = "",
-            RefreshExpire = DateTime.Now,
-            Password = ""
-        };
-
-        user.Password = _passwordService.Hash(user, request.Password);
-        _unit.Users.Insert(user);
-        await _unit.SaveAsync();
-        return Ok("User created");
-    }
-
-    [HttpPost("[action]")]
-    [Authorize(Policy = PolicyData.AdminOnlyPolicyName)]
-    public async Task<IActionResult> RegisterAdmin([FromBody] CredentialsRequest request)
-    {
-        if (await _unit.Users.GetById(request.Login) is not null)
-            return BadRequest("Login taken");
-
-        var user = new User()
-        {
-            Login = request.Login,
-            Nickname = request.Login,
-            Refresh = "",
-            Role = Roles.Admin,
-            RefreshExpire = DateTime.Now,
-            Password = ""
-        };
-
-        user.Password = _passwordService.Hash(user, request.Password);
-        _unit.Users.Insert(user);
-        await _unit.SaveAsync();
-        return Ok("User created");
-    }
-
-    [HttpPost("[action]")]
     public async Task<IActionResult> Login([FromBody] CredentialsRequest request)
     {
         var user = await _unit.Users.GetById(request.Login);
@@ -101,22 +57,6 @@ public class AuthController(IPasswordService passwordService, ITokenService toke
         });
     }
 
-    [HttpPost("[action]/{new_nick}")]
-    [Authorize]
-    public async Task<IActionResult> Rename([FromRoute] string new_nick)
-    {
-        var login = HttpContext.User.FindFirst(c => c.Type == "Login")?.Value;
-        if (login is null) return BadRequest("User not authenticated");
-
-        var user = await _unit.Users.GetById(login);
-        if (user is null) return BadRequest("User not found");
-
-        user.Nickname = new_nick;
-        _unit.Users.Update(user);
-        await _unit.SaveAsync();
-        return Ok("Nickname changed");
-
-    }
     [HttpPost("[action]")]
     public async Task<IActionResult> Logout()
     {
