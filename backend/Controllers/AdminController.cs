@@ -14,26 +14,6 @@ public class AdminController(IUnitOfWork unit) : ControllerBase
 {
     readonly IUnitOfWork _unit = unit;
 
-    [HttpGet("[action]")]
-    //Returns all open requests sorted by datetime
-    public async Task<IActionResult> Requests()
-    {
-        var data = await _unit.Requests
-            .Get(
-                filter: r => r.IsOpen,
-                orderBy: r => r.DateTime
-            );
-
-        return Ok(data.Select(r => new
-        {
-            r.Id,
-            r.EventName,
-            r.Description,
-            r.DateTime,
-            r.OwnerLogin
-        }));
-    }
-
     [HttpPost("[action]")]
     public async Task<IActionResult> Score([FromBody] ScoreRequest request)
     {
