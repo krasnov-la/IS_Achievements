@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using Auth;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,8 +15,11 @@ public class User
     [MaxLength(128)]
     public string Role { get; set; } = Roles.Default;
     [MaxLength(64)]
+    [JsonIgnore]
     public string Refresh {get; set;} = null!;
+    [JsonIgnore]
     public DateTime RefreshExpire {get; set;}
+    [JsonIgnore]
     [MaxLength(128)]
     public string Password { get; set; } = null!;
 }
