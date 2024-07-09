@@ -23,4 +23,6 @@ public interface IRepository<TEntity> where TEntity : class
     void Update(TEntity entity);
 
     void Delete(TEntity entity);
+
+    public void Include<TProperty>(Expression<Func<TEntity, TProperty>> expression);
 }

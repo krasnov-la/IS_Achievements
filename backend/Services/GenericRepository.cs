@@ -50,4 +50,9 @@ public class GenericRepository<TEntity> : IRepository<TEntity> where TEntity : c
     {
         _set.Update(entity);
     }
+
+    public void Include<TProperty>(Expression<Func<TEntity, TProperty>> expression)
+    {
+        _set.Include(expression);
+    }
 }
