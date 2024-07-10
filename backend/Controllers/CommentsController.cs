@@ -2,6 +2,7 @@ using Auth;
 using DataAccess.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Services;
 
 namespace Controllers;
@@ -35,6 +36,26 @@ public class CommentsController(IUnitOfWork unit) : ControllerBase
     }
 
     //TODO: Get comments on specified request
+    [HttpGet("on-request/{id}")]
+    [Authorize]
+    public async Task<IActionResult> ReadOnRequest([FromRoute] Guid id)
+    {
+        var request = await _unit.Requests.GetById(id);
+        if (request is null) return NotFound();
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+        var login = HttpContext.User.FindFirst(c => c.Type == "Login").Value;
+        var is_admin = Convert.ToBoolean(HttpContext.User.FindFirst(c => c.Type == PolicyData.AdminClaimName).Value);
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+
+        if (request.OwnerLogin != login && !is_admin)
+            return Unauthorized();
+
+        return Ok(await _unit.Comments
+            .GetQuerable()
+            .Where(c => c.RequestId == id)
+            .OrderByDescending(c => c.Datetime)
+            .ToListAsync());
+    }
 
     [HttpGet("{id}")]
     [Authorize]
