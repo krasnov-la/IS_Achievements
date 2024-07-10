@@ -10,7 +10,6 @@ namespace Controllers;
 
 [Route("[controller]")]
 [ApiController]
-//TODO: UNIT
 public class StudentController(IUnitOfWork unit, IImageService imageService) : ControllerBase
 {
     IUnitOfWork _unit = unit;
