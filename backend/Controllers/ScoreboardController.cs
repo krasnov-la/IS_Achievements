@@ -8,7 +8,6 @@ namespace Controllers;
 
 [Route("[controller]")]
 [ApiController]
-//TODO: UNIT
 public class ScoreboardController(AppDbContext dbContext, IUnitOfWork unit) : ControllerBase
 {
     AppDbContext _db = dbContext;
