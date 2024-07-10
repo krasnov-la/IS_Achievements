@@ -8,9 +8,8 @@ namespace Controllers;
 
 [Route("[controller]")]
 [ApiController]
-public class ScoreboardController(AppDbContext dbContext, IUnitOfWork unit) : ControllerBase
+public class ScoreboardController(IUnitOfWork unit) : ControllerBase
 {
-    AppDbContext _db = dbContext;
     IUnitOfWork _unit = unit;
 
     [HttpGet("[action]/{count}/{offset}")]

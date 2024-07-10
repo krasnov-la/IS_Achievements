@@ -16,10 +16,35 @@ public class StudentController(AppDbContext dbContext, IImageService imageServic
     IImageService _imageService = imageService;
 
     [HttpGet("[action]"), Authorize]
-    public IActionResult GetInfo()
+    public async Task<IActionResult> GetInfo()
     {
         var login = HttpContext.User.FindFirst(c => c.Type == "Login")?.Value;
         if (login is null) return BadRequest("User not authenticated");
+
+        var data = 
+            (await _unit.Achievements
+            .GetQuerable()
+            .Include(a => a.Request)
+            .ThenInclude(r => r.Owner)
+            .Select(a => new{
+                a.Request.Owner.Login,
+                a.Request.Owner.Nickname,
+                a.Score})
+            .GroupBy(
+                u => new{u.Login, u.Nickname},
+                (key, group) => new{
+                    key.Login,
+                    key.Nickname,
+                    Sum = group.Sum(x => x.Score)})
+            .OrderByDescending(x => x.Sum)
+            .Skip(offset)
+            .Take(count)
+            .ToListAsync())
+            .Select((elem, ind) => new{
+                Place = ind + 1,
+                Nick = elem.Nickname,
+                Score = elem.Sum
+            });
 
         var ratingList = _db.VerificationRequests
         .Join(
