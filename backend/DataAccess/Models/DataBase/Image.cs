@@ -10,6 +10,6 @@ public class Image
     public Guid RequestId { get; set; }
 
     //EF Navigation
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     public VerificationRequest Request {get; set;} = null!;
 }

@@ -16,4 +16,6 @@ public class VerificationRequest
     //EF Navigation
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public User Owner {get; set;} = null!;
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IEnumerable<Image> Images {get;set;} = null!;
 }

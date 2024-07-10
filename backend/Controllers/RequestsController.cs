@@ -19,8 +19,18 @@ public class RequestsController(IUnitOfWork unit) : ControllerBase
     {
         return Ok(await _unit.Requests
             .GetQuerable()
+            .Include(r => r.Images)
             .Where(r => r.OwnerLogin == login)
             .OrderBy(r => r.IsOpen)
+            .Select(r => new{
+                r.Id,
+                r.OwnerLogin,
+                r.EventName,
+                r.Description,
+                r.DateTime,
+                r.IsOpen,
+                Images = r.Images.Select(i => i.FileName)
+            })
             .ToListAsync());
     }
 
@@ -34,8 +44,18 @@ public class RequestsController(IUnitOfWork unit) : ControllerBase
 
         return Ok(await _unit.Requests
             .GetQuerable()
+            .Include(r => r.Images)
             .Where(r => r.OwnerLogin == login)
             .OrderByDescending(r => r.DateTime)
+            .Select(r => new{
+                r.Id,
+                r.OwnerLogin,
+                r.EventName,
+                r.Description,
+                r.DateTime,
+                r.IsOpen,
+                Images = r.Images.Select(i => i.FileName)
+            })
             .ToListAsync());
     }
 
@@ -45,8 +65,18 @@ public class RequestsController(IUnitOfWork unit) : ControllerBase
     {
         return Ok(await _unit.Requests
             .GetQuerable()
+            .Include(r => r.Images)
             .Where(r => r.IsOpen)
             .OrderByDescending(r => r.DateTime)
+            .Select(r => new{
+                r.Id,
+                r.OwnerLogin,
+                r.EventName,
+                r.Description,
+                r.DateTime,
+                r.IsOpen,
+                Images = r.Images.Select(i => i.FileName)
+            })
             .ToListAsync());
     }
 
@@ -56,7 +86,17 @@ public class RequestsController(IUnitOfWork unit) : ControllerBase
     {
         return Ok(await _unit.Requests
             .GetQuerable()
+            .Include(r => r.Images)
             .OrderByDescending(r => r.DateTime)
+            .Select(r => new{
+                r.Id,
+                r.OwnerLogin,
+                r.EventName,
+                r.Description,
+                r.DateTime,
+                r.IsOpen,
+                Images = r.Images.Select(i => i.FileName)
+            })
             .ToListAsync());
     }
 
