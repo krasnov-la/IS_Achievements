@@ -3,6 +3,7 @@ using DataAccess.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Services;
 
 namespace Controllers;
@@ -16,25 +17,29 @@ public class UsersController(IUnitOfWork unit) : ControllerBase
     [Authorize(PolicyData.AdminOnlyPolicyName)]
     public async Task<IActionResult> AllUsers()
     {
-        return Ok(await _unit.Users.Get(orderBy: u => u.Login));
+        return Ok(await _unit.Users.GetQuerable().OrderBy(u => u.Login).ToListAsync());
     }
 
     [HttpGet("students")]
     [Authorize(PolicyData.AdminOnlyPolicyName)]
     public async Task<IActionResult> NonAdmins()
     {
-        return Ok(await _unit.Users.Get(
-            filter: u => u.Role == Roles.Default,
-            orderBy: u => u.Login));
+        return Ok(await _unit.Users
+            .GetQuerable()
+            .Where(u => u.Role == Roles.Default)
+            .OrderBy(u => u.Login)
+            .ToListAsync());
     }
 
     [HttpGet("admins")]
     [Authorize(PolicyData.AdminOnlyPolicyName)]
     public async Task<IActionResult> Admins()
     {
-        return Ok(await _unit.Users.Get(
-            filter: u => u.Role == Roles.Admin,
-            orderBy: u => u.Login));
+        return Ok(await _unit.Users
+            .GetQuerable()
+            .Where(u => u.Role == Roles.Admin)
+            .OrderBy(u => u.Login)
+            .ToListAsync());
     }
 
     [HttpGet("{login}")]

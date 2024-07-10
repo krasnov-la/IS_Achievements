@@ -6,6 +6,7 @@ namespace Controllers;
 
 [Route("[controller]")]
 [ApiController]
+//TODO: UNIT
 public class ScoreboardController(AppDbContext dbContext) : ControllerBase
 {
     AppDbContext _db = dbContext;

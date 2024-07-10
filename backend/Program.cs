@@ -1,6 +1,5 @@
 using System.Text;
 using Auth;
-using backend.Auth;
 using DataAccess;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.CookiePolicy;

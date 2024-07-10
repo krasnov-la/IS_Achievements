@@ -7,6 +7,6 @@ public record CredentialsRequest
     [MinLength(4)]
     public string Login {get; set;} = null!;
     [Required]
-    [MinLength(6)]
+    //TODO: Uncomment on release [MinLength(6)]
     public string Password {get; set; } = null!;
 }

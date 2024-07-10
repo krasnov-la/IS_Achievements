@@ -12,7 +12,7 @@ public class AppDbContext : DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<VerificationRequest> VerificationRequests { get; set; }
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
-
+    //TODO: Delete seeding data before release
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

@@ -3,6 +3,7 @@ using DataAccess;
 using DataAccess.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Services;
 
 namespace Controllers;
@@ -44,8 +45,17 @@ public class AchievementsController(IUnitOfWork unit) : ControllerBase
     [HttpGet("user/{login}")]
     public async Task<IActionResult> ReadPerUser([FromRoute] string login)
     {
-        _unit.Achievements.Include(a => a.Request);
-        return Ok(await _unit.Achievements.Get(filter: a => a.Request.OwnerLogin == login));
+        return Ok(await _unit.Achievements
+            .GetQuerable()
+            .Include(a => a.Request)
+            .Where(a => a.Request.OwnerLogin == login)
+            .Select(a => new{
+                a.AdminLogin,
+                a.Id,
+                a.RequestId,
+                a.VerificationDatetime
+            })
+            .ToListAsync());
     }
 
     [HttpPatch("{id}/score/{newScore}")]

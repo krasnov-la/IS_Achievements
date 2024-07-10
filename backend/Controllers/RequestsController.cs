@@ -2,6 +2,7 @@ using Auth;
 using DataAccess.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Services;
 
 namespace Controllers;
@@ -17,21 +18,32 @@ public class RequestsController(IUnitOfWork unit) : ControllerBase
     [Authorize(PolicyData.AdminOnlyPolicyName)]
     public async Task<IActionResult> GetRequestsPerUser([FromRoute] string login)
     {
-        return Ok(await _unit.Requests.Get(filter: r => r.OwnerLogin == login, orderBy: r => r.IsOpen));
+        return Ok(await _unit.Requests
+            .GetQuerable()
+            .Where(r => r.OwnerLogin == login)
+            .OrderBy(r => r.IsOpen)
+            .ToListAsync());
     }
 
     [HttpGet("open")]
     [Authorize(PolicyData.AdminOnlyPolicyName)]
     public async Task<IActionResult> GetOpenRequests()
     {
-        return Ok(await _unit.Requests.Get(filter: r => r.IsOpen, orderBy: r => r.DateTime));
+        return Ok(await _unit.Requests
+            .GetQuerable()
+            .Where(r => r.IsOpen)
+            .OrderBy(r => r.DateTime)
+            .ToListAsync());
     }
 
     [HttpGet]
     [Authorize(PolicyData.AdminOnlyPolicyName)]
     public async Task<IActionResult> GetAll()
     {
-        return Ok(await _unit.Requests.Get(orderBy: r => r.DateTime));
+        return Ok(await _unit.Requests
+            .GetQuerable()
+            .OrderBy(r => r.DateTime)
+            .ToListAsync());
     }
 
     [HttpPost]
