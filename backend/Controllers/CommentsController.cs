@@ -35,7 +35,6 @@ public class CommentsController(IUnitOfWork unit) : ControllerBase
         return Ok(commId);
     }
 
-    //TODO: Get comments on specified request
     [HttpGet("on-request/{id}")]
     [Authorize]
     public async Task<IActionResult> ReadOnRequest([FromRoute] Guid id)

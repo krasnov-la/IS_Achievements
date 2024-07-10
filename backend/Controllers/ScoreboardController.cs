@@ -1,5 +1,7 @@
 using DataAccess;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Services;
 
 
 namespace Controllers;
@@ -7,47 +9,39 @@ namespace Controllers;
 [Route("[controller]")]
 [ApiController]
 //TODO: UNIT
-public class ScoreboardController(AppDbContext dbContext) : ControllerBase
+public class ScoreboardController(AppDbContext dbContext, IUnitOfWork unit) : ControllerBase
 {
     AppDbContext _db = dbContext;
+    IUnitOfWork _unit = unit;
 
     [HttpGet("[action]/{count}/{offset}")]
-    public IActionResult GetData(int count, int offset)
+    public async Task<IActionResult> GetData(int count, int offset)
     {
-        var scoreboardData = _db.VerificationRequests
-        .Join(
-            _db.Achievements,
-            vr => vr.Id,
-            ach => ach.RequestId,
-            (vr, ach) => new { vr.OwnerLogin, ach.Score }
-        )
-        .Join(
-            _db.Users,
-            vrAch => vrAch.OwnerLogin,
-            user => user.Login,
-            (vrAch, user) => new { user.Login, user.Nickname, vrAch.Score }
-        )
-        .GroupBy(
-            u => new { u.Login, u.Nickname },
-            (key, group) => new
-            {
-                key.Login,
-                Nick = key.Nickname,
-                Score = group.Sum(x => x.Score)
-            }
-        )
-        .OrderByDescending(x => x.Score)
-        .ToList()
-        .Select((x, index) => new
-        {
-            Place = index + 1,
-            x.Nick,
-            x.Score
-        })
-        .Skip(offset)
-        .Take(count)
-        .ToList();
+        var data = 
+            (await _unit.Achievements
+            .GetQuerable()
+            .Include(a => a.Request)
+            .ThenInclude(r => r.Owner)
+            .Select(a => new{
+                a.Request.Owner.Login,
+                a.Request.Owner.Nickname,
+                a.Score})
+            .GroupBy(
+                u => new{u.Login, u.Nickname},
+                (key, group) => new{
+                    key.Login,
+                    key.Nickname,
+                    Sum = group.Sum(x => x.Score)})
+            .OrderByDescending(x => x.Sum)
+            .Skip(offset)
+            .Take(count)
+            .ToListAsync())
+            .Select((elem, ind) => new{
+                Place = ind + 1,
+                Nick = elem.Nickname,
+                Score = elem.Sum
+            });
 
-        return Ok(scoreboardData);
+        return Ok(data);
     }
 }
