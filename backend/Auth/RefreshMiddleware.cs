@@ -25,7 +25,7 @@ public class RefreshMiddleware(RequestDelegate next)
         var login = claims.First(c => c.Type == "Login").Value;
         var user = await unit.Users.GetById(login);
 
-        if (user is null || user.Refresh != refresh || user.RefreshExpire > DateTime.Now)
+        if (user is null || user.Refresh != refresh || user.RefreshExpire < DateTime.Now)
             goto End;
 
         //Refresh
