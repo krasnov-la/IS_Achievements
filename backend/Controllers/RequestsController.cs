@@ -7,14 +7,13 @@ using Services;
 
 namespace Controllers;
 
-[Route("controller")]
+[Route("[controller]")]
 [ApiController]
 public class RequestsController(IUnitOfWork unit) : ControllerBase
 {
     IUnitOfWork _unit = unit;
 
     [HttpGet("user/{login}")]
-    //TODO: Set additional authorization rules
     [Authorize(PolicyData.AdminOnlyPolicyName)]
     public async Task<IActionResult> GetRequestsPerUser([FromRoute] string login)
     {
@@ -25,6 +24,21 @@ public class RequestsController(IUnitOfWork unit) : ControllerBase
             .ToListAsync());
     }
 
+    [HttpGet("self")]
+    [Authorize]
+    public async Task<IActionResult> SelfRequests()
+    {
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+        var login = HttpContext.User.FindFirst(c => c.Type == "Login").Value;
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+
+        return Ok(await _unit.Requests
+            .GetQuerable()
+            .Where(r => r.OwnerLogin == login)
+            .OrderByDescending(r => r.DateTime)
+            .ToListAsync());
+    }
+
     [HttpGet("open")]
     [Authorize(PolicyData.AdminOnlyPolicyName)]
     public async Task<IActionResult> GetOpenRequests()
@@ -32,7 +46,7 @@ public class RequestsController(IUnitOfWork unit) : ControllerBase
         return Ok(await _unit.Requests
             .GetQuerable()
             .Where(r => r.IsOpen)
-            .OrderBy(r => r.DateTime)
+            .OrderByDescending(r => r.DateTime)
             .ToListAsync());
     }
 
@@ -42,7 +56,7 @@ public class RequestsController(IUnitOfWork unit) : ControllerBase
     {
         return Ok(await _unit.Requests
             .GetQuerable()
-            .OrderBy(r => r.DateTime)
+            .OrderByDescending(r => r.DateTime)
             .ToListAsync());
     }
 

@@ -14,7 +14,7 @@ public class CommentsController(IUnitOfWork unit) : ControllerBase
     readonly IUnitOfWork _unit = unit;
 
     [HttpPost]
-    [Authorize(Policy = PolicyData.AdminOnlyPolicyName)]
+    [Authorize(PolicyData.AdminOnlyPolicyName)]
     public async Task<IActionResult> CreateComment([FromBody] CommentRequest request)
     {
         var verificationReq = await _unit.Requests.GetById(request.ReqId);
@@ -34,6 +34,8 @@ public class CommentsController(IUnitOfWork unit) : ControllerBase
         return Ok(commId);
     }
 
+    //TODO: Get comments on specified request
+
     [HttpGet("{id}")]
     [Authorize]
     public async Task<IActionResult> ReadComment([FromRoute] Guid id)
@@ -50,7 +52,7 @@ public class CommentsController(IUnitOfWork unit) : ControllerBase
     }
 
     [HttpPut("{id}")]
-    [Authorize(Policy = PolicyData.AdminOnlyPolicyName)]
+    [Authorize(PolicyData.AdminOnlyPolicyName)]
     public async Task<IActionResult> UpdateComment([FromBody] CommentRequest request, [FromRoute] Guid id)
     {
         var comm = await _unit.Comments.GetById(id);
@@ -65,7 +67,7 @@ public class CommentsController(IUnitOfWork unit) : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    [Authorize(Policy = PolicyData.AdminOnlyPolicyName)]
+    [Authorize(PolicyData.AdminOnlyPolicyName)]
     public async Task<IActionResult> DeleteComment(Guid id)
     {
         var comm = await _unit.Comments.GetById(id);
