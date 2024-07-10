@@ -7,22 +7,15 @@ namespace Services;
 
 public interface IRepository<TEntity> where TEntity : class
 {
-    Task<IEnumerable<TEntity>> Get<TKey>(
-        Expression<Func<TEntity, bool>>? filter = null,
-        Expression<Func<TEntity, TKey>>? orderBy = null
-    );
-
-    Task<IEnumerable<TEntity>> Get(
-        Expression<Func<TEntity, bool>>? filter = null
-    );
+    Task<IEnumerable<TEntity>> GetAll<TKey>();
 
     Task<TEntity?> GetById<TId>(TId id);
+
+    IQueryable<TEntity> GetQuerable();
 
     void Insert(TEntity entity);
 
     void Update(TEntity entity);
 
     void Delete(TEntity entity);
-
-    public void Include<TProperty>(Expression<Func<TEntity, TProperty>> expression);
 }

@@ -4,41 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Services;
 
-public class GenericRepository<TEntity> : IRepository<TEntity> where TEntity : class
+public class GenericRepository<TEntity>(DbContext db) : IRepository<TEntity> where TEntity : class
 {
-    DbSet<TEntity> _set;
-
-    public GenericRepository(DbContext db)
-    {
-        _set = db.Set<TEntity>();
-    }
+    DbSet<TEntity> _set = db.Set<TEntity>();
 
     public void Delete(TEntity entity)
     {
         _set.Remove(entity);
-    }
-
-    public async Task<IEnumerable<TEntity>> Get<TKey>(Expression<Func<TEntity, bool>>? filter = null, Expression<Func<TEntity, TKey>>? orderBy = null)
-    {
-        IQueryable<TEntity> query = _set;
-        if (filter is not null)
-            query = query.Where(filter);
-        if (orderBy is not null)
-            query = query.OrderBy(orderBy);
-        return await query.ToListAsync();
-    }
-
-    public async Task<IEnumerable<TEntity>> Get(Expression<Func<TEntity, bool>>? filter = null)
-    {
-        IQueryable<TEntity> query = _set;
-        if (filter is not null)
-            query = query.Where(filter);
-        return await query.ToListAsync();
-    }
-
-    public async Task<TEntity?> GetById<TId>(TId id)
-    {
-        return await _set.FindAsync(id);
     }
 
     public void Insert(TEntity entity)
@@ -51,8 +23,18 @@ public class GenericRepository<TEntity> : IRepository<TEntity> where TEntity : c
         _set.Update(entity);
     }
 
-    public void Include<TProperty>(Expression<Func<TEntity, TProperty>> expression)
+    public async Task<IEnumerable<TEntity>> GetAll<TKey>()
     {
-        _set.Include(expression);
+        return await _set.ToListAsync();
+    }
+
+    public IQueryable<TEntity> GetQuerable()
+    {
+        return _set;
+    }
+
+    public async Task<TEntity?> GetById<TId>(TId id)
+    {
+        return await _set.FindAsync(id);
     }
 }
