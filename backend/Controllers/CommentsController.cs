@@ -91,10 +91,8 @@ public class CommentsController(IUnitOfWork unit) : ControllerBase
     {
         var request = await _unit.Requests.GetById(id);
         if (request is null) return NotFound();
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-        var login = HttpContext.User.FindFirst(c => c.Type == "Login").Value;
-        var is_admin = Convert.ToBoolean(HttpContext.User.FindFirst(c => c.Type == PolicyData.AdminClaimName).Value);
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
+        var login = HttpContext.User.Claims.First(c => c.Type == "Login").Value;
+        var is_admin = Convert.ToBoolean(HttpContext.User.Claims.First(c => c.Type == PolicyData.AdminClaimName).Value);
 
         if (request.OwnerLogin != login && !is_admin)
             return Unauthorized();

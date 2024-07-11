@@ -36,9 +36,7 @@ public class RatingController(IUnitOfWork unit) : ControllerBase
     [Authorize]
     public async Task<IActionResult> GetInfo()
     {
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-        var login = HttpContext.User.FindFirst(c => c.Type == "Login").Value;
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
+        var login = HttpContext.User.Claims.First(c => c.Type == "Login").Value;
 
         var data =
             (await _unit.Achievements

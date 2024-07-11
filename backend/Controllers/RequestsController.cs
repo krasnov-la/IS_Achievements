@@ -95,9 +95,7 @@ public class RequestsController(IUnitOfWork unit) : ControllerBase
     [Authorize]
     public async Task<IActionResult> SelfRequests()
     {
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-        var login = HttpContext.User.FindFirst(c => c.Type == "Login").Value;
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
+        var login = HttpContext.User.Claims.First(c => c.Type == "Login").Value;
 
         return Ok(await _unit.Requests
             .GetQuerable()
@@ -239,9 +237,7 @@ public class RequestsController(IUnitOfWork unit) : ControllerBase
     [Authorize]
     public async Task<IActionResult> Insert([FromBody] NewRequest request, IImageService imageService)
     {
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-        var login = HttpContext.User.FindFirst(c => c.Type == "Login").Value;
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
+        var login = HttpContext.User.Claims.First(c => c.Type == "Login").Value;
 
         if (request.ImageNames.Any(i => !imageService.Validate(i)))
             return BadRequest("Image validation failed.");
