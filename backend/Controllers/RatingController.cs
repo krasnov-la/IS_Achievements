@@ -1,21 +1,17 @@
-using DataAccess;
-using DataAccess.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.ObjectPool;
 using Services;
 
 namespace Controllers;
-
-[Route("[controller]")]
 [ApiController]
-public class StudentController(IUnitOfWork unit, IImageService imageService) : ControllerBase
+[Route("[controller]")]
+public class RatingController(IUnitOfWork unit) : ControllerBase
 {
     IUnitOfWork _unit = unit;
-    IImageService _imageService = imageService;
 
-    [HttpGet("[action]"), Authorize]
+    [HttpGet("personal")]
+    [Authorize]
     public async Task<IActionResult> GetInfo()
     {
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
@@ -51,8 +47,6 @@ public class StudentController(IUnitOfWork unit, IImageService imageService) : C
                 x.Place})
             .FirstOrDefault();
 
-        var StudentResponse = new StudentResponse();
-
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
         data ??= new {
                 (await _unit.Users.GetById(login)).Nickname,
@@ -66,5 +60,36 @@ public class StudentController(IUnitOfWork unit, IImageService imageService) : C
             data.Score,
             data.Place
         });
+    }
+
+    [HttpGet("scoreboard/{count}/{offset}")]
+    public async Task<IActionResult> GetData(int count, int offset)
+    {
+        var data = 
+            (await _unit.Achievements
+            .GetQuerable()
+            .Include(a => a.Request)
+            .ThenInclude(r => r.Owner)
+            .Select(a => new{
+                a.Request.Owner.Login,
+                a.Request.Owner.Nickname,
+                a.Score})
+            .GroupBy(
+                u => new{u.Login, u.Nickname},
+                (key, group) => new{
+                    key.Login,
+                    key.Nickname,
+                    Sum = group.Sum(x => x.Score)})
+            .OrderByDescending(x => x.Sum)
+            .Skip(offset)
+            .Take(count)
+            .ToListAsync())
+            .Select((elem, ind) => new{
+                Place = ind + 1,
+                Nick = elem.Nickname,
+                Score = elem.Sum
+            });
+
+        return Ok(data);
     }
 }
