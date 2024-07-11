@@ -25,6 +25,21 @@ public class RequestsController(IUnitOfWork unit) : ControllerBase
     /// ```
     /// GET /Requests/user/johndoe
     /// ```
+    /// **Example response:**
+    /// ```json
+    /// [
+    ///     {
+    ///         "Id": "d290f1ee-6c54-4b01-90e6-d701748f0851",
+    ///         "OwnerLogin": "johndoe",
+    ///         "EventName": "Sample Event",
+    ///         "Description": "This is a sample description.",
+    ///         "DateTime": "2023-07-10T14:58:00",
+    ///         "IsOpen": true,
+    ///         "Images": ["image1.jpg", "image2.jpg"]
+    ///     },
+    ///     ...
+    /// ]
+    /// ```
     /// </remarks>
     [HttpGet("user/{login}")]
     [Authorize(PolicyData.AdminOnlyPolicyName)]
@@ -59,6 +74,21 @@ public class RequestsController(IUnitOfWork unit) : ControllerBase
     /// **Example request:**
     /// ```
     /// GET /Requests/self
+    /// ```
+    /// **Example response:**
+    /// ```json
+    /// [
+    ///     {
+    ///         "Id": "d290f1ee-6c54-4b01-90e6-d701748f0851",
+    ///         "OwnerLogin": "johndoe",
+    ///         "EventName": "Sample Event",
+    ///         "Description": "This is a sample description.",
+    ///         "DateTime": "2023-07-10T14:58:00",
+    ///         "IsOpen": true,
+    ///         "Images": ["image1.jpg", "image2.jpg"]
+    ///     },
+    ///     ...
+    /// ]
     /// ```
     /// </remarks>
     [HttpGet("self")]
@@ -98,6 +128,21 @@ public class RequestsController(IUnitOfWork unit) : ControllerBase
     /// ```
     /// GET /Requests/open
     /// ```
+    /// **Example response:**
+    /// ```json
+    /// [
+    ///     {
+    ///         "Id": "d290f1ee-6c54-4b01-90e6-d701748f0851",
+    ///         "OwnerLogin": "johndoe",
+    ///         "EventName": "Sample Event",
+    ///         "Description": "This is a sample description.",
+    ///         "DateTime": "2023-07-10T14:58:00",
+    ///         "IsOpen": true,
+    ///         "Images": ["image1.jpg", "image2.jpg"]
+    ///     },
+    ///     ...
+    /// ]
+    /// ```
     /// </remarks>
     [HttpGet("open")]
     [Authorize(PolicyData.AdminOnlyPolicyName)]
@@ -131,6 +176,22 @@ public class RequestsController(IUnitOfWork unit) : ControllerBase
     /// **Example request:**
     /// ```
     /// GET /Requests
+    /// ```
+    /// 
+    /// **Example response:**
+    /// ```json
+    /// [
+    ///     {
+    ///         "id": "123e4567-e89b-12d3-a456-426614174000",
+    ///         "ownerLogin": "johndoe",
+    ///         "eventName": "Event 1",
+    ///         "description": "Description of Event 1",
+    ///         "dateTime": "2024-07-11T12:34:56Z",
+    ///         "isOpen": true,
+    ///         "images": ["image1.jpg", "image2.jpg"]
+    ///     },
+    ///     ...
+    /// ]
     /// ```
     /// </remarks>
     [HttpGet]

@@ -22,6 +22,15 @@ public class RatingController(IUnitOfWork unit) : ControllerBase
     /// ```
     /// GET /Rating/personal
     /// ```
+    /// 
+    /// **Example response:**
+    /// ```json
+    /// {
+    ///     "nickname": "JohnDoe",
+    ///     "score": 150.5,
+    ///     "place": 3
+    /// }
+    /// ```
     /// </remarks>
     [HttpGet("personal")]
     [Authorize]
@@ -98,7 +107,25 @@ public class RatingController(IUnitOfWork unit) : ControllerBase
     /// ```
     /// GET /Rating/scoreboard/10/0
     /// ```
+    /// 
+    /// **Example response:**
+    /// ```json
+    /// [
+    ///     {
+    ///         "place": 1,
+    ///         "nick": "JaneDoe",
+    ///         "score": 200.0
+    ///     },
+    ///     {
+    ///         "place": 2,
+    ///         "nick": "JohnDoe",
+    ///         "score": 150.5
+    ///     },
+    ///     ...
+    /// ]
+    /// ```
     /// </remarks>
+
     [HttpGet("scoreboard/{count}/{offset}")]
     public async Task<IActionResult> GetData(int count, int offset)
     {

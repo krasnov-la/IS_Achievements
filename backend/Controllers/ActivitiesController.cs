@@ -20,14 +20,20 @@ public class ActivitiesController(IUnitOfWork unit) : ControllerBase
     /// <response code="200">Activity created successfully.</response>
     /// <remarks>
     /// This method creates a new activity based on the provided details.
-    /// Example request:
     /// 
-    ///     POST /Activities
-    ///     {
-    ///        "Name": "Activity Name",
-    ///        "DateTime": "2024-07-11T12:00:00Z",
-    ///        "Link": "http://example.com"
-    ///     }
+    /// **Example request:**
+    /// ```
+    /// POST /Activities
+    /// {
+    ///    "Name": "Activity Name",
+    ///    "DateTime": "2024-07-11T12:00:00Z",
+    ///    "Link": "http://example.com"
+    /// }
+    /// ```
+    /// **Example response:**
+    /// ```json
+    /// "123e4567-e89b-12d3-a456-426614174000"
+    /// ```
     /// </remarks>
     [HttpPost]
     public async Task<IActionResult> CreateActivity([FromBody] ActivityRequest request)
@@ -60,9 +66,20 @@ public class ActivitiesController(IUnitOfWork unit) : ControllerBase
     /// <response code="404">Activity not found.</response>
     /// <remarks>
     /// This method retrieves the details of a specific activity.
-    /// Example request:
     /// 
-    ///     GET /Activities/123e4567-e89b-12d3-a456-426614174000
+    /// **Example request:**
+    /// ```
+    /// GET /Activities/123e4567-e89b-12d3-a456-426614174000
+    /// ```
+    /// **Example response:**
+    /// ```json
+    /// {
+    ///    "id": "123e4567-e89b-12d3-a456-426614174000",
+    ///    "name": "Activity Name",
+    ///    "datetime": "2024-07-11T12:00:00Z",
+    ///    "link": "http://example.com"
+    /// }
+    /// ```
     /// </remarks>
     [HttpGet("{id}")]
     public async Task<IActionResult> ReadActivity([FromRoute] Guid id)

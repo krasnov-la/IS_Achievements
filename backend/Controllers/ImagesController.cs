@@ -22,9 +22,15 @@ public class ImagesController : ControllerBase
     /// <response code="400">If the file is not found.</response>
     /// <remarks>
     /// This method retrieves an image file based on the provided image name.
-    /// Example request:
     /// 
-    ///     GET /Images/sample.jpg
+    /// **Example request:**
+    /// ```
+    /// GET /Images/sample.jpg
+    /// ```
+    /// **Example response:**
+    /// ```
+    /// (binary image data)
+    /// ```
     /// </remarks>
     [HttpGet("{imgName}")]
     public IActionResult GetImage(string imgName)
@@ -42,10 +48,21 @@ public class ImagesController : ControllerBase
     /// <response code="400">If the upload fails.</response>
     /// <remarks>
     /// This method uploads a new image file.
-    /// Example request:
     /// 
-    ///     POST /Images
-    ///     { file: (image file) }
+    /// **Example request:**
+    /// ```
+    /// POST /Images
+    /// Content-Type: multipart/form-data
+    /// 
+    /// { file: (image file) }
+    /// ```
+    /// **Example response:**
+    /// ```json
+    /// {
+    ///     "message": "Image uploaded successfully",
+    ///     "fileName": "uploadedImage.jpg"
+    /// }
+    /// ```
     /// </remarks>
     [HttpPost]
     [Authorize]

@@ -24,6 +24,17 @@ public class UsersController(IUnitOfWork unit) : ControllerBase
     /// ```
     /// GET /Users
     /// ```
+    /// **Example response:**
+    /// ```json
+    /// [
+    ///     {
+    ///         "login": "johndoe",
+    ///         "nickname": "John",
+    ///         "role": "Default"
+    ///     },
+    ///     ...
+    /// ]
+    /// ```
     /// </remarks>
     [HttpGet]
     [Authorize(PolicyData.AdminOnlyPolicyName)]
@@ -37,11 +48,22 @@ public class UsersController(IUnitOfWork unit) : ControllerBase
     /// </summary>
     /// <response code="200">Returns the list of all students.</response>
     /// <remarks>
-    /// This method retrieves a list of all students (users with the default role).
+    /// This method retrieves a list of all users.
     /// 
     /// **Example request:**
     /// ```
-    /// GET /Users/students
+    /// GET /Users
+    /// ```
+    /// **Example response:**
+    /// ```json
+    /// [
+    ///     {
+    ///         "login": "johndoe",
+    ///         "nickname": "John",
+    ///         "role": "Default"
+    ///     },
+    ///     ...
+    /// ]
     /// ```
     /// </remarks>
     [HttpGet("students")]
@@ -65,6 +87,17 @@ public class UsersController(IUnitOfWork unit) : ControllerBase
     /// **Example request:**
     /// ```
     /// GET /Users/admins
+    /// ```
+    /// **Example response:**
+    /// ```json
+    /// [
+    ///     {
+    ///         "login": "admin1",
+    ///         "nickname": "Admin One",
+    ///         "role": "Admin"
+    ///     },
+    ///     ...
+    /// ]
     /// ```
     /// </remarks>
     [HttpGet("admins")]
@@ -90,6 +123,14 @@ public class UsersController(IUnitOfWork unit) : ControllerBase
     /// **Example request:**
     /// ```
     /// GET /Users/johndoe
+    /// ```
+    /// **Example response:**
+    /// ```json
+    /// {
+    ///     "login": "johndoe",
+    ///     "nickname": "John",
+    ///     "role": "Default"
+    /// }
     /// ```
     /// </remarks>
     [HttpGet("{login}")]

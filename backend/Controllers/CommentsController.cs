@@ -32,6 +32,10 @@ public class CommentsController(IUnitOfWork unit) : ControllerBase
     ///     "Text": "This is a sample comment."
     /// }
     /// ```
+    /// **Example response:**
+    /// ```json
+    /// "123e4567-e89b-12d3-a456-426614174000"
+    /// ```
     /// </remarks>
     [HttpPost]
     [Authorize(PolicyData.AdminOnlyPolicyName)]
@@ -68,6 +72,18 @@ public class CommentsController(IUnitOfWork unit) : ControllerBase
     /// ```
     /// GET /Comments/on-request/d290f1ee-6c54-4b01-90e6-d701748f0851
     /// ```
+    /// **Example response:**
+    /// ```json
+    /// [
+    ///     {
+    ///         "id": "123e4567-e89b-12d3-a456-426614174000",
+    ///         "text": "This is a sample comment.",
+    ///         "datetime": "2024-07-11T12:34:56Z",
+    ///         "requestId": "d290f1ee-6c54-4b01-90e6-d701748f0851"
+    ///     },
+    ///     ...
+    /// ]
+    /// ```
     /// </remarks>
     [HttpGet("on-request/{id}")]
     [Authorize]
@@ -103,6 +119,15 @@ public class CommentsController(IUnitOfWork unit) : ControllerBase
     /// **Example request:**
     /// ```
     /// GET /Comments/d290f1ee-6c54-4b01-90e6-d701748f0851
+    /// ```
+    /// **Example response:**
+    /// ```json
+    /// {
+    ///     "id": "123e4567-e89b-12d3-a456-426614174000",
+    ///     "text": "This is a sample comment.",
+    ///     "datetime": "2024-07-11T12:34:56Z",
+    ///     "requestId": "d290f1ee-6c54-4b01-90e6-d701748f0851"
+    /// }
     /// ```
     /// </remarks>
     [HttpGet("{id}")]
