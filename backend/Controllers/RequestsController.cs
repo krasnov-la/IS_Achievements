@@ -262,5 +262,8 @@ public class RequestsController(IUnitOfWork unit) : ControllerBase
 
         return Ok();
     }
-    //TODO Удаления и обновления не будет!!!(наверное)
+
+    //TODO Partial update
+    //TODO Закрытие реквеста без ачивки и возможности редактирования
+    //TODO Удаления не будет!!!(наверное)
 }

@@ -12,6 +12,7 @@ namespace Controllers;
 public class CommentsController(IUnitOfWork unit) : ControllerBase
 {
     //TODO: Информация о комментаторе(мб)
+    //TODO: Summary изменений в реквесте???
     readonly IUnitOfWork _unit = unit;
 
     /// <summary>
