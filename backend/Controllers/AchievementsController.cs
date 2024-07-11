@@ -40,9 +40,7 @@ public class AchievementsController(IUnitOfWork unit) : ControllerBase
     [Authorize(PolicyData.AdminOnlyPolicyName)]
     public async Task<IActionResult> Create([FromBody] ScoreRequest request)
     {
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-        var login = HttpContext.User.FindFirst(c => c.Type == "Login").Value;
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
+        var login = HttpContext.User.Claims.First(c => c.Type == "Login").Value;
 
         var verificationReq = await _unit.Requests.GetById(request.ReqId);
         if (verificationReq is null) return NotFound("Request not found");
@@ -93,9 +91,7 @@ public class AchievementsController(IUnitOfWork unit) : ControllerBase
     [Authorize]
     public async Task<IActionResult> SelfAchievements()
     {
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-        var login = HttpContext.User.FindFirst(c => c.Type == "Login").Value;
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
+        var login = HttpContext.User.Claims.First(c => c.Type == "Login").Value;
 
         return Ok(await _unit.Achievements
             .GetQuerable()
@@ -178,9 +174,7 @@ public class AchievementsController(IUnitOfWork unit) : ControllerBase
         var achievement = await _unit.Achievements.GetById(id);
         if (achievement is null) return NotFound();
 
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-        var login = HttpContext.User.FindFirst(c => c.Type == "Login").Value;
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
+        var login = HttpContext.User.Claims.First(c => c.Type == "Login").Value;
 
         achievement.AdminLogin = login;
         achievement.VerificationDatetime = DateTime.Now;
@@ -192,5 +186,19 @@ public class AchievementsController(IUnitOfWork unit) : ControllerBase
         return Ok();
     }
 
-    //TODO: Удаление
+    [HttpDelete("{id}")]
+    [Authorize(PolicyData.AdminOnlyPolicyName)]
+    public async Task<IActionResult> DeleteAchievement([FromRoute] Guid id)
+    {
+        var achievement = await _unit.Achievements
+            .GetQuerable()
+            .Include(a => a.Request)
+            .FirstAsync(a => a.Id == id);
+        var request = achievement.Request;
+        request.IsOpen = true;
+        _unit.Requests.Update(request);
+        _unit.Achievements.Delete(achievement);
+        await _unit.SaveAsync();
+        return Ok();
+    }
 }
