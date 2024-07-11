@@ -1,4 +1,5 @@
 using System.Text;
+using System.Reflection;
 using Auth;
 using DataAccess;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -61,7 +62,10 @@ builder.Services.AddAuthorization(x =>
 });
 builder.Services.AddDbContext<AppDbContext>(p => p.UseNpgsql(config["DbConnection"]));
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"));
+});
 builder.Services.AddControllers();
 builder.Services.AddScoped<ITokenService, DefaultTokenService>();
 builder.Services.AddScoped<IPasswordService, BCryptPasswordService>();

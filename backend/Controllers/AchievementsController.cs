@@ -14,6 +14,22 @@ public class AchievementsController(IUnitOfWork unit) : ControllerBase
 {
     readonly IUnitOfWork _unit = unit;
 
+    /// <summary>
+    /// Creates a new achievement.
+    /// </summary>
+    /// <param name="request">The score request details.</param>
+    /// <response code="200">Achievement created successfully.</response>
+    /// <response code="404">Request not found.</response>
+    /// <remarks>
+    /// This method creates a new achievement based on the provided score request.
+    /// Example request:
+    /// 
+    ///     POST /Achievements
+    ///     {
+    ///        "ReqId": "123e4567-e89b-12d3-a456-426614174000",
+    ///        "Score": 95.5
+    ///     }
+    /// </remarks>
     [HttpPost]
     [Authorize(PolicyData.AdminOnlyPolicyName)]
     public async Task<IActionResult> Create([FromBody] ScoreRequest request)
@@ -42,6 +58,16 @@ public class AchievementsController(IUnitOfWork unit) : ControllerBase
         return Ok(achievement.Id);
     }
 
+    /// <summary>
+    /// Retrieves achievements for the current user.
+    /// </summary>
+    /// <response code="200">Achievements retrieved successfully.</response>
+    /// <remarks>
+    /// This method retrieves the achievements for the current user based on their login.
+    /// Example request:
+    /// 
+    ///     GET /Achievements/self
+    /// </remarks>
     [HttpGet("self")]
     [Authorize]
     public async Task<IActionResult> SelfAchievements()
@@ -55,7 +81,8 @@ public class AchievementsController(IUnitOfWork unit) : ControllerBase
             .Include(a => a.Request)
             .Where(a => a.Request.OwnerLogin == login)
             .OrderByDescending(a => a.VerificationDatetime)
-            .Select(a => new{
+            .Select(a => new
+            {
                 a.AdminLogin,
                 a.Score,
                 a.Id,
@@ -64,6 +91,17 @@ public class AchievementsController(IUnitOfWork unit) : ControllerBase
             }).ToListAsync());
     }
 
+    /// <summary>
+    /// Retrieves achievements for a specific user.
+    /// </summary>
+    /// <param name="login">The login of the user.</param>
+    /// <response code="200">Achievements retrieved successfully.</response>
+    /// <remarks>
+    /// This method retrieves the achievements for a specific user based on their login.
+    /// Example request:
+    /// 
+    ///     GET /Achievements/user/johndoe
+    /// </remarks>
     [HttpGet("user/{login}")]
     [Authorize(PolicyData.AdminOnlyPolicyName)]
     public async Task<IActionResult> ReadPerUser([FromRoute] string login)
@@ -73,7 +111,8 @@ public class AchievementsController(IUnitOfWork unit) : ControllerBase
             .Include(a => a.Request)
             .Where(a => a.Request.OwnerLogin == login)
             .OrderByDescending(a => a.VerificationDatetime)
-            .Select(a => new{
+            .Select(a => new
+            {
                 a.AdminLogin,
                 a.Score,
                 a.Id,
@@ -83,6 +122,19 @@ public class AchievementsController(IUnitOfWork unit) : ControllerBase
             .ToListAsync());
     }
 
+    /// <summary>
+    /// Updates the score of a specific achievement.
+    /// </summary>
+    /// <param name="id">The ID of the achievement.</param>
+    /// <param name="newScore">The new score to set.</param>
+    /// <response code="200">Score updated successfully.</response>
+    /// <response code="404">Achievement not found.</response>
+    /// <remarks>
+    /// This method updates the score of an existing achievement.
+    /// Example request:
+    /// 
+    ///     PATCH /Achievements/123e4567-e89b-12d3-a456-426614174000/score/98.5
+    /// </remarks>
     [HttpPatch("{id}/score/{newScore}")]
     [Authorize(PolicyData.AdminOnlyPolicyName)]
     public async Task<IActionResult> ChangeScore([FromRoute] Guid id, [FromRoute] float newScore)

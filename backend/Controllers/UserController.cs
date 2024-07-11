@@ -13,6 +13,18 @@ public class UsersController(IUnitOfWork unit) : ControllerBase
 {
     readonly IUnitOfWork _unit = unit;
 
+    /// <summary>
+    /// Retrieves all users.
+    /// </summary>
+    /// <response code="200">Returns the list of all users.</response>
+    /// <remarks>
+    /// This method retrieves a list of all users.
+    /// 
+    /// **Example request:**
+    /// ```
+    /// GET /Users
+    /// ```
+    /// </remarks>
     [HttpGet]
     [Authorize(PolicyData.AdminOnlyPolicyName)]
     public async Task<IActionResult> AllUsers()
@@ -20,6 +32,18 @@ public class UsersController(IUnitOfWork unit) : ControllerBase
         return Ok(await _unit.Users.GetQuerable().OrderBy(u => u.Login).ToListAsync());
     }
 
+    /// <summary>
+    /// Retrieves all students (non-admin users).
+    /// </summary>
+    /// <response code="200">Returns the list of all students.</response>
+    /// <remarks>
+    /// This method retrieves a list of all students (users with the default role).
+    /// 
+    /// **Example request:**
+    /// ```
+    /// GET /Users/students
+    /// ```
+    /// </remarks>
     [HttpGet("students")]
     [Authorize(PolicyData.AdminOnlyPolicyName)]
     public async Task<IActionResult> NonAdmins()
@@ -31,6 +55,18 @@ public class UsersController(IUnitOfWork unit) : ControllerBase
             .ToListAsync());
     }
 
+    /// <summary>
+    /// Retrieves all admin users.
+    /// </summary>
+    /// <response code="200">Returns the list of all admins.</response>
+    /// <remarks>
+    /// This method retrieves a list of all admin users.
+    /// 
+    /// **Example request:**
+    /// ```
+    /// GET /Users/admins
+    /// ```
+    /// </remarks>
     [HttpGet("admins")]
     [Authorize(PolicyData.AdminOnlyPolicyName)]
     public async Task<IActionResult> Admins()
@@ -42,6 +78,20 @@ public class UsersController(IUnitOfWork unit) : ControllerBase
             .ToListAsync());
     }
 
+    /// <summary>
+    /// Retrieves a user by their login.
+    /// </summary>
+    /// <param name="login">The login of the user.</param>
+    /// <response code="200">Returns the user details.</response>
+    /// <response code="404">User not found.</response>
+    /// <remarks>
+    /// This method retrieves a user by their login.
+    /// 
+    /// **Example request:**
+    /// ```
+    /// GET /Users/johndoe
+    /// ```
+    /// </remarks>
     [HttpGet("{login}")]
     public async Task<IActionResult> GetByLogin([FromRoute] string login)
     {
@@ -50,9 +100,28 @@ public class UsersController(IUnitOfWork unit) : ControllerBase
         return Ok(user);
     }
 
+    /// <summary>
+    /// Creates a new student user.
+    /// </summary>
+    /// <param name="request">The credentials request containing login and password.</param>
+    /// <param name="passwordService">The password service for hashing passwords.</param>
+    /// <response code="200">User created successfully.</response>
+    /// <response code="400">Login already taken.</response>
+    /// <remarks>
+    /// This method creates a new student user.
+    /// 
+    /// **Example request:**
+    /// ```
+    /// POST /Users/students
+    /// {
+    ///     "Login": "johndoe",
+    ///     "Password": "password123"
+    /// }
+    /// ```
+    /// </remarks>
     [HttpPost("students")]
     public async Task<IActionResult> CreateStudent(
-        [FromBody] CredentialsRequest request, 
+        [FromBody] CredentialsRequest request,
         [FromServices] IPasswordService passwordService)
     {
         if (await _unit.Users.GetById(request.Login) is not null)
@@ -73,10 +142,29 @@ public class UsersController(IUnitOfWork unit) : ControllerBase
         return Ok("User created");
     }
 
+    /// <summary>
+    /// Creates a new admin user.
+    /// </summary>
+    /// <param name="request">The credentials request containing login and password.</param>
+    /// <param name="passwordService">The password service for hashing passwords.</param>
+    /// <response code="200">User created successfully.</response>
+    /// <response code="400">Login already taken.</response>
+    /// <remarks>
+    /// This method creates a new admin user.
+    /// 
+    /// **Example request:**
+    /// ```
+    /// POST /Users/admins
+    /// {
+    ///     "Login": "adminuser",
+    ///     "Password": "adminpassword"
+    /// }
+    /// ```
+    /// </remarks>
     [HttpPost("admins")]
     [Authorize(PolicyData.AdminOnlyPolicyName)]
     public async Task<IActionResult> CreateAdmin(
-        [FromBody] CredentialsRequest request, 
+        [FromBody] CredentialsRequest request,
         [FromServices] IPasswordService passwordService)
     {
         if (await _unit.Users.GetById(request.Login) is not null)
@@ -98,10 +186,31 @@ public class UsersController(IUnitOfWork unit) : ControllerBase
         return Ok("User created");
     }
 
+    /// <summary>
+    /// Changes the password for a specific user.
+    /// </summary>
+    /// <param name="login">The login of the user.</param>
+    /// <param name="request">The change password request containing old and new passwords.</param>
+    /// <param name="passwordService">The password service for validating and hashing passwords.</param>
+    /// <response code="200">Password changed successfully.</response>
+    /// <response code="400">Old password validation failed.</response>
+    /// <response code="404">User not found.</response>
+    /// <remarks>
+    /// This method changes the password for a specific user.
+    /// 
+    /// **Example request:**
+    /// ```
+    /// PATCH /Users/johndoe/password
+    /// {
+    ///     "OldPassword": "oldpassword",
+    ///     "NewPassword": "newpassword"
+    /// }
+    /// ```
+    /// </remarks>
     [HttpPatch("{login}/password")]
     public async Task<IActionResult> ChangePassword(
-        [FromRoute] string login, 
-        [FromBody] ChangePasswordRequest request, 
+        [FromRoute] string login,
+        [FromBody] ChangePasswordRequest request,
         [FromServices] IPasswordService passwordService)
     {
         var user = await _unit.Users.GetById(login);
@@ -118,10 +227,31 @@ public class UsersController(IUnitOfWork unit) : ControllerBase
         return Ok();
     }
 
+    /// <summary>
+    /// Changes the nickname for a specific user.
+    /// </summary>
+    /// <param name="login">The login of the user.</param>
+    /// <param name="request">The change nickname request containing the new nickname and password.</param>
+    /// <param name="passwordService">The password service for validating passwords.</param>
+    /// <response code="200">Nickname changed successfully.</response>
+    /// <response code="400">Password validation failed.</response>
+    /// <response code="404">User not found.</response>
+    /// <remarks>
+    /// This method changes the nickname for a specific user.
+    /// 
+    /// **Example request:**
+    /// ```
+    /// PATCH /Users/johndoe/nickname
+    /// {
+    ///     "Password": "password123",
+    ///     "NewNick": "newnickname"
+    /// }
+    /// ```
+    /// </remarks>
     [HttpPatch("{login}/nickname")]
     public async Task<IActionResult> ChangeNickname(
-        [FromRoute] string login, 
-        [FromBody] ChangeNicknameRequest request, 
+        [FromRoute] string login,
+        [FromBody] ChangeNicknameRequest request,
         [FromServices] IPasswordService passwordService)
     {
         var user = await _unit.Users.GetById(login);

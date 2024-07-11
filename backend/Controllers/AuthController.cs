@@ -17,6 +17,15 @@ public class AuthController(IPasswordService passwordService, ITokenService toke
     ITokenService _tokenService = tokenService;
     IUnitOfWork _unit = unit;
 
+    /// <summary>
+    /// Handles user login.
+    /// </summary>
+    /// <param name="request">The login credentials.</param>
+    /// <response code="200">Sets authentication cookies.</response>
+    /// <response code="400">User not found or Invalid password.</response>
+    /// <remarks>
+    /// This method validates the user's credentials, generates a refresh token, and sets authentication cookies.
+    /// </remarks>
     [HttpPost("[action]")]
     public async Task<IActionResult> Login([FromBody] CredentialsRequest request)
     {
@@ -51,12 +60,17 @@ public class AuthController(IPasswordService passwordService, ITokenService toke
             Expires = DateTime.Now.AddDays(5)
         });
 
-        return Ok(new
-        {
-            user.Nickname
-        });
+        return Ok();
     }
 
+    /// <summary>
+    /// Handles user logout.
+    /// </summary>
+    /// <response code="200">Deletes authentication cookies.</response>
+    /// <response code="400">User not authenticated or user not found.</response>
+    /// <remarks>
+    /// This method deletes the user's refresh token and authentication cookies.
+    /// </remarks>
     [HttpPost("[action]")]
     public async Task<IActionResult> Logout()
     {
