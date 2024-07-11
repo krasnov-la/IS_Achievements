@@ -22,13 +22,19 @@ public class AchievementsController(IUnitOfWork unit) : ControllerBase
     /// <response code="404">Request not found.</response>
     /// <remarks>
     /// This method creates a new achievement based on the provided score request.
-    /// Example request:
     /// 
-    ///     POST /Achievements
-    ///     {
-    ///        "ReqId": "123e4567-e89b-12d3-a456-426614174000",
-    ///        "Score": 95.5
-    ///     }
+    /// **Example request:**
+    /// ```
+    /// POST /Achievements
+    /// {
+    ///    "ReqId": "123e4567-e89b-12d3-a456-426614174000",
+    ///    "Score": 95.5
+    /// }
+    /// ```
+    /// **Example response:**
+    /// ```json
+    /// "123e4567-e89b-12d3-a456-426614174000"
+    /// ```
     /// </remarks>
     [HttpPost]
     [Authorize(PolicyData.AdminOnlyPolicyName)]
@@ -64,9 +70,24 @@ public class AchievementsController(IUnitOfWork unit) : ControllerBase
     /// <response code="200">Achievements retrieved successfully.</response>
     /// <remarks>
     /// This method retrieves the achievements for the current user based on their login.
-    /// Example request:
     /// 
-    ///     GET /Achievements/self
+    /// **Example request:**
+    /// ```
+    /// GET /Achievements/self
+    /// ```
+    /// **Example response:**
+    /// ```json
+    /// [
+    ///     {
+    ///         "adminLogin": "admin1",
+    ///         "score": 95.5,
+    ///         "id": "123e4567-e89b-12d3-a456-426614174000",
+    ///         "requestId": "123e4567-e89b-12d3-a456-426614174000",
+    ///         "verificationDatetime": "2024-07-11T12:00:00Z"
+    ///     },
+    ///     ...
+    /// ]
+    /// ```
     /// </remarks>
     [HttpGet("self")]
     [Authorize]
@@ -98,9 +119,24 @@ public class AchievementsController(IUnitOfWork unit) : ControllerBase
     /// <response code="200">Achievements retrieved successfully.</response>
     /// <remarks>
     /// This method retrieves the achievements for a specific user based on their login.
-    /// Example request:
     /// 
-    ///     GET /Achievements/user/johndoe
+    /// **Example request:**
+    /// ```
+    /// GET /Achievements/user/johndoe
+    /// ```
+    /// **Example response:**
+    /// ```json
+    /// [
+    ///     {
+    ///         "adminLogin": "admin1",
+    ///         "score": 95.5,
+    ///         "id": "123e4567-e89b-12d3-a456-426614174000",
+    ///         "requestId": "123e4567-e89b-12d3-a456-426614174000",
+    ///         "verificationDatetime": "2024-07-11T12:00:00Z"
+    ///     },
+    ///     ...
+    /// ]
+    /// ```
     /// </remarks>
     [HttpGet("user/{login}")]
     [Authorize(PolicyData.AdminOnlyPolicyName)]
