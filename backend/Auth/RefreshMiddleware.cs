@@ -2,6 +2,7 @@ using System.Buffers;
 using System.Reflection.Emit;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Services;
 
 namespace Auth;
@@ -23,7 +24,12 @@ public class RefreshMiddleware(RequestDelegate next)
 
         var claims = tokenService.GetPrincipalFromExpToken(token);
         var login = claims.First(c => c.Type == "Login").Value;
-        var user = await unit.Users.GetById(login);
+        var user = 
+            await unit.Users
+            .GetQuerable()
+            .AsNoTracking()
+            .Where(u => u.Login == login)
+            .FirstOrDefaultAsync();
 
         if (user is null || user.Refresh != refresh || user.RefreshExpire < DateTime.Now)
             goto End;

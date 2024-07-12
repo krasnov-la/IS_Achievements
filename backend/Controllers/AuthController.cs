@@ -17,50 +17,15 @@ public class AuthController(IPasswordService passwordService, ITokenService toke
     ITokenService _tokenService = tokenService;
     IUnitOfWork _unit = unit;
 
-    [HttpPost("[action]")]
-    public async Task<IActionResult> Register([FromBody] CredentialsRequest request)
-    {
-        if (await _unit.Users.GetById(request.Login) is not null)
-            return BadRequest("Login already taken");
-
-        var user = new User()
-        {
-            Login = request.Login,
-            Nickname = request.Login,
-            Refresh = "",
-            RefreshExpire = DateTime.Now,
-            Password = ""
-        };
-
-        user.Password = _passwordService.Hash(user, request.Password);
-        _unit.Users.Insert(user);
-        await _unit.SaveAsync();
-        return Ok("User created");
-    }
-
-    [HttpPost("[action]")]
-    [Authorize(Policy = PolicyData.AdminOnlyPolicyName)]
-    public async Task<IActionResult> RegisterAdmin([FromBody] CredentialsRequest request)
-    {
-        if (await _unit.Users.GetById(request.Login) is not null)
-            return BadRequest("Login taken");
-
-        var user = new User()
-        {
-            Login = request.Login,
-            Nickname = request.Login,
-            Refresh = "",
-            Role = Roles.Admin,
-            RefreshExpire = DateTime.Now,
-            Password = ""
-        };
-
-        user.Password = _passwordService.Hash(user, request.Password);
-        _unit.Users.Insert(user);
-        await _unit.SaveAsync();
-        return Ok("User created");
-    }
-
+    /// <summary>
+    /// Handles user login.
+    /// </summary>
+    /// <param name="request">The login credentials.</param>
+    /// <response code="200">Sets authentication cookies.</response>
+    /// <response code="400">User not found or Invalid password.</response>
+    /// <remarks>
+    /// This method validates the user's credentials, generates a refresh token, and sets authentication cookies.
+    /// </remarks>
     [HttpPost("[action]")]
     public async Task<IActionResult> Login([FromBody] CredentialsRequest request)
     {
@@ -95,28 +60,17 @@ public class AuthController(IPasswordService passwordService, ITokenService toke
             Expires = DateTime.Now.AddDays(5)
         });
 
-        return Ok(new
-        {
-            user.Nickname
-        });
+        return Ok();
     }
 
-    [HttpPost("[action]/{new_nick}")]
-    [Authorize]
-    public async Task<IActionResult> Rename([FromRoute] string new_nick)
-    {
-        var login = HttpContext.User.FindFirst(c => c.Type == "Login")?.Value;
-        if (login is null) return BadRequest("User not authenticated");
-
-        var user = await _unit.Users.GetById(login);
-        if (user is null) return BadRequest("User not found");
-
-        user.Nickname = new_nick;
-        _unit.Users.Update(user);
-        await _unit.SaveAsync();
-        return Ok("Nickname changed");
-
-    }
+    /// <summary>
+    /// Handles user logout.
+    /// </summary>
+    /// <response code="200">Deletes authentication cookies.</response>
+    /// <response code="400">User not authenticated or user not found.</response>
+    /// <remarks>
+    /// This method deletes the user's refresh token and authentication cookies.
+    /// </remarks>
     [HttpPost("[action]")]
     public async Task<IActionResult> Logout()
     {
