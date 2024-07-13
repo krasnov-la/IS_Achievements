@@ -22,6 +22,7 @@ public class AchievementsController(IUnitOfWork unit) : ControllerBase
     /// <response code="404">Request not found.</response>
     /// <remarks>
     /// This method creates a new achievement based on the provided score request.
+    /// This method can only be accessed by users with the "Admin" role.
     /// 
     /// **Example request:**
     /// ```
@@ -68,6 +69,7 @@ public class AchievementsController(IUnitOfWork unit) : ControllerBase
     /// <response code="200">Achievements retrieved successfully.</response>
     /// <remarks>
     /// This method retrieves the achievements for the current user based on their login.
+    /// This method can be accessed by authorized users.
     /// 
     /// **Example request:**
     /// ```
@@ -115,6 +117,7 @@ public class AchievementsController(IUnitOfWork unit) : ControllerBase
     /// <response code="200">Achievements retrieved successfully.</response>
     /// <remarks>
     /// This method retrieves the achievements for a specific user based on their login.
+    /// This method can only be accessed by users with the "Admin" role.
     /// 
     /// **Example request:**
     /// ```
@@ -163,6 +166,8 @@ public class AchievementsController(IUnitOfWork unit) : ControllerBase
     /// <response code="404">Achievement not found.</response>
     /// <remarks>
     /// This method updates the score of an existing achievement.
+    /// This method can only be accessed by users with the "Admin" role.
+    /// 
     /// Example request:
     /// 
     ///     PATCH /Achievements/123e4567-e89b-12d3-a456-426614174000/score/98.5
@@ -186,6 +191,20 @@ public class AchievementsController(IUnitOfWork unit) : ControllerBase
         return Ok();
     }
 
+    /// <summary>
+    /// Deletes an achievement and reopens the corresponding verification request.
+    /// </summary>
+    /// <param name="id">The ID of the achievement to delete.</param>
+    /// <response code="200">Achievement deleted successfully and corresponding request reopened.</response>
+    /// <response code="404">Achievement not found.</response>
+    /// <remarks>
+    /// This method deletes an existing achievement and reopens the corresponding verification request.
+    /// This method can only be accessed by users with the "Admin" role.
+    /// 
+    /// Example request:
+    /// 
+    ///     DELETE /Achievements/123e4567-e89b-12d3-a456-426614174000
+    /// </remarks>
     [HttpDelete("{id}")]
     [Authorize(PolicyData.AdminOnlyPolicyName)]
     public async Task<IActionResult> DeleteAchievement([FromRoute] Guid id)

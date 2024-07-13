@@ -12,7 +12,7 @@
           <input placeholder="Введите Логин" v-model="data.login" />
         </div>
         <div style="margin: 2.2vh 0 3vh 0">
-            <div class="h2">Пароль</div>
+          <div class="h2">Пароль</div>
           <input placeholder="Введите пароль" v-model="data.password" />
         </div>
         <div style="display: grid; place-items: center; margin-top: 3vh">
@@ -45,7 +45,7 @@ const data = reactive({
 const submit = async () => {
   console.log(data);
   await axios
-    .post(`${process.env.VUE_APP_API_URL}Auth/Register`, {
+    .post(`${process.env.VUE_APP_API_URL}Users/students`, {
       headers: { "Content-Type": "application/json" },
       login: data.login,
       password: data.password,

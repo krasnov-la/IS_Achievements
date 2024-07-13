@@ -66,7 +66,7 @@ const store = useStore();
 const submit = async () => {
   try {
     const response = await axios.post(
-      `${process.env.VUE_APP_API_URL}Auth/Login`,
+      `${process.env.VUE_APP_API_URL}Auth/login`,
       {
         login: data.login,
         password: data.password,

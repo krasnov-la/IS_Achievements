@@ -84,7 +84,7 @@ const isActive = (path) => activePath.value === path;
 const logout = async () => {
   try {
     const response = await axios.post(
-      `${process.env.VUE_APP_API_URL}Auth/Logout`,
+      `${process.env.VUE_APP_API_URL}Auth/logout`,
       {},
       {
         withCredentials: true,
