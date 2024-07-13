@@ -48,6 +48,7 @@ public class ImagesController : ControllerBase
     /// <response code="400">If the upload fails.</response>
     /// <remarks>
     /// This method uploads a new image file.
+    /// This method can be accessed by authorized users.
     /// 
     /// **Example request:**
     /// ```
@@ -79,6 +80,8 @@ public class ImagesController : ControllerBase
     /// <response code="400">If the file is not found.</response>
     /// <remarks>
     /// This method deletes an image file based on the provided image name.
+    /// This method can be accessed by authorized users.
+    /// 
     /// Example request:
     /// 
     ///     DELETE /Images/sample.jpg

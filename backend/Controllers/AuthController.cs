@@ -26,7 +26,7 @@ public class AuthController(IPasswordService passwordService, ITokenService toke
     /// <remarks>
     /// This method validates the user's credentials, generates a refresh token, and sets authentication cookies.
     /// </remarks>
-    [HttpPost("[action]")]
+    [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] CredentialsRequest request)
     {
         var user = await _unit.Users.GetById(request.Login);
@@ -71,7 +71,7 @@ public class AuthController(IPasswordService passwordService, ITokenService toke
     /// <remarks>
     /// This method deletes the user's refresh token and authentication cookies.
     /// </remarks>
-    [HttpPost("[action]")]
+    [HttpPost("logout")]
     public async Task<IActionResult> Logout()
     {
         var login = HttpContext.User.FindFirst(c => c.Type == "Login")?.Value;

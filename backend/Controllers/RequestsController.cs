@@ -20,6 +20,7 @@ public class RequestsController(IUnitOfWork unit) : ControllerBase
     /// <response code="200">Requests retrieved successfully.</response>
     /// <remarks>
     /// This method retrieves all verification requests for a specific user.
+    /// This method can only be accessed by users with the "Admin" role.
     /// 
     /// **Example request:**
     /// ```
@@ -70,6 +71,7 @@ public class RequestsController(IUnitOfWork unit) : ControllerBase
     /// <response code="401">Unauthorized access.</response>
     /// <remarks>
     /// This method retrieves all verification requests for the authenticated user.
+    /// This method can be accessed by authorized users.
     /// 
     /// **Example request:**
     /// ```
@@ -121,6 +123,7 @@ public class RequestsController(IUnitOfWork unit) : ControllerBase
     /// <response code="200">Open requests retrieved successfully.</response>
     /// <remarks>
     /// This method retrieves all open verification requests.
+    /// This method can only be accessed by users with the "Admin" role.
     /// 
     /// **Example request:**
     /// ```
@@ -170,6 +173,7 @@ public class RequestsController(IUnitOfWork unit) : ControllerBase
     /// <response code="200">All requests retrieved successfully.</response>
     /// <remarks>
     /// This method retrieves all verification requests.
+    /// This method can only be accessed by users with the "Admin" role.
     /// 
     /// **Example request:**
     /// ```
@@ -222,6 +226,7 @@ public class RequestsController(IUnitOfWork unit) : ControllerBase
     /// <response code="400">Image validation failed.</response>
     /// <remarks>
     /// This method inserts a new verification request.
+    /// This method can be accessed by authorized users.
     /// 
     /// **Example request:**
     /// ```

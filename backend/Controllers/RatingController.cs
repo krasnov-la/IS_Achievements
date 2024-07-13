@@ -17,6 +17,7 @@ public class RatingController(IUnitOfWork unit) : ControllerBase
     /// <response code="401">If the user is not authenticated.</response>
     /// <remarks>
     /// This method retrieves the rating information for the authenticated user.
+    /// This method can be accessed by authorized users.
     ///
     /// **Example request:**
     /// ```

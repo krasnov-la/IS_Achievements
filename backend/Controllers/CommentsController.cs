@@ -65,7 +65,8 @@ public class CommentsController(IUnitOfWork unit) : ControllerBase
     /// <param name="id">The ID of the request.</param>
     /// <returns>Returns a list of comments for the specified request.</returns>
     /// <response code="200">Comments retrieved successfully.</response>
-    /// <response code="400">Request not found or unauthorized access.</response>
+    /// <response code="400">Request not found.</response>
+    /// <response code="401">Unauthorized access.</response>
     /// <remarks>
     /// This method can be accessed by authorized users. If the user is not the owner of the request and is not an admin, access is denied.
     ///
