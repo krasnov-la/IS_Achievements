@@ -268,7 +268,35 @@ public class RequestsController(IUnitOfWork unit) : ControllerBase
         return Ok();
     }
 
-    //TODO Partial update
-    //TODO Закрытие реквеста без ачивки и возможности редактирования
+    /// <summary>
+    /// Updates the status of a specific verification request.
+    /// </summary>
+    /// <param name="id">The unique identifier of the request.</param>
+    /// <param name="is_open">The new status of the request. True for open, false for closed.</param>
+    /// <response code="200">Request status updated successfully.</response>
+    /// <response code="404">Request not found.</response>
+    /// <remarks>
+    /// This method updates the status of a specific verification request.
+    /// This method can only be accessed by users with the "Admin" role.
+    /// 
+    /// **Example request:**
+    /// ```
+    /// PATCH /Requests/123e4567-e89b-12d3-a456-426614174000/is-open/false
+    /// ```
+    /// </remarks>
+    [HttpPatch("{id:guid}/is-open/{is_open:bool}")]
+    [Authorize(PolicyData.AdminOnlyPolicyName)]
+    public async Task<IActionResult> UpdateStatus([FromRoute] Guid id, [FromRoute] bool is_open)
+    {
+        var request = await _unit.Requests.GetById(id);
+        if (request is null)
+            return NotFound("Request not found");
+        request.IsOpen = is_open;
+        _unit.Requests.Update(request);
+        await _unit.SaveAsync();
+        return Ok();
+    }
+
+    //TODO Partial update, контроль версий????
     //TODO Удаления не будет!!!(наверное)
 }

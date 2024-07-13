@@ -137,7 +137,7 @@ public class UsersController(IUnitOfWork unit) : ControllerBase
     /// ```
     /// </remarks>
     [HttpGet("{login}")]
-    // TODO: не отправлять role
+    // TODO: не отправлять role(под вопросом)
     public async Task<IActionResult> GetByLogin([FromRoute] string login)
     {
         var user = await _unit.Users.GetById(login);
