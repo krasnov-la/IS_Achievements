@@ -19,6 +19,7 @@ public class UsersController(IUnitOfWork unit) : ControllerBase
     /// <response code="200">Returns the list of all users.</response>
     /// <remarks>
     /// This method retrieves a list of all users.
+    /// This method can only be accessed by users with the "Admin" role.
     /// 
     /// **Example request:**
     /// ```
@@ -49,6 +50,7 @@ public class UsersController(IUnitOfWork unit) : ControllerBase
     /// <response code="200">Returns the list of all students.</response>
     /// <remarks>
     /// This method retrieves a list of all users.
+    /// This method can only be accessed by users with the "Admin" role.
     /// 
     /// **Example request:**
     /// ```
@@ -83,6 +85,7 @@ public class UsersController(IUnitOfWork unit) : ControllerBase
     /// <response code="200">Returns the list of all admins.</response>
     /// <remarks>
     /// This method retrieves a list of all admin users.
+    /// This method can only be accessed by users with the "Admin" role.
     /// 
     /// **Example request:**
     /// ```
@@ -134,6 +137,7 @@ public class UsersController(IUnitOfWork unit) : ControllerBase
     /// ```
     /// </remarks>
     [HttpGet("{login}")]
+    // TODO: не отправлять role
     public async Task<IActionResult> GetByLogin([FromRoute] string login)
     {
         var user = await _unit.Users.GetById(login);
@@ -192,6 +196,7 @@ public class UsersController(IUnitOfWork unit) : ControllerBase
     /// <response code="400">Login already taken.</response>
     /// <remarks>
     /// This method creates a new admin user.
+    /// This method can only be accessed by users with the "Admin" role.
     /// 
     /// **Example request:**
     /// ```
@@ -235,9 +240,11 @@ public class UsersController(IUnitOfWork unit) : ControllerBase
     /// <param name="passwordService">The password service for validating and hashing passwords.</param>
     /// <response code="200">Password changed successfully.</response>
     /// <response code="400">Old password validation failed.</response>
+    /// <response code="401">Unauthorized access.</response>
     /// <response code="404">User not found.</response>
     /// <remarks>
     /// This method changes the password for a specific user.
+    /// This method can be accessed by users with the "Admin" role or Authorized user.
     /// 
     /// **Example request:**
     /// ```
@@ -249,11 +256,17 @@ public class UsersController(IUnitOfWork unit) : ControllerBase
     /// ```
     /// </remarks>
     [HttpPatch("{login}/password")]
+    [Authorize]
     public async Task<IActionResult> ChangePassword(
         [FromRoute] string login,
         [FromBody] ChangePasswordRequest request,
         [FromServices] IPasswordService passwordService)
     {
+        var login_claim = HttpContext.User.Claims.First(c => c.Type == "Login").Value;
+        var is_admin = Convert.ToBoolean(HttpContext.User.Claims.First(c => c.Type == PolicyData.AdminClaimName).Value);
+        if (login_claim != login && !is_admin)
+            return Unauthorized();
+
         var user = await _unit.Users.GetById(login);
         if (user is null) return NotFound("User not found");
 
@@ -276,9 +289,11 @@ public class UsersController(IUnitOfWork unit) : ControllerBase
     /// <param name="passwordService">The password service for validating passwords.</param>
     /// <response code="200">Nickname changed successfully.</response>
     /// <response code="400">Password validation failed.</response>
+    /// <response code="401">Unauthorized access.</response>
     /// <response code="404">User not found.</response>
     /// <remarks>
     /// This method changes the nickname for a specific user.
+    /// This method can be accessed by users with the "Admin" role or Authorized user.
     /// 
     /// **Example request:**
     /// ```
@@ -290,11 +305,17 @@ public class UsersController(IUnitOfWork unit) : ControllerBase
     /// ```
     /// </remarks>
     [HttpPatch("{login}/nickname")]
+    [Authorize]
     public async Task<IActionResult> ChangeNickname(
         [FromRoute] string login,
         [FromBody] ChangeNicknameRequest request,
         [FromServices] IPasswordService passwordService)
     {
+        var login_claim = HttpContext.User.Claims.First(c => c.Type == "Login").Value;
+        var is_admin = Convert.ToBoolean(HttpContext.User.Claims.First(c => c.Type == PolicyData.AdminClaimName).Value);
+        if (login_claim != login && !is_admin)
+            return Unauthorized();
+
         var user = await _unit.Users.GetById(login);
         if (user is null) return NotFound("User not found");
 
