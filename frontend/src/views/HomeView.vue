@@ -58,7 +58,7 @@ const getScoreboard = async () => {
     const offset = 0;
 
     const response = await axios.get(
-      `${process.env.VUE_APP_API_URL}Scoreboard/GetData/${count}/${offset}`
+      `${process.env.VUE_APP_API_URL}Rating/scoreboard/${count}/${offset}`
     );
 
     scoreboardData.value = response.data;
@@ -106,7 +106,7 @@ const fetchCTFEvents = async () => {
 const getStudentInfo = async () => {
   try {
     const userResponse = await axios.get(
-      `${process.env.VUE_APP_API_URL}Student/GetInfo`,
+      `${process.env.VUE_APP_API_URL}Rating/personal`,
       {
         withCredentials: true,
         headers: { "Content-Type": "application/json" },
