@@ -240,7 +240,7 @@ public class UsersController(IUnitOfWork unit) : ControllerBase
     /// <param name="passwordService">The password service for validating and hashing passwords.</param>
     /// <response code="200">Password changed successfully.</response>
     /// <response code="400">Old password validation failed.</response>
-    /// <response code="401">Unauthorized access.</response>
+    /// <response code="403">Forbidden.</response>
     /// <response code="404">User not found.</response>
     /// <remarks>
     /// This method changes the password for a specific user.
@@ -265,7 +265,7 @@ public class UsersController(IUnitOfWork unit) : ControllerBase
         var login_claim = HttpContext.User.Claims.First(c => c.Type == "Login").Value;
         var is_admin = Convert.ToBoolean(HttpContext.User.Claims.First(c => c.Type == PolicyData.AdminClaimName).Value);
         if (login_claim != login && !is_admin)
-            return Unauthorized();
+            return Forbid();
 
         var user = await _unit.Users.GetById(login);
         if (user is null) return NotFound("User not found");
@@ -289,7 +289,7 @@ public class UsersController(IUnitOfWork unit) : ControllerBase
     /// <param name="passwordService">The password service for validating passwords.</param>
     /// <response code="200">Nickname changed successfully.</response>
     /// <response code="400">Password validation failed.</response>
-    /// <response code="401">Unauthorized access.</response>
+    /// <response code="403">Forbidden.</response>
     /// <response code="404">User not found.</response>
     /// <remarks>
     /// This method changes the nickname for a specific user.
@@ -314,7 +314,7 @@ public class UsersController(IUnitOfWork unit) : ControllerBase
         var login_claim = HttpContext.User.Claims.First(c => c.Type == "Login").Value;
         var is_admin = Convert.ToBoolean(HttpContext.User.Claims.First(c => c.Type == PolicyData.AdminClaimName).Value);
         if (login_claim != login && !is_admin)
-            return Unauthorized();
+            return Forbid();
 
         var user = await _unit.Users.GetById(login);
         if (user is null) return NotFound("User not found");
@@ -325,6 +325,50 @@ public class UsersController(IUnitOfWork unit) : ControllerBase
         user.Nickname = request.NewNick;
         _unit.Users.Update(user);
 
+        await _unit.SaveAsync();
+
+        return Ok();
+    }
+
+    /// <summary>
+    /// Updates the profile picture for a specific user.
+    /// </summary>
+    /// <param name="login">The login of the user.</param>
+    /// <param name="imageName">The name of the new profile picture.</param>
+    /// <param name="imageService">The image service for validating image names.</param>
+    /// <response code="200">Profile picture updated successfully.</response>
+    /// <response code="400">Invalid image name.</response>
+    /// <response code="403">Forbidden.</response>
+    /// <response code="404">User not found.</response>
+    /// <remarks>
+    /// This method updates the profile picture for a specific user.
+    /// This method can only be accessed by the user themselves.
+    /// 
+    /// **Example request:**
+    /// ```
+    /// PATCH /Users/johndoe/profile-picture/new_profile_picture.jpg
+    /// ```
+    /// </remarks>
+
+    [HttpPatch("{login}/profile-picture/{imageName}")]
+    [Authorize]
+    public async Task<IActionResult> UpdatePicture(
+        [FromRoute] string login,
+        [FromRoute] string imageName,
+        [FromServices] IImageService imageService)
+    {
+        var login_claim = HttpContext.User.Claims.First(c => c.Type == "Login").Value;
+        if (login_claim != login)
+            return Forbid();
+
+        var user = await _unit.Users.GetById(login);
+        if (user is null) 
+            return NotFound("User not found");
+
+        if (!imageService.Validate(imageName))
+            return BadRequest("Invalid image name");
+
+        user.AvatarImage = imageName;
         await _unit.SaveAsync();
 
         return Ok();
