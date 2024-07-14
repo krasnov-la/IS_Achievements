@@ -8,6 +8,8 @@ public class Activity
     public Guid Id { get; init; } = Guid.NewGuid();
     [MaxLength(256)]
     public string Name { get; set; } = null!;
+    [MaxLength(50)]
+    public string Preview { get; set; } = null!;
     public DateTime Datetime { get; set; }
     [MaxLength(2100)]
     public string Link { get; set; } = null!;

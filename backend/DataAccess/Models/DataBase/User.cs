@@ -4,6 +4,7 @@ using Auth;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Models;
+//TODO: Split into Credentials and PublicData???
 
 [PrimaryKey("Login")]
 public class User
@@ -12,6 +13,8 @@ public class User
     public string Login { get; set; } = null!;
     [MaxLength(256)]
     public string Nickname { get; set; } = null!;
+    [MaxLength(50)]
+    public string AvatarImage { get; set; } = null!;
     [MaxLength(128)]
     public string Role { get; set; } = Roles.Default;
     [MaxLength(64)]
