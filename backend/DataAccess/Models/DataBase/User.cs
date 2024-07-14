@@ -14,7 +14,7 @@ public class User
     [MaxLength(256)]
     public string Nickname { get; set; } = null!;
     [MaxLength(50)]
-    public string AvatarImage { get; set; } = null!;
+    public string AvatarImage { get; set; } = Guid.Empty.ToString();
     [MaxLength(128)]
     public string Role { get; set; } = Roles.Default;
     [MaxLength(64)]

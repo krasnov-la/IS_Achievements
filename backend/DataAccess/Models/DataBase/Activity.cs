@@ -9,7 +9,7 @@ public class Activity
     [MaxLength(256)]
     public string Name { get; set; } = null!;
     [MaxLength(50)]
-    public string Preview { get; set; } = null!;
+    public string Preview { get; set; } = Guid.Empty.ToString();
     public DateTime Datetime { get; set; }
     [MaxLength(2100)]
     public string Link { get; set; } = null!;

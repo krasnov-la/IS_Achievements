@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace backend.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -19,6 +19,7 @@ namespace backend.Migrations
                 {
                     Login = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
                     Nickname = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    AvatarImage = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     Role = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
                     Refresh = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
                     RefreshExpire = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
@@ -35,6 +36,7 @@ namespace backend.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    Preview = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     Datetime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Link = table.Column<string>(type: "character varying(2100)", maxLength: 2100, nullable: false),
                     AdminLogin = table.Column<string>(type: "character varying(256)", nullable: false)
@@ -123,7 +125,7 @@ namespace backend.Migrations
                 name: "Images",
                 columns: table => new
                 {
-                    FileName = table.Column<string>(type: "text", nullable: false),
+                    FileName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     RequestId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
@@ -139,23 +141,23 @@ namespace backend.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Login", "Nickname", "Password", "Refresh", "RefreshExpire", "Role" },
+                columns: new[] { "Login", "AvatarImage", "Nickname", "Password", "Refresh", "RefreshExpire", "Role" },
                 values: new object[,]
                 {
-                    { "admin", "Administrator", "$2a$11$QBOwTM/1G3zIqQBll7vQDel21tMOmMngs20z0bxrVLEqxyY3tHT02", "42af99f8-7c91-4fdb-8b72-0e12b7e6b74b", new DateTime(2024, 7, 7, 15, 33, 25, 926, DateTimeKind.Utc).AddTicks(4260), "Admin" },
-                    { "user1", "User One", "$2a$11$b63c2UhfmVGeeUWTnHlas.bk32AEQffYtnGdcX.NT0vzlNCLdZZVm", "42af99f8-7c91-4fdb-8b72-0e12b7e6b74b", new DateTime(2024, 7, 7, 15, 33, 25, 926, DateTimeKind.Utc).AddTicks(4274), "User" },
-                    { "user2", "User Two", "$2a$11$PW7Dapz13EKI/xGqXjK.Y.DJgkGU39nz79UQyUr6bc4I1UNoUJCey", "42af99f8-7c91-4fdb-8b72-0e12b7e6b74b", new DateTime(2024, 7, 7, 15, 33, 25, 926, DateTimeKind.Utc).AddTicks(4277), "User" },
-                    { "user3", "User Three", "$2a$11$ACFe85jXeKSHr7m3uycOsu4QN9/FbLb/YgTQ/v7UlR22DvoSX5gbW", "42af99f8-7c91-4fdb-8b72-0e12b7e6b74b", new DateTime(2024, 7, 7, 15, 33, 25, 926, DateTimeKind.Utc).AddTicks(4281), "User" }
+                    { "admin", "00000000-0000-0000-0000-000000000000", "Administrator", "$2a$11$QBOwTM/1G3zIqQBll7vQDel21tMOmMngs20z0bxrVLEqxyY3tHT02", "42af99f8-7c91-4fdb-8b72-0e12b7e6b74b", new DateTime(2024, 8, 13, 14, 27, 21, 403, DateTimeKind.Utc).AddTicks(7988), "Admin" },
+                    { "user1", "00000000-0000-0000-0000-000000000000", "User One", "$2a$11$b63c2UhfmVGeeUWTnHlas.bk32AEQffYtnGdcX.NT0vzlNCLdZZVm", "42af99f8-7c91-4fdb-8b72-0e12b7e6b74b", new DateTime(2024, 8, 13, 14, 27, 21, 403, DateTimeKind.Utc).AddTicks(8003), "User" },
+                    { "user2", "00000000-0000-0000-0000-000000000000", "User Two", "$2a$11$PW7Dapz13EKI/xGqXjK.Y.DJgkGU39nz79UQyUr6bc4I1UNoUJCey", "42af99f8-7c91-4fdb-8b72-0e12b7e6b74b", new DateTime(2024, 8, 13, 14, 27, 21, 403, DateTimeKind.Utc).AddTicks(8010), "User" },
+                    { "user3", "00000000-0000-0000-0000-000000000000", "User Three", "$2a$11$ACFe85jXeKSHr7m3uycOsu4QN9/FbLb/YgTQ/v7UlR22DvoSX5gbW", "42af99f8-7c91-4fdb-8b72-0e12b7e6b74b", new DateTime(2024, 8, 13, 14, 27, 21, 403, DateTimeKind.Utc).AddTicks(8015), "User" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Activities",
-                columns: new[] { "Id", "AdminLogin", "Datetime", "Link", "Name" },
+                columns: new[] { "Id", "AdminLogin", "Datetime", "Link", "Name", "Preview" },
                 values: new object[,]
                 {
-                    { new Guid("18dfa727-8a33-44cb-a4e1-38029ff5c197"), "admin", new DateTime(2024, 6, 7, 13, 33, 25, 926, DateTimeKind.Utc).AddTicks(4940), "http://example.com/activity3", "Sample Activity 3" },
-                    { new Guid("4293fc75-bd33-4ce2-8adc-6c58ed59d45a"), "admin", new DateTime(2024, 6, 7, 15, 33, 25, 926, DateTimeKind.Utc).AddTicks(4926), "http://example.com/activity1", "Sample Activity 1" },
-                    { new Guid("fefacaab-abcd-4ddd-822b-77834ab388bb"), "admin", new DateTime(2024, 6, 7, 14, 33, 25, 926, DateTimeKind.Utc).AddTicks(4934), "http://example.com/activity2", "Sample Activity 2" }
+                    { new Guid("0de4ad0b-3ef9-4ef1-98c9-0356c4d905bb"), "admin", new DateTime(2024, 7, 14, 14, 27, 21, 404, DateTimeKind.Utc).AddTicks(735), "http://example.com/activity1", "Sample Activity 1", "00000000-0000-0000-0000-000000000000" },
+                    { new Guid("5a1c1ab2-011c-4389-bdff-282aceefce6e"), "admin", new DateTime(2024, 7, 14, 13, 27, 21, 404, DateTimeKind.Utc).AddTicks(746), "http://example.com/activity2", "Sample Activity 2", "00000000-0000-0000-0000-000000000000" },
+                    { new Guid("9c7a598d-1392-4381-8edd-e896d380b7fc"), "admin", new DateTime(2024, 7, 14, 12, 27, 21, 404, DateTimeKind.Utc).AddTicks(753), "http://example.com/activity3", "Sample Activity 3", "00000000-0000-0000-0000-000000000000" }
                 });
 
             migrationBuilder.InsertData(
@@ -163,10 +165,10 @@ namespace backend.Migrations
                 columns: new[] { "Id", "DateTime", "Description", "EventName", "IsOpen", "OwnerLogin" },
                 values: new object[,]
                 {
-                    { new Guid("07ca9911-9553-425c-aa1c-c0843d524f46"), new DateTime(2024, 6, 7, 11, 33, 25, 926, DateTimeKind.Utc).AddTicks(4727), "Sample verification request description 4", "Sample Event 4", true, "user3" },
-                    { new Guid("34f6a61f-3e13-4dfc-9340-759c8ee147bd"), new DateTime(2024, 6, 7, 11, 33, 25, 926, DateTimeKind.Utc).AddTicks(4721), "Sample verification request description 3", "Sample Event 3", false, "user2" },
-                    { new Guid("620859cd-4ed4-451d-b1e9-be0d9cec8ad5"), new DateTime(2024, 6, 7, 15, 33, 25, 926, DateTimeKind.Utc).AddTicks(4680), "Sample verification request description 1", "Sample Event 1", false, "user1" },
-                    { new Guid("88e1ab02-9b81-42a1-9f0c-1454b08e678f"), new DateTime(2024, 6, 7, 13, 33, 25, 926, DateTimeKind.Utc).AddTicks(4690), "Sample verification request description 2", "Sample Event 2", false, "user2" }
+                    { new Guid("2238eb35-8c92-4dce-8ed1-8d0ca6a29aeb"), new DateTime(2024, 7, 14, 12, 27, 21, 404, DateTimeKind.Utc).AddTicks(512), "Sample verification request description 2", "Sample Event 2", false, "user2" },
+                    { new Guid("3219160c-0333-4ed7-836c-33652c720a3a"), new DateTime(2024, 7, 14, 10, 27, 21, 404, DateTimeKind.Utc).AddTicks(553), "Sample verification request description 4", "Sample Event 4", true, "user3" },
+                    { new Guid("678f12ee-7528-45b4-adda-e9733e77f9e6"), new DateTime(2024, 7, 14, 10, 27, 21, 404, DateTimeKind.Utc).AddTicks(547), "Sample verification request description 3", "Sample Event 3", false, "user2" },
+                    { new Guid("a2fd4433-c8f6-497e-b5c9-1596a1e00832"), new DateTime(2024, 7, 14, 14, 27, 21, 404, DateTimeKind.Utc).AddTicks(503), "Sample verification request description 1", "Sample Event 1", false, "user1" }
                 });
 
             migrationBuilder.InsertData(
@@ -174,9 +176,9 @@ namespace backend.Migrations
                 columns: new[] { "Id", "AdminLogin", "RequestId", "Score", "VerificationDatetime" },
                 values: new object[,]
                 {
-                    { new Guid("2562254f-9425-42b2-b181-0a1440d74749"), "admin", new Guid("88e1ab02-9b81-42a1-9f0c-1454b08e678f"), 88f, new DateTime(2024, 6, 7, 14, 33, 25, 926, DateTimeKind.Utc).AddTicks(4829) },
-                    { new Guid("256742f7-f3e4-411d-baa4-06def7e0e38a"), "admin", new Guid("620859cd-4ed4-451d-b1e9-be0d9cec8ad5"), 95.5f, new DateTime(2024, 6, 7, 15, 33, 25, 926, DateTimeKind.Utc).AddTicks(4824) },
-                    { new Guid("3400efb5-d8dc-4da0-8663-ac812128ea08"), "admin", new Guid("34f6a61f-3e13-4dfc-9340-759c8ee147bd"), 92.3f, new DateTime(2024, 6, 7, 13, 33, 25, 926, DateTimeKind.Utc).AddTicks(4835) }
+                    { new Guid("265c2de4-c75b-4b88-9ce8-a42e62031ff2"), "admin", new Guid("a2fd4433-c8f6-497e-b5c9-1596a1e00832"), 95.5f, new DateTime(2024, 7, 14, 14, 27, 21, 404, DateTimeKind.Utc).AddTicks(639) },
+                    { new Guid("35f57901-f7ec-4662-912a-11081507c27f"), "admin", new Guid("2238eb35-8c92-4dce-8ed1-8d0ca6a29aeb"), 88f, new DateTime(2024, 7, 14, 13, 27, 21, 404, DateTimeKind.Utc).AddTicks(643) },
+                    { new Guid("e14b2240-aca5-426e-8a01-2d59a8125fa0"), "admin", new Guid("678f12ee-7528-45b4-adda-e9733e77f9e6"), 92.3f, new DateTime(2024, 7, 14, 12, 27, 21, 404, DateTimeKind.Utc).AddTicks(648) }
                 });
 
             migrationBuilder.InsertData(
@@ -184,9 +186,9 @@ namespace backend.Migrations
                 columns: new[] { "Id", "Datetime", "RequestId", "Text" },
                 values: new object[,]
                 {
-                    { new Guid("24c0d96d-30e8-4ef9-a409-87cdc1ab46d7"), new DateTime(2024, 6, 7, 14, 33, 25, 926, DateTimeKind.Utc).AddTicks(5033), new Guid("88e1ab02-9b81-42a1-9f0c-1454b08e678f"), "This is a sample comment 2." },
-                    { new Guid("5b8dca55-bf4a-4256-8cbd-49548177efc3"), new DateTime(2024, 6, 7, 15, 33, 25, 926, DateTimeKind.Utc).AddTicks(5028), new Guid("620859cd-4ed4-451d-b1e9-be0d9cec8ad5"), "This is a sample comment 1." },
-                    { new Guid("6faa9405-264c-4e1f-b38f-ddbadb4c6c09"), new DateTime(2024, 6, 7, 13, 33, 25, 926, DateTimeKind.Utc).AddTicks(5038), new Guid("34f6a61f-3e13-4dfc-9340-759c8ee147bd"), "This is a sample comment 3." }
+                    { new Guid("0441411b-4627-4b3c-aaba-9b6f9cdf168c"), new DateTime(2024, 7, 14, 12, 27, 21, 404, DateTimeKind.Utc).AddTicks(841), new Guid("678f12ee-7528-45b4-adda-e9733e77f9e6"), "This is a sample comment 3." },
+                    { new Guid("27f6fb52-4e82-44b5-bc56-7ac01a8401bb"), new DateTime(2024, 7, 14, 13, 27, 21, 404, DateTimeKind.Utc).AddTicks(835), new Guid("2238eb35-8c92-4dce-8ed1-8d0ca6a29aeb"), "This is a sample comment 2." },
+                    { new Guid("b2f79a4f-936c-446f-8dc7-bd8344b94b8a"), new DateTime(2024, 7, 14, 14, 27, 21, 404, DateTimeKind.Utc).AddTicks(829), new Guid("a2fd4433-c8f6-497e-b5c9-1596a1e00832"), "This is a sample comment 1." }
                 });
 
             migrationBuilder.InsertData(
@@ -194,10 +196,10 @@ namespace backend.Migrations
                 columns: new[] { "FileName", "RequestId" },
                 values: new object[,]
                 {
-                    { "578cc1e8-cd47-4e63-b045-fd661a63affb", new Guid("620859cd-4ed4-451d-b1e9-be0d9cec8ad5") },
-                    { "95806d77-3214-4a78-96c5-d2ada6d311fc", new Guid("34f6a61f-3e13-4dfc-9340-759c8ee147bd") },
-                    { "a54e6d85-dc0c-4114-8e6f-5600ff69b9c7", new Guid("88e1ab02-9b81-42a1-9f0c-1454b08e678f") },
-                    { "f772f9b2-a484-46de-91d1-3b9ab31d24b4", new Guid("07ca9911-9553-425c-aa1c-c0843d524f46") }
+                    { "2e910ebc-3c30-49bb-9b3f-8cd9d04487b9", new Guid("2238eb35-8c92-4dce-8ed1-8d0ca6a29aeb") },
+                    { "45fecdab-ac5c-41a7-aa50-ba1a0e2c4d0b", new Guid("a2fd4433-c8f6-497e-b5c9-1596a1e00832") },
+                    { "75bd1119-b00a-416c-aeed-cb5b6c2bf8da", new Guid("3219160c-0333-4ed7-836c-33652c720a3a") },
+                    { "ed54b1ca-9625-4de8-acb6-1ccd87479082", new Guid("678f12ee-7528-45b4-adda-e9733e77f9e6") }
                 });
 
             migrationBuilder.CreateIndex(
