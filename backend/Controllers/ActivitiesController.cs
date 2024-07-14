@@ -17,6 +17,7 @@ public class ActivitiesController(IUnitOfWork unit) : ControllerBase
     /// Creates a new activity.
     /// </summary>
     /// <param name="request">The activity request details.</param>
+    /// <param name="imageService">The image service for validating image names.</param>
     /// <response code="200">Activity created successfully.</response>
     /// <response code="400">Invalid image name.</response>
     /// <remarks>
