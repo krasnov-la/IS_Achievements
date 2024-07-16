@@ -70,17 +70,15 @@
           <div class="h7">Сертификаты</div>
           <div class="h7">Колличество баллов</div>
         </div>
-        <div class="row2">
-          <div class="h8">Название достижения</div>
-          <div class="h8" style="margin: 0 30% 0 5%">Описание</div>
-          <div class="h8">Сертификаты</div>
-          <div class="h8">Колличество баллов</div>
-        </div>
-        <div class="row1">
-          <div class="h8">Название достижения</div>
-          <div class="h8" style="margin: 0 30% 0 5%">Описание</div>
-          <div class="h8">Сертификаты</div>
-          <div class="h8">Колличество баллов</div>
+        <div v-for="(achievement, index) in achievements" :key="achievement.id">
+          <div :class="[{ row2: index % 2 === 0 }, { row1: index % 2 === 1 }]">
+            <div class="h8">{{ achievement.eventName }}</div>
+            <div class="h8" style="margin: 0 30% 0 5%">
+              {{ achievement.description }}
+            </div>
+            <div class="h8">Сертификаты</div>
+            <div class="h8">{{ achievement.score }}</div>
+          </div>
         </div>
       </div>
     </div>
@@ -88,13 +86,48 @@
 </template>
 
 <script setup>
-import SideBar from "@/components/SideBar.vue";
 import Header from "@/components/Header.vue";
+import axios from "axios";
 import { useStore } from "vuex";
-import { computed } from "vue";
+import { computed, onMounted, ref } from "vue";
 import SideBarPersonal from "@/components/SideBarPersonal.vue";
 const store = useStore();
 const user = computed(() => store.getters.user);
+const achievements = ref([]);
+
+const getStudentAchievements = async () => {
+  try {
+    const achievementsData = await axios.get(
+      `${process.env.VUE_APP_API_URL}Achievements/self`,
+      {
+        withCredentials: true,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    achievements.value = achievementsData.data;
+    console.log(achievements);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getStudentRequests = async () => {
+  try {
+    const achievementsData = await axios.get(
+      `${process.env.VUE_APP_API_URL}Requests/self`,
+      {
+        withCredentials: true,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    achievements.value = achievementsData.data;
+    console.log(achievements);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+onMounted(getStudentAchievements);
 </script>
 
 <style scoped>
