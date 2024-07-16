@@ -17,13 +17,13 @@
       <div v-else>
         <div
           class="table-item"
-          v-for="player in props.scoreboardData"
-          :key="player.id"
+          v-for="student in props.scoreboardData"
+          :key="student.id"
         >
-          <p class="number">#{{ player.place }}</p>
+          <p class="number">#{{ student.place }}</p>
           <img class="profile-img" src="" alt="" />
-          <p class="name">{{ player.nick }}</p>
-          <p class="score">{{ player.score.toLocaleString("ru") }} баллов</p>
+          <p class="name">{{ student.nick }}</p>
+          <p class="score">{{ student.score.toLocaleString("ru") }} баллов</p>
         </div>
       </div>
     </div>
