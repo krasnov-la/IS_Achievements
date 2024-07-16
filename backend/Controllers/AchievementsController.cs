@@ -1,5 +1,4 @@
 using Auth;
-using DataAccess;
 using DataAccess.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -96,7 +95,7 @@ public class AchievementsController(IUnitOfWork unit) : ControllerBase
         var login = HttpContext.User.Claims.First(c => c.Type == "Login").Value;
 
         return Ok(await _unit.Achievements
-            .GetQuerable()
+            .GetQueryable()
             .Include(a => a.Request)
             .Where(a => a.Request.OwnerLogin == login)
             .OrderByDescending(a => a.VerificationDatetime)
@@ -142,7 +141,7 @@ public class AchievementsController(IUnitOfWork unit) : ControllerBase
     public async Task<IActionResult> ReadPerUser([FromRoute] string login)
     {
         return Ok(await _unit.Achievements
-            .GetQuerable()
+            .GetQueryable()
             .Include(a => a.Request)
             .Where(a => a.Request.OwnerLogin == login)
             .OrderByDescending(a => a.VerificationDatetime)
@@ -210,7 +209,7 @@ public class AchievementsController(IUnitOfWork unit) : ControllerBase
     public async Task<IActionResult> DeleteAchievement([FromRoute] Guid id)
     {
         var achievement = await _unit.Achievements
-            .GetQuerable()
+            .GetQueryable()
             .Include(a => a.Request)
             .FirstAsync(a => a.Id == id);
         var request = achievement.Request;

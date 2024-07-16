@@ -47,7 +47,7 @@ public class RequestsController(IUnitOfWork unit) : ControllerBase
     public async Task<IActionResult> GetRequestsPerUser([FromRoute] string login)
     {
         return Ok(await _unit.Requests
-            .GetQuerable()
+            .GetQueryable()
             .Include(r => r.Images)
             .Where(r => r.OwnerLogin == login)
             .OrderBy(r => r.IsOpen)
@@ -100,7 +100,7 @@ public class RequestsController(IUnitOfWork unit) : ControllerBase
         var login = HttpContext.User.Claims.First(c => c.Type == "Login").Value;
 
         return Ok(await _unit.Requests
-            .GetQuerable()
+            .GetQueryable()
             .Include(r => r.Images)
             .Where(r => r.OwnerLogin == login)
             .OrderByDescending(r => r.DateTime)
@@ -150,7 +150,7 @@ public class RequestsController(IUnitOfWork unit) : ControllerBase
     public async Task<IActionResult> GetOpenRequests()
     {
         return Ok(await _unit.Requests
-            .GetQuerable()
+            .GetQueryable()
             .Include(r => r.Images)
             .Where(r => r.IsOpen)
             .OrderByDescending(r => r.DateTime)
@@ -201,7 +201,7 @@ public class RequestsController(IUnitOfWork unit) : ControllerBase
     public async Task<IActionResult> GetAll()
     {
         return Ok(await _unit.Requests
-            .GetQuerable()
+            .GetQueryable()
             .Include(r => r.Images)
             .OrderByDescending(r => r.DateTime)
             .Select(r => new

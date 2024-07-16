@@ -100,7 +100,7 @@ public class CommentsController(IUnitOfWork unit) : ControllerBase
             return Unauthorized();
 
         return Ok(await _unit.Comments
-            .GetQuerable()
+            .GetQueryable()
             .Where(c => c.RequestId == id)
             .OrderByDescending(c => c.Datetime)
             .ToListAsync());

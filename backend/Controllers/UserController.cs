@@ -41,7 +41,7 @@ public class UsersController(IUnitOfWork unit) : ControllerBase
     [Authorize(PolicyData.AdminOnlyPolicyName)]
     public async Task<IActionResult> AllUsers()
     {
-        return Ok(await _unit.Users.GetQuerable().OrderBy(u => u.Login).ToListAsync());
+        return Ok(await _unit.Users.GetQueryable().OrderBy(u => u.Login).ToListAsync());
     }
 
     /// <summary>
@@ -73,7 +73,7 @@ public class UsersController(IUnitOfWork unit) : ControllerBase
     public async Task<IActionResult> NonAdmins()
     {
         return Ok(await _unit.Users
-            .GetQuerable()
+            .GetQueryable()
             .Where(u => u.Role == Roles.Default)
             .OrderBy(u => u.Login)
             .ToListAsync());
@@ -108,7 +108,7 @@ public class UsersController(IUnitOfWork unit) : ControllerBase
     public async Task<IActionResult> Admins()
     {
         return Ok(await _unit.Users
-            .GetQuerable()
+            .GetQueryable()
             .Where(u => u.Role == Roles.Admin)
             .OrderBy(u => u.Login)
             .ToListAsync());
@@ -362,7 +362,7 @@ public class UsersController(IUnitOfWork unit) : ControllerBase
             return Forbid();
 
         var user = await _unit.Users.GetById(login);
-        if (user is null) 
+        if (user is null)
             return NotFound("User not found");
 
         if (!imageService.Validate(imageName))

@@ -1,6 +1,5 @@
 using DataAccess;
 using DataAccess.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace Services;
 
@@ -18,17 +17,17 @@ public class UnitOfWork : IUnitOfWork
         Users = new GenericRepository<User>(_db);
         Requests = new GenericRepository<VerificationRequest>(_db);
     }
-    public IRepository<Achievement> Achievements {get; private set;}
+    public IRepository<Achievement> Achievements { get; private set; }
 
-    public IRepository<Activity> Activities {get; private set;}
+    public IRepository<Activity> Activities { get; private set; }
 
-    public IRepository<Comment> Comments {get; private set;}
+    public IRepository<Comment> Comments { get; private set; }
 
-    public IRepository<Image> Images {get; private set;}
+    public IRepository<Image> Images { get; private set; }
 
-    public IRepository<User> Users {get; private set;}
+    public IRepository<User> Users { get; private set; }
 
-    public IRepository<VerificationRequest> Requests {get; private set;}
+    public IRepository<VerificationRequest> Requests { get; private set; }
 
     public async Task SaveAsync()
     {

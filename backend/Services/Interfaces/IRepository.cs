@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Data;
-using System.Linq.Expressions;
 namespace Services;
 
 public interface IRepository<TEntity> where TEntity : class
@@ -11,7 +6,7 @@ public interface IRepository<TEntity> where TEntity : class
 
     Task<TEntity?> GetById<TId>(TId id);
 
-    IQueryable<TEntity> GetQuerable();
+    IQueryable<TEntity> GetQueryable();
 
     void Insert(TEntity entity);
 
