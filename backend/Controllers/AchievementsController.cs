@@ -94,7 +94,6 @@ public class AchievementsController(IUnitOfWork unit) : ControllerBase
     public async Task<IActionResult> SelfAchievements()
     {
         var login = HttpContext.User.Claims.First(c => c.Type == "Login").Value;
-
         return Ok(await _unit.Achievements
             .GetQuerable()
             .Include(a => a.Request)
@@ -102,11 +101,13 @@ public class AchievementsController(IUnitOfWork unit) : ControllerBase
             .OrderByDescending(a => a.VerificationDatetime)
             .Select(a => new
             {
-                a.AdminLogin,
+                //a.AdminLogin, зачем палить логин админа пользаку?
                 a.Score,
                 a.Id,
                 a.RequestId,
-                a.VerificationDatetime
+                a.VerificationDatetime,
+                a.Request.Description,
+                a.Request.EventName
             }).ToListAsync());
     }
 
