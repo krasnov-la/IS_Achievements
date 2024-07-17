@@ -19,7 +19,7 @@
         Главная страница
       </router-link>
       <a
-        href=""
+        href="/CurrentEvents"
         :class="{ active: isActive('/events') }"
         @click="
           () => {
@@ -32,7 +32,7 @@
         Текущие ивенты
       </a>
       <a
-        href=""
+        href="/FutureEvents"
         :class="{ active: isActive('/future-events') }"
         @click="
           () => {
@@ -176,11 +176,11 @@ a:nth-child(4)::before {
 }
 
 .stripe.active {
-  background: #8057f2;
+  background: #1F7BD4;
 }
 
 .active {
-  background: #8057f2;
+  background: #1F7BD4;
   color: #e3e4e4;
 }
 
@@ -198,7 +198,7 @@ a:nth-child(4)::before {
 .profile-img {
   width: 35px;
   height: 35px;
-  background: #a69ae8;
+  background: #2b8be8;
   border-radius: 50%;
   margin: 0 5% 0 0;
 }
@@ -258,7 +258,7 @@ a {
   text-align: center;
   border: transparent;
   background-color: #35373a;
-  color: #bfbfbf;
+  color: #dadada;
   font-family: "Inter";
   font-style: normal;
   font-weight: 450;
@@ -274,17 +274,17 @@ a {
 }
 
 a:hover {
-  background: rgba(128, 87, 242, 0.37);
+  background: #1365b4;
   color: #e3e4e4;
 }
 
 a.active {
-  background: #8057f2;
+  background: #1F7BD4;
   color: #e3e4e4;
 }
 
 a:not(.active):hover {
-  background: rgba(128, 87, 242, 0.37);
+  background: #1365b4;
   color: #e3e4e4;
 }
 </style>

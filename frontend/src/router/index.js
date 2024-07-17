@@ -5,6 +5,8 @@ import RegistrationView from '../views/RegistrationView.vue'
 import LoginView from '../views/LoginView.vue'
 import NewAchievement from "@/views/NewAchievement.vue";
 import EditProfile from "@/views/EditProfile.vue";
+import CurrentEvents from "@/views/CurrentEvents.vue";
+import FutureEvents from "@/views/FutureEvents.vue";
 
 
 const routes = [
@@ -37,6 +39,16 @@ const routes = [
     path: '/EditProfile',
     name: 'EditProfile',
     component: EditProfile
+  },
+  {
+    path: '/CurrentEvents',
+    name: 'CurrentEvents',
+    component: CurrentEvents
+  },
+  {
+    path: '/FutureEvents',
+    name: 'FutureEvents',
+    component: FutureEvents
   },
 ]
 
