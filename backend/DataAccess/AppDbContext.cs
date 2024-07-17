@@ -24,6 +24,10 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Comment>().HasKey(c => c.Id);
         modelBuilder.Entity<Image>().HasKey(i => i.FileName);
         modelBuilder.Entity<VerificationRequest>().HasKey(v => v.Id);
+        modelBuilder.Entity<VerificationRequest>()
+            .Property(r => r.Status)
+            .HasConversion<string>()
+            .HasMaxLength(16);
 
         // Seeding Users
         modelBuilder.Entity<User>().HasData(
@@ -78,7 +82,7 @@ public class AppDbContext : DbContext
                 DateTime = DateTime.UtcNow,
                 Description = "Sample verification request description 1",
                 EventName = "Sample Event 1",
-                IsOpen = false
+                Status = RequestStatus.Approved
             },
             new VerificationRequest
             {
@@ -87,7 +91,7 @@ public class AppDbContext : DbContext
                 DateTime = DateTime.UtcNow.AddHours(-2),
                 Description = "Sample verification request description 2",
                 EventName = "Sample Event 2",
-                IsOpen = false
+                Status = RequestStatus.Approved
             },
             new VerificationRequest
             {
@@ -96,7 +100,7 @@ public class AppDbContext : DbContext
                 DateTime = DateTime.UtcNow.AddHours(-4),
                 Description = "Sample verification request description 3",
                 EventName = "Sample Event 3",
-                IsOpen = false
+                Status = RequestStatus.Approved
             },
             new VerificationRequest
             {
@@ -105,7 +109,7 @@ public class AppDbContext : DbContext
                 DateTime = DateTime.UtcNow.AddHours(-4),
                 Description = "Sample verification request description 4",
                 EventName = "Sample Event 4",
-                IsOpen = true
+                Status = RequestStatus.InProgress
             }
         );
 

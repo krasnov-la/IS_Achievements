@@ -91,16 +91,7 @@ public class ActivitiesController(IUnitOfWork unit) : ControllerBase
     {
         var activity = await _unit.Activities.GetById(id);
         if (activity is null) return NotFound();
-        return Ok(
-            new
-            {
-                activity.Id,
-                activity.Name,
-                activity.Datetime,
-                activity.Preview,
-                activity.Link
-            }
-        );
+        return Ok(activity);
     }
 
     /// <summary>

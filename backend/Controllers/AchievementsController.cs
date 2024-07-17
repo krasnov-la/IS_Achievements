@@ -45,7 +45,7 @@ public class AchievementsController(IUnitOfWork unit) : ControllerBase
         var verificationReq = await _unit.Requests.GetById(request.ReqId);
         if (verificationReq is null) return NotFound("Request not found");
 
-        verificationReq.IsOpen = false;
+        verificationReq.Status = RequestStatus.Approved;
         _unit.Requests.Update(verificationReq);
 
         var achievement = new Achievement()
@@ -213,7 +213,7 @@ public class AchievementsController(IUnitOfWork unit) : ControllerBase
             .Include(a => a.Request)
             .FirstAsync(a => a.Id == id);
         var request = achievement.Request;
-        request.IsOpen = true;
+        request.Status = RequestStatus.InProgress;
         _unit.Requests.Update(request);
         _unit.Achievements.Delete(achievement);
         await _unit.SaveAsync();

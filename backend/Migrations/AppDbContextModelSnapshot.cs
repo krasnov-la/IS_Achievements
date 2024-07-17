@@ -49,32 +49,6 @@ namespace backend.Migrations
                     b.HasIndex("RequestId");
 
                     b.ToTable("Achievements");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("265c2de4-c75b-4b88-9ce8-a42e62031ff2"),
-                            AdminLogin = "admin",
-                            RequestId = new Guid("a2fd4433-c8f6-497e-b5c9-1596a1e00832"),
-                            Score = 95.5f,
-                            VerificationDatetime = new DateTime(2024, 7, 14, 14, 27, 21, 404, DateTimeKind.Utc).AddTicks(639)
-                        },
-                        new
-                        {
-                            Id = new Guid("35f57901-f7ec-4662-912a-11081507c27f"),
-                            AdminLogin = "admin",
-                            RequestId = new Guid("2238eb35-8c92-4dce-8ed1-8d0ca6a29aeb"),
-                            Score = 88f,
-                            VerificationDatetime = new DateTime(2024, 7, 14, 13, 27, 21, 404, DateTimeKind.Utc).AddTicks(643)
-                        },
-                        new
-                        {
-                            Id = new Guid("e14b2240-aca5-426e-8a01-2d59a8125fa0"),
-                            AdminLogin = "admin",
-                            RequestId = new Guid("678f12ee-7528-45b4-adda-e9733e77f9e6"),
-                            Score = 92.3f,
-                            VerificationDatetime = new DateTime(2024, 7, 14, 12, 27, 21, 404, DateTimeKind.Utc).AddTicks(648)
-                        });
                 });
 
             modelBuilder.Entity("DataAccess.Models.Activity", b =>
@@ -114,27 +88,27 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("0de4ad0b-3ef9-4ef1-98c9-0356c4d905bb"),
+                            Id = new Guid("6cab54aa-b430-4c4b-81b7-102c7a04482b"),
                             AdminLogin = "admin",
-                            Datetime = new DateTime(2024, 7, 14, 14, 27, 21, 404, DateTimeKind.Utc).AddTicks(735),
+                            Datetime = new DateTime(2024, 7, 17, 4, 56, 49, 752, DateTimeKind.Utc).AddTicks(9583),
                             Link = "http://example.com/activity1",
                             Name = "Sample Activity 1",
                             Preview = "00000000-0000-0000-0000-000000000000"
                         },
                         new
                         {
-                            Id = new Guid("5a1c1ab2-011c-4389-bdff-282aceefce6e"),
+                            Id = new Guid("58ade9e3-d6fa-4748-979e-b02958c5d08b"),
                             AdminLogin = "admin",
-                            Datetime = new DateTime(2024, 7, 14, 13, 27, 21, 404, DateTimeKind.Utc).AddTicks(746),
+                            Datetime = new DateTime(2024, 7, 17, 3, 56, 49, 752, DateTimeKind.Utc).AddTicks(9592),
                             Link = "http://example.com/activity2",
                             Name = "Sample Activity 2",
                             Preview = "00000000-0000-0000-0000-000000000000"
                         },
                         new
                         {
-                            Id = new Guid("9c7a598d-1392-4381-8edd-e896d380b7fc"),
+                            Id = new Guid("e715aaff-b3a5-45f8-b3a7-7b6e28a3b8af"),
                             AdminLogin = "admin",
-                            Datetime = new DateTime(2024, 7, 14, 12, 27, 21, 404, DateTimeKind.Utc).AddTicks(753),
+                            Datetime = new DateTime(2024, 7, 17, 2, 56, 49, 752, DateTimeKind.Utc).AddTicks(9603),
                             Link = "http://example.com/activity3",
                             Name = "Sample Activity 3",
                             Preview = "00000000-0000-0000-0000-000000000000"
@@ -163,29 +137,6 @@ namespace backend.Migrations
                     b.HasIndex("RequestId");
 
                     b.ToTable("Comments");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("b2f79a4f-936c-446f-8dc7-bd8344b94b8a"),
-                            Datetime = new DateTime(2024, 7, 14, 14, 27, 21, 404, DateTimeKind.Utc).AddTicks(829),
-                            RequestId = new Guid("a2fd4433-c8f6-497e-b5c9-1596a1e00832"),
-                            Text = "This is a sample comment 1."
-                        },
-                        new
-                        {
-                            Id = new Guid("27f6fb52-4e82-44b5-bc56-7ac01a8401bb"),
-                            Datetime = new DateTime(2024, 7, 14, 13, 27, 21, 404, DateTimeKind.Utc).AddTicks(835),
-                            RequestId = new Guid("2238eb35-8c92-4dce-8ed1-8d0ca6a29aeb"),
-                            Text = "This is a sample comment 2."
-                        },
-                        new
-                        {
-                            Id = new Guid("0441411b-4627-4b3c-aaba-9b6f9cdf168c"),
-                            Datetime = new DateTime(2024, 7, 14, 12, 27, 21, 404, DateTimeKind.Utc).AddTicks(841),
-                            RequestId = new Guid("678f12ee-7528-45b4-adda-e9733e77f9e6"),
-                            Text = "This is a sample comment 3."
-                        });
                 });
 
             modelBuilder.Entity("DataAccess.Models.Image", b =>
@@ -202,28 +153,6 @@ namespace backend.Migrations
                     b.HasIndex("RequestId");
 
                     b.ToTable("Images");
-
-                    b.HasData(
-                        new
-                        {
-                            FileName = "45fecdab-ac5c-41a7-aa50-ba1a0e2c4d0b",
-                            RequestId = new Guid("a2fd4433-c8f6-497e-b5c9-1596a1e00832")
-                        },
-                        new
-                        {
-                            FileName = "2e910ebc-3c30-49bb-9b3f-8cd9d04487b9",
-                            RequestId = new Guid("2238eb35-8c92-4dce-8ed1-8d0ca6a29aeb")
-                        },
-                        new
-                        {
-                            FileName = "ed54b1ca-9625-4de8-acb6-1ccd87479082",
-                            RequestId = new Guid("678f12ee-7528-45b4-adda-e9733e77f9e6")
-                        },
-                        new
-                        {
-                            FileName = "75bd1119-b00a-416c-aeed-cb5b6c2bf8da",
-                            RequestId = new Guid("3219160c-0333-4ed7-836c-33652c720a3a")
-                        });
                 });
 
             modelBuilder.Entity("DataAccess.Models.User", b =>
@@ -272,7 +201,7 @@ namespace backend.Migrations
                             Nickname = "Administrator",
                             Password = "$2a$11$QBOwTM/1G3zIqQBll7vQDel21tMOmMngs20z0bxrVLEqxyY3tHT02",
                             Refresh = "42af99f8-7c91-4fdb-8b72-0e12b7e6b74b",
-                            RefreshExpire = new DateTime(2024, 8, 13, 14, 27, 21, 403, DateTimeKind.Utc).AddTicks(7988),
+                            RefreshExpire = new DateTime(2024, 8, 16, 4, 56, 49, 752, DateTimeKind.Utc).AddTicks(9116),
                             Role = "Admin"
                         },
                         new
@@ -282,7 +211,7 @@ namespace backend.Migrations
                             Nickname = "User One",
                             Password = "$2a$11$b63c2UhfmVGeeUWTnHlas.bk32AEQffYtnGdcX.NT0vzlNCLdZZVm",
                             Refresh = "42af99f8-7c91-4fdb-8b72-0e12b7e6b74b",
-                            RefreshExpire = new DateTime(2024, 8, 13, 14, 27, 21, 403, DateTimeKind.Utc).AddTicks(8003),
+                            RefreshExpire = new DateTime(2024, 8, 16, 4, 56, 49, 752, DateTimeKind.Utc).AddTicks(9129),
                             Role = "User"
                         },
                         new
@@ -292,7 +221,7 @@ namespace backend.Migrations
                             Nickname = "User Two",
                             Password = "$2a$11$PW7Dapz13EKI/xGqXjK.Y.DJgkGU39nz79UQyUr6bc4I1UNoUJCey",
                             Refresh = "42af99f8-7c91-4fdb-8b72-0e12b7e6b74b",
-                            RefreshExpire = new DateTime(2024, 8, 13, 14, 27, 21, 403, DateTimeKind.Utc).AddTicks(8010),
+                            RefreshExpire = new DateTime(2024, 8, 16, 4, 56, 49, 752, DateTimeKind.Utc).AddTicks(9135),
                             Role = "User"
                         },
                         new
@@ -302,7 +231,7 @@ namespace backend.Migrations
                             Nickname = "User Three",
                             Password = "$2a$11$ACFe85jXeKSHr7m3uycOsu4QN9/FbLb/YgTQ/v7UlR22DvoSX5gbW",
                             Refresh = "42af99f8-7c91-4fdb-8b72-0e12b7e6b74b",
-                            RefreshExpire = new DateTime(2024, 8, 13, 14, 27, 21, 403, DateTimeKind.Utc).AddTicks(8015),
+                            RefreshExpire = new DateTime(2024, 8, 16, 4, 56, 49, 752, DateTimeKind.Utc).AddTicks(9140),
                             Role = "User"
                         });
                 });
@@ -326,12 +255,14 @@ namespace backend.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
 
-                    b.Property<bool>("IsOpen")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("OwnerLogin")
                         .IsRequired()
                         .HasColumnType("character varying(256)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(16)
+                        .HasColumnType("character varying(16)");
 
                     b.HasKey("Id");
 
@@ -342,39 +273,39 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("a2fd4433-c8f6-497e-b5c9-1596a1e00832"),
-                            DateTime = new DateTime(2024, 7, 14, 14, 27, 21, 404, DateTimeKind.Utc).AddTicks(503),
+                            Id = new Guid("4ffada79-a804-486b-bdb2-07d5d06c059a"),
+                            DateTime = new DateTime(2024, 7, 17, 4, 56, 49, 752, DateTimeKind.Utc).AddTicks(9489),
                             Description = "Sample verification request description 1",
                             EventName = "Sample Event 1",
-                            IsOpen = false,
-                            OwnerLogin = "user1"
+                            OwnerLogin = "user1",
+                            Status = "Approved"
                         },
                         new
                         {
-                            Id = new Guid("2238eb35-8c92-4dce-8ed1-8d0ca6a29aeb"),
-                            DateTime = new DateTime(2024, 7, 14, 12, 27, 21, 404, DateTimeKind.Utc).AddTicks(512),
+                            Id = new Guid("204c2e0e-d8e0-4b14-b28a-45ef4a3c6795"),
+                            DateTime = new DateTime(2024, 7, 17, 2, 56, 49, 752, DateTimeKind.Utc).AddTicks(9514),
                             Description = "Sample verification request description 2",
                             EventName = "Sample Event 2",
-                            IsOpen = false,
-                            OwnerLogin = "user2"
+                            OwnerLogin = "user2",
+                            Status = "Approved"
                         },
                         new
                         {
-                            Id = new Guid("678f12ee-7528-45b4-adda-e9733e77f9e6"),
-                            DateTime = new DateTime(2024, 7, 14, 10, 27, 21, 404, DateTimeKind.Utc).AddTicks(547),
+                            Id = new Guid("e64d7198-8edd-4631-8513-e21cb880267f"),
+                            DateTime = new DateTime(2024, 7, 17, 0, 56, 49, 752, DateTimeKind.Utc).AddTicks(9520),
                             Description = "Sample verification request description 3",
                             EventName = "Sample Event 3",
-                            IsOpen = false,
-                            OwnerLogin = "user2"
+                            OwnerLogin = "user2",
+                            Status = "Approved"
                         },
                         new
                         {
-                            Id = new Guid("3219160c-0333-4ed7-836c-33652c720a3a"),
-                            DateTime = new DateTime(2024, 7, 14, 10, 27, 21, 404, DateTimeKind.Utc).AddTicks(553),
+                            Id = new Guid("2a027747-8613-4970-81f4-ceca937824d7"),
+                            DateTime = new DateTime(2024, 7, 17, 0, 56, 49, 752, DateTimeKind.Utc).AddTicks(9525),
                             Description = "Sample verification request description 4",
                             EventName = "Sample Event 4",
-                            IsOpen = true,
-                            OwnerLogin = "user3"
+                            OwnerLogin = "user3",
+                            Status = "InProgress"
                         });
                 });
 
