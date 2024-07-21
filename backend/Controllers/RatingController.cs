@@ -41,7 +41,7 @@ public class RatingController(IUnitOfWork unit) : ControllerBase
 
         var data =
             (await _unit.Achievements
-            .GetQuerable()
+            .GetQueryable()
             .Include(a => a.Request)
             .ThenInclude(r => r.Owner)
             .Select(a => new
@@ -130,7 +130,7 @@ public class RatingController(IUnitOfWork unit) : ControllerBase
     {
         var data =
             (await _unit.Achievements
-            .GetQuerable()
+            .GetQueryable()
             .Include(a => a.Request)
             .ThenInclude(r => r.Owner)
             .Select(a => new

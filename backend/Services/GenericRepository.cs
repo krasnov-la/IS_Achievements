@@ -1,5 +1,3 @@
-using System.Linq.Expressions;
-using DataAccess;
 using Microsoft.EntityFrameworkCore;
 
 namespace Services;
@@ -28,7 +26,7 @@ public class GenericRepository<TEntity>(DbContext db) : IRepository<TEntity> whe
         return await _set.ToListAsync();
     }
 
-    public IQueryable<TEntity> GetQuerable()
+    public IQueryable<TEntity> GetQueryable()
     {
         return _set;
     }

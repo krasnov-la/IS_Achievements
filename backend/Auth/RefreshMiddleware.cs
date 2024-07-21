@@ -1,7 +1,3 @@
-using System.Buffers;
-using System.Reflection.Emit;
-using System.Text;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Services;
 
@@ -17,16 +13,16 @@ public class RefreshMiddleware(RequestDelegate next)
         var indicate = context.Request.Cookies["exp"];
         var token = context.Request.Cookies["cookie-1"];
         var refresh = context.Request.Cookies["cookie-2"];
-        
+
         if (refresh is null || token is null) goto End;
 
         if (indicate is not null) goto AddHeaderThenEnd;
 
         var claims = tokenService.GetPrincipalFromExpToken(token);
         var login = claims.First(c => c.Type == "Login").Value;
-        var user = 
+        var user =
             await unit.Users
-            .GetQuerable()
+            .GetQueryable()
             .AsNoTracking()
             .Where(u => u.Login == login)
             .FirstOrDefaultAsync();
@@ -45,17 +41,19 @@ public class RefreshMiddleware(RequestDelegate next)
 
         token = tokenService.GenerateAccessToken(claims);
 
-        context.Response.Cookies.Append("exp", "somescaryhash", new(){
+        context.Response.Cookies.Append("exp", "somescaryhash", new()
+        {
             Expires = DateTime.Now.AddMinutes(10)
         });
         context.Response.Cookies.Append("cookie-1", token);
-        context.Response.Cookies.Append("cookie-2", user.Refresh, new(){
+        context.Response.Cookies.Append("cookie-2", user.Refresh, new()
+        {
             Expires = user.RefreshExpire
         });
-    
-        AddHeaderThenEnd:
+
+    AddHeaderThenEnd:
         context.Request.Headers.Append("Authorization", "Bearer " + token);
-        End:
+    End:
         await _next.Invoke(context);
     }
 }

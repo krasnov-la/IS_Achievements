@@ -17,7 +17,9 @@ public class ActivitiesController(IUnitOfWork unit) : ControllerBase
     /// Creates a new activity.
     /// </summary>
     /// <param name="request">The activity request details.</param>
+    /// <param name="imageService">The image service for validating image names.</param>
     /// <response code="200">Activity created successfully.</response>
+    /// <response code="400">Invalid image name.</response>
     /// <remarks>
     /// This method creates a new activity based on the provided details.
     /// 
@@ -36,17 +38,21 @@ public class ActivitiesController(IUnitOfWork unit) : ControllerBase
     /// ```
     /// </remarks>
     [HttpPost]
-    public async Task<IActionResult> CreateActivity([FromBody] ActivityRequest request)
+    public async Task<IActionResult> CreateActivity([FromBody] ActivityRequest request, [FromServices] IImageService imageService)
     {
         var login = HttpContext.User.Claims.First(c => c.Type == "Login").Value;
 
         var actId = Guid.NewGuid();
+
+        if (!imageService.Validate(request.Preview))
+            return BadRequest("Invalid image name");
 
         _unit.Activities.Insert(new Activity()
         {
             Id = actId,
             Name = request.Name,
             Datetime = request.DateTime,
+            Preview = request.Preview,
             Link = request.Link,
             AdminLogin = login
         });
@@ -75,6 +81,7 @@ public class ActivitiesController(IUnitOfWork unit) : ControllerBase
     ///    "id": "123e4567-e89b-12d3-a456-426614174000",
     ///    "name": "Activity Name",
     ///    "datetime": "2024-07-11T12:00:00Z",
+    ///    "preview": "fab71c65-6bb1-4563-bf4a-550931fbe351.png"
     ///    "link": "http://example.com"
     /// }
     /// ```
@@ -84,15 +91,7 @@ public class ActivitiesController(IUnitOfWork unit) : ControllerBase
     {
         var activity = await _unit.Activities.GetById(id);
         if (activity is null) return NotFound();
-        return Ok(
-            new
-            {
-                activity.Id,
-                activity.Name,
-                activity.Datetime,
-                activity.Link
-            }
-        );
+        return Ok(activity);
     }
 
     /// <summary>
@@ -113,6 +112,8 @@ public class ActivitiesController(IUnitOfWork unit) : ControllerBase
     ///        "Link": "http://example.com/updated"
     ///     }
     /// </remarks>
+    /// 
+    //TODO: Split into patches
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateActivity([FromBody] ActivityRequest request, [FromRoute] Guid id)
     {
@@ -123,6 +124,7 @@ public class ActivitiesController(IUnitOfWork unit) : ControllerBase
 
         activity.Name = request.Name;
         activity.Link = request.Link;
+        activity.Preview = request.Preview;
         activity.Datetime = request.DateTime;
         _unit.Activities.Update(activity);
 

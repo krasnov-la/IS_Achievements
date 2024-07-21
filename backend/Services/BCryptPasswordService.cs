@@ -1,4 +1,3 @@
-using BCrypt.Net;
 using DataAccess.Models;
 using Microsoft.AspNetCore.Identity;
 
@@ -13,6 +12,6 @@ public class BCryptPasswordService : IPasswordService
 
     public PasswordVerificationResult Validate(User user, string password, string hash)
     {
-        return BCrypt.Net.BCrypt.Verify(password, hash)?PasswordVerificationResult.Success:PasswordVerificationResult.Failed;
+        return BCrypt.Net.BCrypt.Verify(password, hash) ? PasswordVerificationResult.Success : PasswordVerificationResult.Failed;
     }
 }

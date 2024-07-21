@@ -1,8 +1,6 @@
 using System.Security.Claims;
 using Auth;
-using DataAccess;
 using DataAccess.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Services;

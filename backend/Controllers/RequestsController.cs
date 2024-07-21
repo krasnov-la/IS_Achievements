@@ -47,10 +47,10 @@ public class RequestsController(IUnitOfWork unit) : ControllerBase
     public async Task<IActionResult> GetRequestsPerUser([FromRoute] string login)
     {
         return Ok(await _unit.Requests
-            .GetQuerable()
+            .GetQueryable()
             .Include(r => r.Images)
             .Where(r => r.OwnerLogin == login)
-            .OrderBy(r => r.IsOpen)
+            .OrderBy(r => r.Status)
             .Select(r => new
             {
                 r.Id,
@@ -58,7 +58,7 @@ public class RequestsController(IUnitOfWork unit) : ControllerBase
                 r.EventName,
                 r.Description,
                 r.DateTime,
-                r.IsOpen,
+                Status = Convert.ToString(r.Status),
                 Images = r.Images.Select(i => i.FileName)
             })
             .ToListAsync());
@@ -100,7 +100,7 @@ public class RequestsController(IUnitOfWork unit) : ControllerBase
         var login = HttpContext.User.Claims.First(c => c.Type == "Login").Value;
 
         return Ok(await _unit.Requests
-            .GetQuerable()
+            .GetQueryable()
             .Include(r => r.Images)
             .Where(r => r.OwnerLogin == login)
             .OrderByDescending(r => r.DateTime)
@@ -111,7 +111,7 @@ public class RequestsController(IUnitOfWork unit) : ControllerBase
                 r.EventName,
                 r.Description,
                 r.DateTime,
-                r.IsOpen,
+                Status = Convert.ToString(r.Status),
                 Images = r.Images.Select(i => i.FileName)
             })
             .ToListAsync());
@@ -150,9 +150,9 @@ public class RequestsController(IUnitOfWork unit) : ControllerBase
     public async Task<IActionResult> GetOpenRequests()
     {
         return Ok(await _unit.Requests
-            .GetQuerable()
+            .GetQueryable()
             .Include(r => r.Images)
-            .Where(r => r.IsOpen)
+            .Where(r => r.Status == RequestStatus.InProgress)
             .OrderByDescending(r => r.DateTime)
             .Select(r => new
             {
@@ -161,7 +161,6 @@ public class RequestsController(IUnitOfWork unit) : ControllerBase
                 r.EventName,
                 r.Description,
                 r.DateTime,
-                r.IsOpen,
                 Images = r.Images.Select(i => i.FileName)
             })
             .ToListAsync());
@@ -201,7 +200,7 @@ public class RequestsController(IUnitOfWork unit) : ControllerBase
     public async Task<IActionResult> GetAll()
     {
         return Ok(await _unit.Requests
-            .GetQuerable()
+            .GetQueryable()
             .Include(r => r.Images)
             .OrderByDescending(r => r.DateTime)
             .Select(r => new
@@ -211,7 +210,7 @@ public class RequestsController(IUnitOfWork unit) : ControllerBase
                 r.EventName,
                 r.Description,
                 r.DateTime,
-                r.IsOpen,
+                Status = Convert.ToString(r.Status),
                 Images = r.Images.Select(i => i.FileName)
             })
             .ToListAsync());
@@ -272,7 +271,7 @@ public class RequestsController(IUnitOfWork unit) : ControllerBase
     /// Updates the status of a specific verification request.
     /// </summary>
     /// <param name="id">The unique identifier of the request.</param>
-    /// <param name="is_open">The new status of the request. True for open, false for closed.</param>
+    /// <param name="new_status">The new status of the request.</param>
     /// <response code="200">Request status updated successfully.</response>
     /// <response code="404">Request not found.</response>
     /// <remarks>
@@ -281,17 +280,17 @@ public class RequestsController(IUnitOfWork unit) : ControllerBase
     /// 
     /// **Example request:**
     /// ```
-    /// PATCH /Requests/123e4567-e89b-12d3-a456-426614174000/is-open/false
+    /// PATCH /Requests/123e4567-e89b-12d3-a456-426614174000/status/InProgress
     /// ```
     /// </remarks>
-    [HttpPatch("{id:guid}/is-open/{is_open:bool}")]
+    [HttpPatch("{id:guid}/status/{new_status}")]
     [Authorize(PolicyData.AdminOnlyPolicyName)]
-    public async Task<IActionResult> UpdateStatus([FromRoute] Guid id, [FromRoute] bool is_open)
+    public async Task<IActionResult> UpdateStatus([FromRoute] Guid id, [FromRoute] RequestStatus new_status)
     {
         var request = await _unit.Requests.GetById(id);
         if (request is null)
             return NotFound("Request not found");
-        request.IsOpen = is_open;
+        request.Status = new_status;
         _unit.Requests.Update(request);
         await _unit.SaveAsync();
         return Ok();
