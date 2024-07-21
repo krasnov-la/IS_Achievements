@@ -44,18 +44,17 @@
             <div class="button1" @click="uploadPhoto" style="align-items: center; display: flex">
               <img src="../assets/ico/file.svg"/>
             </div>
-            <div class="h2" style="margin-left: 2vh">Сертификат_1.pdf</div>
+            <div class="h22" style="margin-left: 2vh">Сертификат_1.pdf</div>
           </div>
 
           <div style="display: flex; justify-content: start;align-items: center; margin: 3vh 0">
             <div class="button1" @click="uploadPhoto" style="align-items: center; display: flex">
               <img src="../assets/ico/file.svg"/>
             </div>
-            <div class="h2" style="margin-left: 2vh">Сертификат_2.pdf</div>
+            <div class="h22" style="margin-left: 2vh">Сертификат_2.pdf</div>
           </div>
 
           <div style="display: flex; justify-content: center;align-items: center; ">
-            <div class="pfp"/>
             <div class="button2" @click="uploadPhoto" style="align-items: center; display: flex">
               <div style="margin-right: 1vh">Добавить файлы</div>
               <img src="../assets/ico/download.svg"/>
@@ -121,7 +120,7 @@ const uploadPhoto = () => {
   line-height: 0px;
 }
 
-.h2{
+.h22{
   color: #E3E4E4;
   font-size: 13.5px;
   font-weight: 280;

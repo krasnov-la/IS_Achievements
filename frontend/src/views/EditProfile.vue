@@ -23,7 +23,7 @@
           </div>
 
           <div style="display: flex; justify-content: start;align-items: center; ">
-            <div class="pfp"/>
+            <div class="pfp1"/>
             <div class="button1" @click="uploadPhoto" style="align-items: center; display: flex">
               <div style="margin-right: 1vh">Загрузить фото</div>
               <img src="../assets/ico/download.svg"/>
@@ -180,7 +180,7 @@ const uploadPhoto = () => {
   margin: 0 0 0 3vh;
 }
 
-.pfp {
+.pfp1 {
   background-color: #35373a;
   border: 1px solid #72787d;
   border-radius: 100%;
