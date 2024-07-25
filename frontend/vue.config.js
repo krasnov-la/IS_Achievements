@@ -1,7 +1,13 @@
 const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
-  transpileDependencies: true,
+  transpileDependencies: true,  
   devServer: {
-    proxy: process.env.VUE_APP_CTF_API
+    proxy: {
+        '/ctfapi': {
+        target: process.env.VUE_APP_CTF_API,
+        changeOrigin: true,
+        pathRewrite: { '^/ctfapi': '' },
+      }
+    }
   }
 })

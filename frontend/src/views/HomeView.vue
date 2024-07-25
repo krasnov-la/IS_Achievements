@@ -75,7 +75,7 @@ const fetchCTFEvents = async () => {
   try {
     // Fetch events from the CTF API
     const response = await axios.get(
-      `http://localhost:8080/events/?limit=100&start=${pastTimestamp}&finish=${futureTimestamp}`,
+      `/ctfapi/events/?limit=100&start=${pastTimestamp}&finish=${futureTimestamp}`,
       {
         headers: { "Content-Type": "application/json" },
       }
