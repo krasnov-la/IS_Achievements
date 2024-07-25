@@ -6,11 +6,11 @@
         <h1>.NET Creations</h1>
       </div>
       <router-link
-        to="/"
+        to="/PersonalArea"
         :class="{ active: isActive('/') }"
         @click.native="
           () => {
-            setActive('/PersonalArea');
+            setActive('/');
             changeText('Личный кабинет');
           }
         "
@@ -19,7 +19,7 @@
         Личный кабинет
       </router-link>
       <a
-        href=""
+        href="/NewAchievement"
         :class="{ active: isActive('/events') }"
         @click="
           () => {
@@ -32,7 +32,7 @@
         Добавить достижение
       </a>
       <a
-        href=""
+        href="/EditProfile"
         :class="{ active: isActive('/future-events') }"
         @click="
           () => {

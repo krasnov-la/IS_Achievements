@@ -259,6 +259,7 @@ onMounted(getStudentAchievements);
   color: #9ba1a8;
   font-size: 15pt;
   margin-bottom: 33.5pt;
+  margin-top: 0;
 }
 .h1 {
   color: #e3e4e4;
