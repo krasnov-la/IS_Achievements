@@ -116,6 +116,7 @@ const getStudentInfo = async () => {
     store.dispatch("setUser", user);
   } catch (error) {
     console.log(`error with userResponse ${error}`);
+    store.dispatch("setAuth", false);
   }
 };
 
