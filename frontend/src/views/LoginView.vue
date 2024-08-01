@@ -83,9 +83,7 @@ const submit = async () => {
   } catch (error) {
     if (error.response.data == "User not found")
       alert(`${error.response.data}`);
-    else alert(`Wrong user name or password`);
-  } finally {
-    router.push("/");
+    else alert(`Неверное имя пользователя или пароль`);
   }
 };
 </script>
@@ -149,6 +147,7 @@ input {
   height: 5.2vh;
   padding-left: 2vh;
   color: #a9aaaf;
+  transition: border-color 0.2s ease-in-out;
 }
 
 input::placeholder {
@@ -198,6 +197,8 @@ input:focus {
   font-weight: 570;
   margin: 0.5vh 0 3vh 0;
   border: none;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
 }
 
 .checkbox-container {
@@ -250,14 +251,13 @@ input:focus {
   background-color: transparent; /* чтобы галочка была только из границ */
   border-color: #1F7BD4; /* фиолетовая галочка */
 }
-.item_error {
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 300;
-  font-size: 20px;
-  line-height: 24px;
-  color: #a2411e;
-  transition: 0.2s;
-  opacity: 0;
+
+.button:hover {
+  background-color: #2081de;
+}
+
+.button:active {
+  background-color: #1e74c7;
+  transform: scale(0.98);
 }
 </style>
