@@ -18,25 +18,28 @@
         <div class="stripe" :class="{ active: isActive('/') }"></div>
         Личный кабинет
       </router-link>
-      <a
-        href="/NewAchievement"
-        :class="{ active: isActive('/events') }"
+      <router-link
+        to="/NewAchievement"
+        :class="{ active: isActive('/NewAchievement') }"
         @click="
           () => {
-            setActive('/events');
+            setActive('/NewAchievement');
             changeText('Добавить достижение');
           }
         "
       >
-        <div class="stripe" :class="{ active: isActive('/events') }"></div>
+        <div
+          class="stripe"
+          :class="{ active: isActive('/NewAchievement') }"
+        ></div>
         Добавить достижение
-      </a>
-      <a
-        href="/EditProfile"
-        :class="{ active: isActive('/future-events') }"
+      </router-link>
+      <router-link
+        to="/EditProfile"
+        :class="{ active: isActive('/EditProfile') }"
         @click="
           () => {
-            setActive('/future-events');
+            setActive('/EditProfile');
             changeText('Редактировать профиль');
           }
         "
@@ -46,7 +49,7 @@
           :class="{ active: isActive('/future-events') }"
         ></div>
         Редактировать профиль
-      </a>
+      </router-link>
       <a :class="{ active: isActive('/future') }" @click="logout">
         <div class="stripe" :class="{ active: isActive('/future') }"></div>
         Выйти из аккаунта
@@ -60,23 +63,23 @@
 
 <script setup>
 import axios from "axios";
-import { ref, computed } from "vue";
+import { computed } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 
 const store = useStore();
 const router = useRouter();
-const activePath = ref("/");
+
+const isAuthenticated = computed(() => store.getters.isAuthenticated);
+const user = computed(() => store.getters.user);
+const activePath = computed(() => store.getters.activePath);
 
 const changeText = (newText) => {
   store.dispatch("updateText", newText);
 };
 
-const isAuthenticated = computed(() => store.getters.isAuthenticated);
-const user = computed(() => store.getters.user);
-
 const setActive = (path) => {
-  activePath.value = path;
+  store.dispatch("updateActivePath", path);
 };
 
 const isActive = (path) => activePath.value === path;
