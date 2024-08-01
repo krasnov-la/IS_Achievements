@@ -1,20 +1,20 @@
 <template>
   <div class="bg">
-    <div class="card">
+    <div class="card1">
       <form @submit.prevent="submit">
         <div style="display: grid; place-items: center">
-          <div class="h1">Вход в аккаунт</div>
-          <div class="separator" />
+          <div class="h11">Вход в аккаунт</div>
+          <div class="separatorr" />
         </div>
 
         <div style="margin: 2.2vh 0 3vh 0">
-          <div class="h2">Логин</div>
+          <div class="h22">Логин</div>
           <input placeholder="Введите Логин" v-model="data.login" />
         </div>
 
         <div style="margin: 2.2vh 0 3vh 0">
           <div style="display: flex; justify-content: space-between">
-            <div class="h2">Пароль</div>
+            <div class="h22">Пароль</div>
             <router-link to="" style="margin: 1.2vh 1.5vh 0 0" class="link"
               >Забыли пароль?</router-link
             >
@@ -31,7 +31,7 @@
         </div>
 
         <div style="display: grid; place-items: center; margin-top: 3vh">
-          <div class="separator" />
+          <div class="separatorr" />
           <button class="button" type="submit">Войти</button>
 
           <div style="display: flex; margin-bottom: 0.8vh">
@@ -91,6 +91,8 @@ const submit = async () => {
 </script>
 
 <style>
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+
 .bg {
   width: 100%;
   height: 100%;
@@ -99,9 +101,9 @@ const submit = async () => {
   place-items: center;
 }
 
-.card {
+.card1 {
+  font-family: "Inter";
   position: relative;
-  font-family: Inter;
   padding: 2.6vh 4.7vh;
   width: 66vh;
   height: fit-content;
@@ -111,7 +113,7 @@ const submit = async () => {
   border: 0.8px solid #35373a;
 }
 
-.h1 {
+.h11 {
   font-family: "Inter";
   font-style: normal;
   font-weight: 550;
@@ -121,14 +123,14 @@ const submit = async () => {
   color: #e3e4e4;
 }
 
-.separator {
+.separatorr {
   width: 100%;
   height: 0.7px;
   background-color: #35373a;
   margin: 2.7vh 0 2.7vh 0;
 }
 
-.h2 {
+.h22 {
   font-family: "Inter";
   font-style: normal;
   font-weight: 550;
@@ -155,7 +157,7 @@ input::placeholder {
 }
 
 input:focus {
-  border-color: #a69ae8;
+  border-color: #80c0fd;
   color: #a9aaaf;
   outline: none;
   font-size: 9.8pt;
@@ -164,15 +166,16 @@ input:focus {
 .link {
   font-size: 9pt;
   font-weight: lighter;
-  -webkit-text-stroke: 0.5px #a69ae8;
+  -webkit-text-stroke: 0.5px #8abefc;
   transform: scaleX(1.1);
   margin: 0 0 0.5vh 0.9vh;
   text-decoration: none;
 
-  color: #a69ae8;
+  color: #8abefc;
 }
 
 .h3 {
+  font-family: "Inter";
   font-size: 9pt;
   font-weight: lighter;
   -webkit-text-stroke: 0.5px #72787d;
@@ -186,7 +189,7 @@ input:focus {
 .button {
   width: 100%;
   height: 6vh;
-  background-color: #8057f2;
+  background-color: #1F7BD4;
   display: grid;
   place-items: center;
   border-radius: 15px;
@@ -194,6 +197,7 @@ input:focus {
   color: #e3e4e4;
   font-weight: 570;
   margin: 0.5vh 0 3vh 0;
+  border: none;
 }
 
 .checkbox-container {
@@ -244,7 +248,7 @@ input:focus {
   border-width: 0 3px 3px 0;
   transform: rotate(45deg);
   background-color: transparent; /* чтобы галочка была только из границ */
-  border-color: #8a2be2; /* фиолетовая галочка */
+  border-color: #1F7BD4; /* фиолетовая галочка */
 }
 .item_error {
   font-family: "Inter";
