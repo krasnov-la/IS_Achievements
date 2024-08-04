@@ -9,7 +9,7 @@
 
         <div style="margin: 2.2vh 0 3vh 0">
           <div class="h22">Логин</div>
-          <input placeholder="Введите Логин" v-model="data.login" />
+          <input placeholder="Введите Логин" v-model="data.login"  />
         </div>
 
         <div style="margin: 2.2vh 0 3vh 0">
@@ -19,7 +19,7 @@
               >Забыли пароль?</router-link
             >
           </div>
-          <input placeholder="Введите пароль" v-model="data.password" />
+          <input type="password" placeholder="Введите пароль" v-model="data.password" />
         </div>
 
         <div style="display: flex">
@@ -77,13 +77,14 @@ const submit = async () => {
       }
     );
 
-    if (response.status == 200) {
+    if (response.status === 200) {
       store.dispatch("setAuth", true);
+      router.push("/");
     }
   } catch (error) {
-    if (error.response.data == "User not found")
+    if (error.response.data === "User not found")
       alert(`${error.response.data}`);
-    else alert(`Неверное имя пользователя или пароль`);
+    else alert(`Невереное имя пользователя или пароль`);
   }
 };
 </script>
@@ -259,5 +260,10 @@ input:focus {
 .button:active {
   background-color: #1e74c7;
   transform: scale(0.98);
+}
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px #35373a inset !important;
+  -webkit-text-fill-color: #a9aaaf !important; /* Цвет текста */
 }
 </style>

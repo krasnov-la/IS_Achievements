@@ -13,7 +13,7 @@
         </div>
         <div style="margin: 2.2vh 0 3vh 0">
           <div class="h2">Пароль</div>
-          <input placeholder="Введите пароль" v-model="data.password" />
+          <input type="password" placeholder="Введите пароль" v-model="data.password" />
         </div>
         <div style="display: grid; place-items: center; margin-top: 3vh">
           <div class="separator" />

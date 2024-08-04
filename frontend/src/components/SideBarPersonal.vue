@@ -18,6 +18,7 @@
         <div class="stripe" :class="{ active: isActive('/') }"></div>
         Личный кабинет
       </router-link>
+
       <router-link
         to="/NewAchievement"
         :class="{ active: isActive('/NewAchievement') }"
@@ -34,6 +35,7 @@
         ></div>
         Добавить достижение
       </router-link>
+
       <router-link
         to="/EditProfile"
         :class="{ active: isActive('/EditProfile') }"
@@ -46,10 +48,11 @@
       >
         <div
           class="stripe"
-          :class="{ active: isActive('/future-events') }"
+          :class="{ active: isActive('/EditProfile') }"
         ></div>
         Редактировать профиль
       </router-link>
+
       <a :class="{ active: isActive('/future') }" @click="logout">
         <div class="stripe" :class="{ active: isActive('/future') }"></div>
         Выйти из аккаунта
@@ -180,12 +183,13 @@ a:nth-child(6)::before {
 }
 
 .stripe.active {
-  background: #8057f2;
+  background: #1F7BD4;
 }
 
 .active {
-  background: #8057f2;
-  color: #e3e4e4;
+  background: #1F7BD4;
+  color: #ebedee;
+  border: 0.9px solid #1F7BD4;
 }
 
 .profile {
@@ -196,7 +200,7 @@ a:nth-child(6)::before {
   margin: 0 0 10% 0;
   padding: 0 0 -15% 10px;
   background-color: #35373a;
-  border: #35373a;
+  border: 0.9px solid #35373a;
 }
 
 a {
@@ -213,20 +217,23 @@ a {
   border-radius: 8px;
   padding: 0 4%;
   display: flex;
+  cursor: pointer;
+  transition: border 0.4s, background-color 0.4s, transform 0.4s;
 }
 
 a:hover {
-  background: rgba(128, 87, 242, 0.37);
+  background: rgba(31, 123, 212, 0.5);
   color: #e3e4e4;
+  border: 0.9px solid rgb(40, 87, 132);
 }
 
 a.active {
-  background: #8057f2;
+  background: #1F7BD4;
   color: #e3e4e4;
 }
 
 a:not(.active):hover {
-  background: rgba(128, 87, 242, 0.37);
+  background: rgba(31, 123, 212, 0.5);
   color: #e3e4e4;
 }
 </style>
