@@ -1,7 +1,7 @@
 <template>
   <Header />
   <div
-      style="
+    style="
       margin-left: 260px;
       width: calc(100% - 260px);
       height: fit-content;
@@ -13,73 +13,101 @@
     "
   >
     <SideBarPersonal />
-    <div style="width: 100%; height: 100%; display: flex; justify-content: center;">
-      <div class="container" style="width: 100%;">
+    <div
+      style="width: 100%; height: 100%; display: flex; justify-content: center"
+    >
+      <div class="container" style="width: 100%">
         <div class="card">
-
-          <div style="display: flex; justify-content: space-between;">
+          <div style="display: flex; justify-content: space-between">
             <div class="h1">Фото профиля</div>
-            <div class="separator" style="flex: 1;"/>
+            <div class="separator" style="flex: 1" />
           </div>
 
-          <div style="display: flex; justify-content: start;align-items: center; ">
-            <div class="pfp1"/>
-            <div class="button1" @click="uploadPhoto" style="align-items: center; display: flex">
+          <div
+            style="display: flex; justify-content: start; align-items: center"
+          >
+            <div class="pfp1" />
+            <div
+              class="button1"
+              @click="uploadPhoto"
+              style="align-items: center; display: flex"
+            >
               <div style="margin-right: 1vh">Загрузить фото</div>
-              <img src="../assets/ico/download.svg"/>
+              <img src="../assets/ico/download.svg" />
             </div>
           </div>
 
-          <div style="display: flex; justify-content: space-between;">
+          <div style="display: flex; justify-content: space-between">
             <div class="h1">Личная информация</div>
-            <div class="separator" style="flex: 1;"/>
+            <div class="separator" style="flex: 1" />
           </div>
 
-          <div style="display: flex; justify-content: start;align-items: center; ">
-
-            <div class="h2" style="margin: 3vh 0 0 -0.5vh; flex: 1; padding-right: 5.5vh; ">
-              <div style="margin-left: 1.4vh ">Имя пользователя</div>
+          <div
+            style="display: flex; justify-content: start; align-items: center"
+          >
+            <div
+              class="h2"
+              style="margin: 3vh 0 0 -0.5vh; flex: 1; padding-right: 5.5vh"
+            >
+              <div class="title">Имя пользователя</div>
               <input type="text" placeholder="User228" />
             </div>
 
-            <div class="h2" style="margin: 3vh 0 0 -0.5vh; flex: 1;">
-              <div style="margin-left: 1.4vh ">Электронная почта</div>
+            <div class="h2" style="margin: 3vh 0 0 -0.5vh; flex: 1">
+              <div class="title">Электронная почта</div>
               <input type="text" placeholder="ivanivan@mail.ru" />
             </div>
-
           </div>
 
-          <div style="display: flex; justify-content: start;align-items: center; ">
-
-            <div class="h2" style="margin: 2vh 0 0 -0.5vh; flex: 1; padding-right: 5.5vh; ">
-              <div style="margin-left: 1.4vh ">Имя</div>
+          <div
+            style="display: flex; justify-content: start; align-items: center"
+          >
+            <div
+              class="h2"
+              style="margin: 2vh 0 0 -0.5vh; flex: 1; padding-right: 5.5vh"
+            >
+              <div class="title">Имя</div>
               <input type="text" placeholder="Иван" />
             </div>
 
-            <div class="h2" style="margin: 2vh 0 0 -0.5vh; flex: 1;">
-              <div style="margin-left: 1.4vh ">Фамилия</div>
+            <div class="h2" style="margin: 2vh 0 0 -0.5vh; flex: 1">
+              <div class="title">Фамилия</div>
               <input type="text" placeholder="Иванов" />
             </div>
-
           </div>
 
-          <div style="display: flex; justify-content: start;align-items: center; ">
-            <div class="h2" style="margin: 2vh 0 0 -0.5vh; flex: 1; padding-right: 5.5vh; ">
-              <div style="margin-left: 1.4vh ">Отчетсво</div>
+          <div
+            style="display: flex; justify-content: start; align-items: center"
+          >
+            <div
+              class="h2"
+              style="margin: 2vh 0 0 -0.5vh; flex: 1; padding-right: 5.5vh"
+            >
+              <div class="title">Отчетсво</div>
               <input type="text" placeholder="Иванович" />
             </div>
-            <div class="h2" style="margin: 2vh 0 0 -0.5vh; flex: 1;"/>
+            <div class="h2" style="margin: 2vh 0 0 -0.5vh; flex: 1" />
           </div>
 
-          <div style="display: flex; justify-content: space-between; margin-top: 5vh">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              margin-top: 5vh;
+            "
+          >
             <div class="h1">Образование</div>
-            <div class="separator" style="flex: 1;"/>
+            <div class="separator" style="flex: 1" />
           </div>
 
-          <div style="display: flex; justify-content: start;align-items: center; ">
-
-            <div class="h2" style="margin: 3vh 0 0 -0.5vh; flex: 1; padding-right: 5.5vh; ">
-              <div style="margin-left: 1.4vh ">Направление обучения</div>
+          <div
+            style="display: flex; justify-content: start; align-items: center"
+          >
+            <div
+              class="h2"
+              style="margin: 3vh 0 0 -0.5vh; flex: 1; padding-right: 5.5vh"
+            >
+              <div class="title">Направление обучения</div>
 
               <div style="display: flex; position: relative">
                 <select class="dropdown">
@@ -88,13 +116,12 @@
                   <option>Анализ данных</option>
                   <option>Сетевые технологии</option>
                 </select>
-                <img class="dropdown-arrow" src="../assets/ico/down.svg"/>
+                <img class="dropdown-arrow" src="../assets/ico/down.svg" />
               </div>
-
             </div>
 
-            <div class="h2" style="margin: 3vh 0 0 -0.5vh; flex: 1; ">
-              <div style="margin-left: 1.4vh ">Курс</div>
+            <div class="h2" style="margin: 3vh 0 0 -0.5vh; flex: 1">
+              <div class="title">Курс</div>
 
               <div style="display: flex; position: relative">
                 <select class="dropdown">
@@ -103,22 +130,34 @@
                   <option>3 курс</option>
                   <option>4 курс</option>
                 </select>
-                <img class="dropdown-arrow" src="../assets/ico/down.svg"/>
+                <img class="dropdown-arrow" src="../assets/ico/down.svg" />
               </div>
-
             </div>
           </div>
 
-          <div style="display: flex; justify-content: space-between; margin-top: 4vh">
-            <div class="separator" style="flex: 1; margin-left: 0"/>
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              margin-top: 4vh;
+            "
+          >
+            <div class="separator" style="flex: 1; margin-left: 0" />
           </div>
 
-          <div style="display: flex; justify-content: center;align-items: center; ">
-            <div class="button2" @click="uploadPhoto" style="align-items: center; display: flex">
-              <div style="margin-right: 1vh; font-size: 16px">Сохранить изменения</div>
+          <div
+            style="display: flex; justify-content: center; align-items: center"
+          >
+            <div
+              class="button2"
+              @click="uploadPhoto"
+              style="align-items: center; display: flex"
+            >
+              <div style="margin-right: 1vh; font-size: 16px">
+                Сохранить изменения
+              </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>
@@ -160,23 +199,27 @@ const uploadPhoto = () => {
   flex-wrap: wrap;
 }
 
-.h1{
-  color: #5F6567;
+.h1 {
+  color: #5f6567;
   font-weight: 400;
   font-size: 12px;
   line-height: 0px;
 }
 
-.h2{
-  color: #E3E4E4;
-  font-size: 13.5px;
-  font-weight: 280;
+.h2 {
+  color: #e3e4e4;
+  font-size: 14.5px;
 }
 
-.separator{
+.title {
+  margin-left: 1.4vh;
+  margin-bottom: 8px;
+}
+
+.separator {
   height: 1px;
   width: 100%;
-  background-color: #35373A;
+  background-color: #35373a;
   margin: 0 0 0 3vh;
 }
 
@@ -189,13 +232,13 @@ const uploadPhoto = () => {
   margin: 4vh 0;
 }
 
-.button1{
+.button1 {
   border-radius: 20px;
   height: fit-content;
   margin-left: 4.5vh;
-  background-color: #464A4B;
+  background-color: #464a4b;
   border: none;
-  color: #E3E4E4;
+  color: #e3e4e4;
   font-size: 14px;
   font-weight: 300;
   padding: 1.1vh 3.5vh;
@@ -203,13 +246,13 @@ const uploadPhoto = () => {
   transition: background-color 0.2s, transform 0.2s;
 }
 
-.button2{
+.button2 {
   border-radius: 18px;
   height: fit-content;
   margin-top: 4.5vh;
-  background-color: #1F7BD4;
+  background-color: #1f7bd4;
   border: none;
-  color: #E3E4E4;
+  color: #e3e4e4;
   font-size: 14px;
   font-weight: 520;
   padding: 1.5vh 4vh;

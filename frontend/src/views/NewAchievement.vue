@@ -27,7 +27,7 @@
             <div class="h1">Создание нового достижения</div>
             <div class="separator" style="flex: 1; margin-top: 6vh" />
             <div class="h2" style="margin: 3vh 0 0 -0.5vh; flex: 1">
-              <div style="margin: 0 0 2px 1.4vh">Название достижения</div>
+              <div style="margin: 0 0 8px 1.4vh">Название достижения</div>
               <input
                 type="text"
                 placeholder="Напишите название"
@@ -35,7 +35,7 @@
               />
             </div>
             <div class="h2" style="margin: 2.5vh 0 0 -0.5vh; flex: 1">
-              <div style="margin: 0 0 2px 1.4vh">Описание достижения</div>
+              <div style="margin: 0 0 8px 1.4vh">Описание достижения</div>
               <input
                 type="text"
                 placeholder="Напишите описание"
@@ -264,10 +264,10 @@ const createRequest = async (formData) => {
   line-height: 0px;
 }
 
-.h22 {
+.h2 {
   color: #e3e4e4;
-  font-size: 13.5px;
-  font-weight: 280;
+  /* font-size: 13.5px;
+  font-weight: 280; */
 }
 
 .separator {
