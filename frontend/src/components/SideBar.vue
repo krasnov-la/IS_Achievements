@@ -56,7 +56,12 @@
       <template v-if="isAuthenticated">
         <router-link
           to="/PersonalArea"
-          @click="changeText('Личный кабинет')"
+          @click="
+            () => {
+              setActive('/');
+              changeText('Личный  кабинет');
+            }
+          "
           class="profile"
         >
           <img class="profile-img" :src="user?.profileImage || ''" alt="" />

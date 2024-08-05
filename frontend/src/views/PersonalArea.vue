@@ -105,7 +105,6 @@ const getStudentAchievements = async () => {
       }
     );
     achievements.value = achievementsData.data;
-    console.log(achievements);
   } catch (error) {
     console.log(error);
   }

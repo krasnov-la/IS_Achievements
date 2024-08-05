@@ -5,19 +5,12 @@
   </div>
 </template>
 
-<script>
-import { computed } from 'vue';
-import { useStore } from 'vuex';
+<script setup>
+import { computed } from "vue";
+import { useStore } from "vuex";
 
-export default {
-  name: 'Header',
-  setup() {
-    const store = useStore();
-    const text = computed(() => store.state.text);
-
-    return { text };
-  }
-}
+const store = useStore();
+const text = computed(() => store.state.text);
 </script>
 
 <style scoped>

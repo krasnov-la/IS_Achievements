@@ -50,7 +50,15 @@
         Редактировать профиль
       </router-link>
 
-      <a :class="{ active: isActive('/future') }" @click="logout">
+      <a
+        :class="{ active: isActive('/future') }"
+        @click="
+          () => {
+            setActive('/');
+            logout();
+          }
+        "
+      >
         <div class="stripe" :class="{ active: isActive('/future') }"></div>
         Выйти из аккаунта
       </a>
@@ -106,13 +114,11 @@ const logout = async () => {
     );
     if (response.status === 200) {
       store.dispatch("setAuth", false);
-      console.log("hello;");
+      changeText("Главная страница");
+      router.push("/");
     }
   } catch (error) {
     console.log(error);
-  } finally {
-    console.log(localStorage);
-    router.push("/");
   }
 };
 </script>
