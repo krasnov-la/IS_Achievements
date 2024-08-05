@@ -20,9 +20,9 @@
       </router-link>
 
       <router-link
-          to="/CurrentEvents"
-          :class="{ active: isActive('/CurrentEvents') }"
-          @click="
+        to="/CurrentEvents"
+        :class="{ active: isActive('/CurrentEvents') }"
+        @click="
           () => {
             setActive('/CurrentEvents');
             changeText('Текущие ивенты');
@@ -30,14 +30,14 @@
         "
       >
         <div
-            class="stripe"
-            :class="{ active: isActive('/CurrentEvents') }"
+          class="stripe"
+          :class="{ active: isActive('/CurrentEvents') }"
         ></div>
         Текущие ивенты
       </router-link>
 
-      <a
-        href="/FutureEvents"
+      <router-link
+        to="/FutureEvents"
         :class="{ active: isActive('/future-events') }"
         @click="
           () => {
@@ -51,7 +51,7 @@
           :class="{ active: isActive('/future-events') }"
         ></div>
         Будущие ивенты
-      </a>
+      </router-link>
 
       <template v-if="isAuthenticated">
         <router-link
@@ -181,13 +181,13 @@ a:nth-child(4)::before {
 }
 
 .stripe.active {
-  background: #1F7BD4;
+  background: #1f7bd4;
 }
 
 .active {
-  background: #1F7BD4;
+  background: #1f7bd4;
   color: #ebedee;
-  border: 0.9px solid #1F7BD4;
+  border: 0.9px solid #1f7bd4;
 }
 
 .profile {
@@ -288,7 +288,7 @@ a:hover {
 }
 
 a.active {
-  background: #1F7BD4;
+  background: #1f7bd4;
   color: #e3e4e4;
 }
 

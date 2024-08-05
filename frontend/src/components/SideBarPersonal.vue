@@ -46,10 +46,7 @@
           }
         "
       >
-        <div
-          class="stripe"
-          :class="{ active: isActive('/EditProfile') }"
-        ></div>
+        <div class="stripe" :class="{ active: isActive('/EditProfile') }"></div>
         Редактировать профиль
       </router-link>
 
@@ -57,7 +54,17 @@
         <div class="stripe" :class="{ active: isActive('/future') }"></div>
         Выйти из аккаунта
       </a>
-      <router-link to="/" class="profile" style="height: 32pt">
+      <router-link
+        to="/"
+        class="profile"
+        style="height: 32pt"
+        @click="
+          () => {
+            setActive('/');
+            changeText('Главная страница');
+          }
+        "
+      >
         На главную страницу
       </router-link>
     </div>
@@ -183,13 +190,13 @@ a:nth-child(6)::before {
 }
 
 .stripe.active {
-  background: #1F7BD4;
+  background: #1f7bd4;
 }
 
 .active {
-  background: #1F7BD4;
+  background: #1f7bd4;
   color: #ebedee;
-  border: 0.9px solid #1F7BD4;
+  border: 0.9px solid #1f7bd4;
 }
 
 .profile {
@@ -228,7 +235,7 @@ a:hover {
 }
 
 a.active {
-  background: #1F7BD4;
+  background: #1f7bd4;
   color: #e3e4e4;
 }
 
