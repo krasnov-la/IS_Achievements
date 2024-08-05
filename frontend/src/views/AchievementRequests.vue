@@ -12,58 +12,10 @@
   >
     <SideBarPersonal />
     <div style="width: 100%; margin-top: 10vh">
-      <div class="container" style="margin-left: 1.5vh; margin-right: 1.5vh">
-        <div class="card">
-          <div class="pfp" />
-          <div style="margin-left: 38%">
-            <div
-                style="
-                color: #e3e4e4;
-                font-size: 15pt;
-                -webkit-text-stroke: 0.5px #e3e4e4;
-                margin-bottom: 6pt;
-              "
-            >
-              {{ user?.nickname || "User" }}
-            </div>
-            <div style="margin-left: 2.2%">
-              <div class="h5">Иванов Иван Иванович</div>
-              <div class="h5">ivanivan@mail.ru</div>
-            </div>
-          </div>
-
-          <div class="h6" style="display: flex">
-            <div class="h5">Информационная/Компьютерная безопасность</div>
-            <div
-                style="
-                width: 0.8pt;
-                height: 25pt;
-                background-color: #343839;
-                margin-left: 5%;
-              "
-            />
-            <div style="margin: 0 3% 0 7%" class="h5">2 курс обучения</div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="pic2" />
-          <div class="h2">Баллы</div>
-          <div class="h3">{{ user?.score || 0 }}</div>
-          <div class="h4">Накопленные баллы за достижения</div>
-        </div>
-
-        <div class="card">
-          <div class="pic1" />
-          <div class="h2">Место в рейтинге</div>
-          <div class="h3">{{ user?.place || 0 }}</div>
-          <div class="h4">Позиция в общем рейтинге студентов</div>
-        </div>
-      </div>
 
       <div class="table" style="margin-left: 6vh">
         <div class="dots"></div>
-        <div class="h1">Мое портфолио</div>
+        <div class="h1">Мое заявки</div>
         <div class="row">
           <div class="h7" style="flex: 1;">Название достижения</div>
           <div class="h7" style="flex: 3; margin-left: 5%;">Описание</div>

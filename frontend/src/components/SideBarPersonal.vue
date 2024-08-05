@@ -37,6 +37,20 @@
       </router-link>
 
       <router-link
+          to="/AchievementRequests"
+          :class="{ active: isActive('/AchievementRequests') }"
+          @click="
+          () => {
+            setActive('/AchievementRequests');
+            changeText('Отправленные заявки');
+          }
+        "
+      >
+        <div class="stripe" :class="{ active: isActive('/AchievementRequests') }"></div>
+        Отправленные заявки
+      </router-link>
+
+      <router-link
         to="/EditProfile"
         :class="{ active: isActive('/EditProfile') }"
         @click="
@@ -50,7 +64,7 @@
         Редактировать профиль
       </router-link>
 
-      <a
+      <router-link
         :class="{ active: isActive('/future') }"
         @click="
           () => {
@@ -61,7 +75,8 @@
       >
         <div class="stripe" :class="{ active: isActive('/future') }"></div>
         Выйти из аккаунта
-      </a>
+      </router-link>
+
       <router-link
         to="/"
         class="profile"
@@ -173,16 +188,21 @@ a:nth-child(3)::before {
 }
 
 a:nth-child(4)::before {
+  content: url("../assets/ico/letter.svg");
+  margin: 1.8% 4.2% -0.9% 2.2%;
+}
+
+a:nth-child(5)::before {
   content: url("../assets/ico/edit.svg");
   margin: 1.8% 6% -0.9% 2.2%;
 }
 
-a:nth-child(5)::before {
+a:nth-child(6)::before {
   content: url("../assets/ico/exit.svg");
   margin: 1.8% 3% -0.9% 2.2%;
 }
 
-a:nth-child(6)::before {
+a:nth-child(7)::before {
   content: url("../assets/ico/left.svg");
   margin: 1.8% 4% -0.9% 2.2%;
 }

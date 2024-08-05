@@ -7,6 +7,7 @@ import NewAchievement from "@/views/NewAchievement.vue";
 import EditProfile from "@/views/EditProfile.vue";
 import CurrentEvents from "@/views/CurrentEvents.vue";
 import FutureEvents from "@/views/FutureEvents.vue";
+import AchievementRequests from "@/views/AchievementRequests.vue";
 
 
 const routes = [
@@ -49,6 +50,11 @@ const routes = [
     path: '/FutureEvents',
     name: 'FutureEvents',
     component: FutureEvents
+  },
+  {
+    path: '/AchievementRequests',
+    name: 'AchievementRequests',
+    component: AchievementRequests
   },
 ]
 
