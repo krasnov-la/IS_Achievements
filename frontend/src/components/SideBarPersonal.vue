@@ -65,6 +65,7 @@
       </router-link>
 
       <router-link
+        to="/"
         :class="{ active: isActive('/future') }"
         @click="
           () => {
@@ -129,8 +130,8 @@ const logout = async () => {
     );
     if (response.status === 200) {
       store.dispatch("setAuth", false);
+      store.dispatch("setUser", {});
       changeText("Главная страница");
-      router.push("/");
     }
   } catch (error) {
     console.log(error);
