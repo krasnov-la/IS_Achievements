@@ -37,16 +37,16 @@
       </router-link>
 
       <router-link
-          to="/AchievementRequests"
-          :class="{ active: isActive('/AchievementRequests') }"
-          @click="
+        to="/Requests"
+        :class="{ active: isActive('/Requests') }"
+        @click="
           () => {
-            setActive('/AchievementRequests');
+            setActive('/Requests');
             changeText('Отправленные заявки');
           }
         "
       >
-        <div class="stripe" :class="{ active: isActive('/AchievementRequests') }"></div>
+        <div class="stripe" :class="{ active: isActive('/Requests') }"></div>
         Отправленные заявки
       </router-link>
 

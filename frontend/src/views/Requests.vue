@@ -1,7 +1,7 @@
 <template>
   <Header />
   <div
-      style="
+    style="
       margin-left: 260px;
       width: calc(100% - 260px);
       height: 100%;
@@ -12,71 +12,88 @@
   >
     <SideBarPersonal />
     <div style="width: 100%; margin-top: 10vh">
-
       <div class="table" style="margin-left: 6vh">
         <div class="dots"></div>
-        <div class="h1">Мое заявки</div>
+        <div class="h1">Мои заявки</div>
         <div class="row">
-          <div class="h7" style="flex: 1;">Название достижения</div>
-          <div class="h7" style="flex: 3; margin-left: 5%;">Описание</div>
-          <div class="h7" style="flex: 1;">Сертификаты</div>
-          <div class="h7" style="flex: 1;">Колличество баллов</div>
+          <div class="h7" style="flex: 1">Название достижения</div>
+          <div class="h7" style="flex: 3; margin-left: 5%">Описание</div>
+          <div class="h7" style="flex: 1">Дата заявления</div>
+          <div class="h7" style="flex: 1">Статус</div>
         </div>
-        <div v-for="(achievement, index) in achievements" :key="achievement.id" @click="openModal(achievement)">
+        <div
+          v-for="(request, index) in requests"
+          :key="request.id"
+          @click="openModal(request)"
+        >
           <div :class="[{ row2: index % 2 === 0 }, { row1: index % 2 === 1 }]">
-            <div class="h8" style="flex: 1;">{{ achievement.eventName }}</div>
-            <div class="h8" style="flex: 3; margin-left: 5%;">{{ achievement.description }}</div>
-            <div class="h8" style="flex: 1;">Сертификаты</div>
-            <div class="h8" style="flex: 1;">{{ achievement.score }}</div>
+            <div class="h8" style="flex: 1">{{ request.eventName }}</div>
+            <div class="h8" style="flex: 3; margin-left: 5%">
+              {{ request.description }}
+            </div>
+            <div class="h8" style="flex: 1">
+              {{
+                `${String(new Date(request.dateTime).getDate()).padStart(
+                  2,
+                  "0"
+                )}.${String(new Date(request.dateTime).getMonth() + 1).padStart(
+                  2,
+                  "0"
+                )}.${new Date(request.dateTime).getFullYear()}`
+              }}
+            </div>
+            <div class="h8" style="flex: 1">{{ request.status }}</div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <AchievementModal :achievement="selectedAchievement" :visible="isModalVisible" @close="closeModal" />
+  <AchievementModal
+    :achievement="selectedRequest"
+    :visible="isModalVisible"
+    @close="closeModal"
+  />
 </template>
-
 
 <script setup>
 import Header from "@/components/Header.vue";
 import axios from "axios";
 import { useStore } from "vuex";
-import { computed, onMounted, ref } from "vue";
+import { onMounted, ref } from "vue";
 import SideBarPersonal from "@/components/SideBarPersonal.vue";
 import AchievementModal from "@/components/AchievementInfo.vue";
 
 const store = useStore();
-const user = computed(() => store.getters.user);
-const achievements = ref([]);
-const selectedAchievement = ref(null);
+const requests = ref([]);
+const selectedRequest = ref(null);
 const isModalVisible = ref(false);
 
-const getStudentAchievements = async () => {
+const getStudentRequests = async () => {
   try {
     const achievementsData = await axios.get(
-        `${process.env.VUE_APP_API_URL}Achievements/self`,
-        {
-          withCredentials: true,
-          headers: { "Content-Type": "application/json" },
-        }
+      `${process.env.VUE_APP_API_URL}Requests/self`,
+      {
+        withCredentials: true,
+        headers: { "Content-Type": "application/json" },
+      }
     );
-    achievements.value = achievementsData.data;
+    requests.value = achievementsData.data;
   } catch (error) {
     console.log(error);
   }
 };
 
 const openModal = (achievement) => {
-  selectedAchievement.value = achievement;
+  selectedRequest.value = achievement;
   isModalVisible.value = true;
 };
 
 const closeModal = () => {
   isModalVisible.value = false;
-  selectedAchievement.value = null;
+  selectedRequest.value = null;
 };
 
-onMounted(getStudentAchievements);
+onMounted(getStudentRequests);
 </script>
 
 <style scoped>
@@ -94,7 +111,9 @@ onMounted(getStudentAchievements);
   border-radius: 12pt;
   border: 1px solid #35373a;
 }
-.row, .row1, .row2 {
+.row,
+.row1,
+.row2 {
   width: 100%;
   padding: 0.8% 3.5% 1% 3.5%;
   display: flex;
