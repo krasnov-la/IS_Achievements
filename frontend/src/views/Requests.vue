@@ -128,9 +128,9 @@ onMounted(getStudentRequests);
 }
 
 .row1 {
-  padding: 3% 3.5%;
+  padding: 2% 3.5%;
   cursor: pointer;
-  height: 10vh;
+  height: fit-content;
   background-color: #343839;
   transition: background-color 0.2s, transform 0.2s;
 }
@@ -144,7 +144,7 @@ onMounted(getStudentRequests);
 }
 
 .row1:hover {
-  background-color: rgba(35, 38, 39, 0.15);
+  background-color: rgba(52, 56, 57, 0.85);
 }
 
 .row1:active {
