@@ -37,16 +37,16 @@
       </router-link>
 
       <router-link
-          to="/AchievementRequests"
-          :class="{ active: isActive('/AchievementRequests') }"
-          @click="
+        to="/Requests"
+        :class="{ active: isActive('/Requests') }"
+        @click="
           () => {
-            setActive('/AchievementRequests');
+            setActive('/Requests');
             changeText('Отправленные заявки');
           }
         "
       >
-        <div class="stripe" :class="{ active: isActive('/AchievementRequests') }"></div>
+        <div class="stripe" :class="{ active: isActive('/Requests') }"></div>
         Отправленные заявки
       </router-link>
 
@@ -65,6 +65,7 @@
       </router-link>
 
       <router-link
+        to="/"
         :class="{ active: isActive('/future') }"
         @click="
           () => {
@@ -129,8 +130,8 @@ const logout = async () => {
     );
     if (response.status === 200) {
       store.dispatch("setAuth", false);
+      store.dispatch("setUser", {});
       changeText("Главная страница");
-      router.push("/");
     }
   } catch (error) {
     console.log(error);
