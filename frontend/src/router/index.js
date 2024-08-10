@@ -8,6 +8,7 @@ import EditProfile from "@/views/EditProfile.vue";
 import CurrentEvents from "@/views/CurrentEvents.vue";
 import FutureEvents from "@/views/FutureEvents.vue";
 import Requests from "@/views/Requests.vue";
+import AdminDashboard from "@/views/AdminDashboard.vue";
 
 
 const routes = [
@@ -55,6 +56,11 @@ const routes = [
     path: '/Requests',
     name: 'Requests',
     component: Requests
+  },
+  {
+    path: '/AdminDashboard',
+    name: 'AdminDashboard',
+    component: AdminDashboard
   },
 ]
 
