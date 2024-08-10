@@ -15,7 +15,7 @@
 
       <div class="table" style="margin-left: 6vh">
         <div class="dots"></div>
-        <div class="h1">Мое заявки</div>
+        <div class="h1">Мои заявки</div>
         <div class="row">
           <div class="h7" style="flex: 1;">Название достижения</div>
           <div class="h7" style="flex: 3; margin-left: 5%;">Описание</div>
