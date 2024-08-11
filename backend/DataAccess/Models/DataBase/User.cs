@@ -16,12 +16,12 @@ public class User
     [MaxLength(50)]
     public string AvatarImage { get; set; } = Guid.Empty.ToString();
     [MaxLength(128)]
-    public string Role { get; set; } = Roles.Default;
+    public string Role { get; set; } = Roles.User;
     [MaxLength(64)]
     [JsonIgnore]
-    public string Refresh {get; set;} = null!;
+    public string Refresh { get; set; } = null!;
     [JsonIgnore]
-    public DateTime RefreshExpire {get; set;}
+    public DateTime RefreshExpire { get; set; }
     [JsonIgnore]
     [MaxLength(128)]
     public string Password { get; set; } = null!;
