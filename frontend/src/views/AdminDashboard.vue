@@ -5,16 +5,20 @@
       <h2>Панель администратора</h2>
       <ul>
         <li>
-          <a href="#" @click="setActiveSection('dashboard')">Панель управления</a>
+          <a href="#" @click="setActiveSection('requests')">Заявки</a>
         </li>
         <li>
-          <a href="#" @click="setActiveSection('users')">Управление пользователями</a>
+          <a href="#" @click="setActiveSection('usersManagement')"
+            >Управление пользователями</a
+          >
+        </li>
+        <li>
+          <a href="#" @click="setActiveSection('activities')"
+            >Мероприятия ЦИБ</a
+          >
         </li>
         <li>
           <a href="#" @click="setActiveSection('settings')">Настройки</a>
-        </li>
-        <li>
-          <a href="#" @click="setActiveSection('reports')">Отчеты</a>
         </li>
         <li>
           <a href="#" @click="setActiveSection('logout')">Выйти</a>
@@ -28,45 +32,39 @@
         <h1>Добро пожаловать, Админ</h1>
       </header>
 
-      <section v-if="activeSection === 'dashboard'" class="content-section">
-        <h2>Панель управления</h2>
-        <p>Здесь отображаются все важные метрики.</p>
+      <section v-if="activeSection === 'requests'" class="content-section">
+        <UsersRequests />
       </section>
 
-      <section v-if="activeSection === 'users'" class="content-section">
+      <section
+        v-if="activeSection === 'usersManagement'"
+        class="content-section"
+      >
         <UserManagement />
+      </section>
+
+      <section v-if="activeSection === 'activities'" class="content-section">
+        <FefuActivities />
       </section>
 
       <section v-if="activeSection === 'settings'" class="content-section">
         <h2>Настройки</h2>
         <p>Настройте параметры вашей админ-панели.</p>
       </section>
-
-      <section v-if="activeSection === 'reports'" class="content-section">
-        <h2>Отчеты</h2>
-        <p>Просмотр отчетов и аналитики.</p>
-      </section>
     </div>
   </div>
 </template>
 
-<script>
+<script setup>
+import FefuActivities from "@/components/FefuActivities.vue";
 import UserManagement from "@/components/UserManagement.vue";
+import UsersRequests from "@/components/UsersRequests.vue";
+import { ref } from "vue";
 
-export default {
-  components: {
-    UserManagement,
-  },
-  data() {
-    return {
-      activeSection: 'dashboard', // Раздел по умолчанию
-    };
-  },
-  methods: {
-    setActiveSection(section) {
-      this.activeSection = section;
-    },
-  },
+const activeSection = ref("requests"); // Раздел по умолчанию
+
+const setActiveSection = (section) => {
+  activeSection.value = section;
 };
 </script>
 
@@ -76,7 +74,6 @@ export default {
 body {
   margin: 0;
   background-color: #f4f4f4;
-
 }
 
 .admin-container {
@@ -99,7 +96,6 @@ body {
   text-align: center;
   font-family: Inter;
   font-weight: 600;
-
 }
 
 .sidebar ul {
@@ -145,8 +141,6 @@ body {
   border-radius: 8px;
   margin-bottom: 20px;
   font-family: Inter;
-
-
 }
 
 .main-content .content-section {
