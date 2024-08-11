@@ -1,53 +1,62 @@
 <!-- UserManagement.vue -->
 <template>
   <div class="user-management">
-    <h2>User Management</h2>
+    <h2>Управление пользователями</h2>
     <table>
       <thead>
-      <tr>
-        <th>ID</th>
-        <th>Имя</th>
-        <th>Email</th>
-        <th>Действия</th>
-      </tr>
+        <tr>
+          <th>№</th>
+          <th>Логин</th>
+          <th>Email</th>
+          <th>Действия</th>
+        </tr>
       </thead>
       <tbody>
-      <tr v-for="user in users" :key="user.id">
-        <td>{{ user.id }}</td>
-        <td>{{ user.name }}</td>
-        <td>{{ user.email }}</td>
-        <td>
-          <button @click="editUser(user.id)">Изменить</button>
-          <button @click="deleteUser(user.id)">Удалить</button>
-        </td>
-      </tr>
+        <tr v-for="(student, index) in students" :key="student.id">
+          <td>{{ index + 1 }}</td>
+          <td>{{ student.login }}</td>
+          <td>example@mail.com</td>
+          <td>
+            <button @click="editUser(student.id)">Изменить</button>
+            <button @click="deleteUser(student.id)">Удалить</button>
+          </td>
+        </tr>
       </tbody>
     </table>
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      users: [
-        { id: 1, name: 'John Doe', email: 'john@example.com' },
-        { id: 2, name: 'Jane Smith', email: 'jane@example.com' },
-        // Add more users as needed
-      ],
-    };
-  },
-  methods: {
-    editUser(id) {
-      // Implement edit user logic
-      console.log('Edit user with ID:', id);
-    },
-    deleteUser(id) {
-      // Implement delete user logic
-      console.log('Delete user with ID:', id);
-    },
-  },
+<script setup>
+import { ref, onMounted } from "vue";
+import axios from "axios";
+
+const students = ref([]);
+
+const editUser = (id) => {
+  // Implement edit user logic
+  console.log("Edit user with ID:", id);
 };
+const deleteUser = (id) => {
+  // Implement delete user logic
+  console.log("Delete user with ID:", id);
+};
+
+const getStudents = async () => {
+  try {
+    const studentsResponse = await axios.get(
+      `${process.env.VUE_APP_API_URL}Users/students`,
+      {
+        withCredentials: true,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    students.value = await studentsResponse.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+onMounted(getStudents);
 </script>
 
 <style scoped>
