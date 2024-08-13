@@ -9,6 +9,8 @@ import CurrentEvents from "@/views/CurrentEvents.vue";
 import FutureEvents from "@/views/FutureEvents.vue";
 import Requests from "@/views/Requests.vue";
 import AdminDashboard from "@/views/AdminDashboard.vue";
+import ViewRequest from "@/components/ViewRequest.vue";
+import ViewUser from "@/components/UserDetail.vue";
 
 
 const routes = [
@@ -62,11 +64,19 @@ const routes = [
     name: 'AdminDashboard',
     component: AdminDashboard
   },
+  { path: "/request/:id",
+    name: 'ViewRequest',
+    component: ViewRequest,
+  },
+  { path: "/student/:id",
+    name: 'ViewUser',
+    component: ViewUser,
+  },
 ]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
+  routes,
 })
 
 export default router

@@ -28,7 +28,7 @@
             }}
           </td>
           <td>
-            <button @click="openRequest(request.id)">Просмотреть</button>
+            <button class="watch-request-button" @click="openRequest(request.id)">Просмотреть</button>
           </td>
         </tr>
       </tbody>
@@ -39,12 +39,12 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import axios from "axios";
+import router from "@/router";
 
 const requests = ref([]);
 
 const openRequest = (id) => {
-  // Implement edit user logic
-  console.log("Open Request:", id);
+  router.push(`/request/${id}`);
 };
 
 const getRequests = async () => {
@@ -66,19 +66,39 @@ onMounted(getRequests);
 </script>
 
 <style scoped>
+
+.watch-request-button{
+  border-radius: 15px;
+  background-color: #3b4c5d;
+  border: 1px solid #3b4c5d;
+  color: #d0d0d0;
+  padding: 5px 7px;
+}
+
+h2 {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 550;
+  font-size: 23.5px;
+  line-height: 36px;
+  margin: 0 0 20px 0;
+  color: #e3e4e4;
+}
+
 .request-table table {
   width: 100%;
   border-collapse: collapse;
+  color: #d0d0d0;
 }
 
 .request-table th,
 .request-table td {
-  border: 1px solid #ddd;
+  border: 1.2px solid #3b4c5d;
   padding: 8px;
 }
 
 .request-table th {
-  background-color: #2980b9;
+  background-color: #3d79cd;
   color: white;
 }
 </style>

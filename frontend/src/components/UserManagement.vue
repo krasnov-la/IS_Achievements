@@ -17,8 +17,7 @@
           <td>{{ student.login }}</td>
           <td>example@mail.com</td>
           <td>
-            <button @click="editUser(student.id)">Изменить</button>
-            <button @click="deleteUser(student.id)">Удалить</button>
+            <button class="edit-user-button" @click="editUser(student.id)">Изменить</button>
           </td>
         </tr>
       </tbody>
@@ -29,16 +28,12 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import axios from "axios";
+import router from "@/router";
 
 const students = ref([]);
 
 const editUser = (id) => {
-  // Implement edit user logic
-  console.log("Edit user with ID:", id);
-};
-const deleteUser = (id) => {
-  // Implement delete user logic
-  console.log("Delete user with ID:", id);
+  router.push(`/student/${id}`);
 };
 
 const getStudents = async () => {
@@ -60,19 +55,39 @@ onMounted(getStudents);
 </script>
 
 <style scoped>
+
+.edit-user-button{
+  border-radius: 15px;
+  background-color: #3b4c5d;
+  border: 1px solid #3b4c5d;
+  color: #d0d0d0;
+  padding: 5px 7px;
+}
+
+h2 {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 550;
+  font-size: 23.5px;
+  line-height: 36px;
+  margin: 0 0 20px 0;
+  color: #e3e4e4;
+}
+
 .user-management table {
   width: 100%;
   border-collapse: collapse;
+  color: #d0d0d0;
 }
 
 .user-management th,
 .user-management td {
-  border: 1px solid #ddd;
+  border: 1.2px solid #3b4c5d;
   padding: 8px;
 }
 
 .user-management th {
-  background-color: #2980b9;
+  background-color: #3d79cd;
   color: white;
 }
 </style>

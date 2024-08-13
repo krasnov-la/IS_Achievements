@@ -29,7 +29,7 @@
     <!-- Main Content -->
     <div class="main-content">
       <header>
-        <h1>Добро пожаловать, Админ</h1>
+        <h1 style="color: #e3e4e4;">Добро пожаловать, Админ</h1>
       </header>
 
       <section v-if="activeSection === 'requests'" class="content-section">
@@ -73,7 +73,7 @@ const setActiveSection = (section) => {
 
 body {
   margin: 0;
-  background-color: #f4f4f4;
+  background-color: #1c1e1f;
 }
 
 .admin-container {
@@ -84,7 +84,7 @@ body {
 /* Sidebar */
 .sidebar {
   width: 250px;
-  background-color: #2c3e50;
+  background-color: rgb(40, 47, 56);
   color: #ecf0f1;
   padding: 20px;
   box-sizing: border-box;
@@ -105,7 +105,7 @@ body {
 
 .sidebar ul li {
   margin: 15px 0;
-  border: 1px solid #45607a;
+  border: 1.2px solid #3b4c5d;
   border-radius: 15px;
   font-family: Inter;
   font-size: 15px;
@@ -132,21 +132,22 @@ body {
   flex-grow: 1;
   padding: 20px;
   box-sizing: border-box;
+  background-color: #1e2125;
 }
 
 .main-content header {
-  background-color: #2980b9;
+  background-color: #3d79cd;
   color: #fff;
   padding: 20px;
-  border-radius: 8px;
+  border-radius: 12px;
   margin-bottom: 20px;
   font-family: Inter;
 }
 
 .main-content .content-section {
-  background-color: #fff;
+  background-color: rgba(42, 54, 68, 0.65);
   padding: 20px;
-  border-radius: 8px;
+  border-radius: 12px;
   margin-bottom: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   font-family: Inter;
