@@ -63,6 +63,44 @@ public class ActivitiesController(IUnitOfWork unit) : ControllerBase
     }
 
     /// <summary>
+    /// Retrieves all activities
+    /// </summary>
+    /// <response code="200">Activities retrieved successfully.</response>
+    /// <remarks>
+    /// This method retrieves the details of all activities.
+    /// 
+    /// **Example request:**
+    /// ```
+    /// GET /Activities
+    /// ```
+    /// **Example response:**
+    /// ```json
+    /// [
+    /// {
+    ///     "id": "49dbe9e4-9448-4633-b20c-d0d0740186d0",
+    ///     "name": "Activity Name",
+    ///     "preview": "fab71c65-6bb1-4563-bf4a-550931fbe351.png",
+    ///     "datetime": "2024-08-01T00:37:12.10988",
+    ///     "link": "http://example.com/activity",
+    ///     "adminLogin": "admin",
+    ///     "admin": {
+    ///     "login": "admin",
+    ///     "nickname": "Administrator",
+    ///     "avatarImage": "00000000-0000-0000-0000-000000000000",
+    ///     "role": "Admin"
+    ///   }
+    /// },
+    /// ...
+    /// ]
+    /// ```
+    /// </remarks>
+    [HttpGet]
+    public async Task<IActionResult> AllActivities()
+    {
+        return Ok(await _unit.Activities.GetAll<Activity>());
+    }
+
+    /// <summary>
     /// Retrieves a specific activity by ID.
     /// </summary>
     /// <param name="id">The ID of the activity.</param>

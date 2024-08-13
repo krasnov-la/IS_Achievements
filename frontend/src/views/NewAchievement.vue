@@ -27,7 +27,7 @@
             <div class="h1">Создание нового достижения</div>
             <div class="separator" style="flex: 1; margin-top: 6vh" />
             <div class="h2" style="margin: 3vh 0 0 -0.5vh; flex: 1">
-              <div style="margin: 0 0 2px 1.4vh">Название достижения</div>
+              <div style="margin: 0 0 8px 1.4vh">Название достижения</div>
               <input
                 type="text"
                 placeholder="Напишите название"
@@ -35,7 +35,7 @@
               />
             </div>
             <div class="h2" style="margin: 2.5vh 0 0 -0.5vh; flex: 1">
-              <div style="margin: 0 0 2px 1.4vh">Описание достижения</div>
+              <div style="margin: 0 0 8px 1.4vh">Описание достижения</div>
               <input
                 type="text"
                 placeholder="Напишите описание"
@@ -134,6 +134,7 @@
 import axios from "axios";
 import SideBarPersonal from "@/components/SideBarPersonal.vue";
 import Header from "@/components/Header.vue";
+import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import { ref } from "vue";
 
@@ -141,8 +142,17 @@ const store = useStore();
 const achievementTitle = ref("");
 const achievementDescription = ref("");
 const files = ref([]);
+const router = useRouter();
 
 const fileInput = ref(null);
+
+const changeText = (newText) => {
+  store.dispatch("updateText", newText);
+};
+
+const setActive = (path) => {
+  store.dispatch("updateActivePath", path);
+};
 
 const triggerFileInput = () => {
   console.log("trigger file input");
@@ -228,10 +238,12 @@ const createRequest = async (formData) => {
     .then((response) => {
       console.log("success", response);
       alert("Successful");
-      router.push("/PersonalArea");
+      setActive("/Requests");
+      changeText("Отправленные заявки");
+      router.push("/Requests");
     })
     .catch((error) => {
-      console.log(error.response.data);
+      console.log(error);
       throw error;
     });
 };
@@ -264,10 +276,10 @@ const createRequest = async (formData) => {
   line-height: 0px;
 }
 
-.h22 {
+.h2 {
   color: #e3e4e4;
-  font-size: 13.5px;
-  font-weight: 280;
+  /* font-size: 13.5px;
+  font-weight: 280; */
 }
 
 .separator {

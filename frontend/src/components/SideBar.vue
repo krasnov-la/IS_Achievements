@@ -18,21 +18,26 @@
         <div class="stripe" :class="{ active: isActive('/') }"></div>
         Главная страница
       </router-link>
-      <a
-        href="/CurrentEvents"
-        :class="{ active: isActive('/events') }"
+
+      <router-link
+        to="/CurrentEvents"
+        :class="{ active: isActive('/CurrentEvents') }"
         @click="
           () => {
-            setActive('/events');
+            setActive('/CurrentEvents');
             changeText('Текущие ивенты');
           }
         "
       >
-        <div class="stripe" :class="{ active: isActive('/events') }"></div>
+        <div
+          class="stripe"
+          :class="{ active: isActive('/CurrentEvents') }"
+        ></div>
         Текущие ивенты
-      </a>
-      <a
-        href="/FutureEvents"
+      </router-link>
+
+      <router-link
+        to="/FutureEvents"
         :class="{ active: isActive('/future-events') }"
         @click="
           () => {
@@ -46,12 +51,17 @@
           :class="{ active: isActive('/future-events') }"
         ></div>
         Будущие ивенты
-      </a>
+      </router-link>
 
       <template v-if="isAuthenticated">
         <router-link
           to="/PersonalArea"
-          @click="changeText('Личный кабинет')"
+          @click="
+            () => {
+              setActive('/');
+              changeText('Личный  кабинет');
+            }
+          "
           class="profile"
         >
           <img class="profile-img" :src="user?.profileImage || ''" alt="" />
@@ -85,12 +95,12 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { computed } from "vue";
 import { useStore } from "vuex";
 
 const store = useStore();
 
-const activePath = ref("/");
+const activePath = computed(() => store.getters.activePath);
 
 const changeText = (newText) => {
   store.dispatch("updateText", newText);
@@ -100,7 +110,7 @@ const isAuthenticated = computed(() => store.getters.isAuthenticated);
 const user = computed(() => store.getters.user);
 
 const setActive = (path) => {
-  activePath.value = path;
+  store.dispatch("updateActivePath", path);
 };
 
 const isActive = (path) => activePath.value === path;
@@ -176,12 +186,13 @@ a:nth-child(4)::before {
 }
 
 .stripe.active {
-  background: #1F7BD4;
+  background: #1f7bd4;
 }
 
 .active {
-  background: #1F7BD4;
-  color: #e3e4e4;
+  background: #1f7bd4;
+  color: #ebedee;
+  border: 0.9px solid #1f7bd4;
 }
 
 .profile {
@@ -192,7 +203,7 @@ a:nth-child(4)::before {
   margin: 0 0 10% 0;
   padding: 0 0 -15% 10px;
   background-color: #35373a;
-  border: #35373a;
+  border: 0.9px solid #35373a;
 }
 
 .profile-img {
@@ -237,6 +248,8 @@ a {
   border-radius: 8px;
   padding: 0 4%;
   display: flex;
+  cursor: pointer;
+  transition: border 0.4s, background-color 0.4s, transform 0.4s;
 }
 
 .log-reg {
@@ -274,17 +287,18 @@ a {
 }
 
 a:hover {
-  background: #1365b4;
+  background: rgba(31, 123, 212, 0.5);
   color: #e3e4e4;
+  border: 0.9px solid rgb(40, 87, 132);
 }
 
 a.active {
-  background: #1F7BD4;
+  background: #1f7bd4;
   color: #e3e4e4;
 }
 
 a:not(.active):hover {
-  background: #1365b4;
+  background: rgba(31, 123, 212, 0.5);
   color: #e3e4e4;
 }
 </style>

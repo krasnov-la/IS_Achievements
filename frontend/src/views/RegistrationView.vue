@@ -13,7 +13,7 @@
         </div>
         <div style="margin: 2.2vh 0 3vh 0">
           <div class="h2">Пароль</div>
-          <input placeholder="Введите пароль" v-model="data.password" />
+          <input type="password" placeholder="Введите пароль" v-model="data.password" />
         </div>
         <div style="display: grid; place-items: center; margin-top: 3vh">
           <div class="separator" />
@@ -128,7 +128,7 @@ input::placeholder {
 }
 
 input:focus {
-  border-color: #a69ae8;
+  border-color: #80c0fd;
   color: #a9aaaf;
   outline: none;
   font-size: 9.8pt;
@@ -137,12 +137,12 @@ input:focus {
 .link {
   font-size: 9pt;
   font-weight: lighter;
-  -webkit-text-stroke: 0.5px #a69ae8;
+  -webkit-text-stroke: 0.5px #8abefc;
   transform: scaleX(1.1);
   margin: 0 0 0.5vh 0.9vh;
   text-decoration: none;
 
-  color: #a69ae8;
+  color: #8abefc;
 }
 
 .h3 {
@@ -159,7 +159,7 @@ input:focus {
 .button {
   width: 100%;
   height: 6vh;
-  background-color: #8057f2;
+  background-color: #1F7BD4;
   display: grid;
   place-items: center;
   border-radius: 15px;
@@ -167,58 +167,9 @@ input:focus {
   color: #e3e4e4;
   font-weight: 570;
   margin: 0.5vh 0 3vh 0;
+  border: none;
 }
 
-.checkbox-container {
-  display: inline-block;
-  position: relative;
-  cursor: pointer;
-  font-size: 22px;
-  user-select: none;
-  margin: -1vh 0.9vh;
-}
-
-.checkbox-container input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-}
-
-.checkmark {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 20px;
-  width: 20px;
-  background-color: #35373a;
-  border-radius: 4px;
-}
-
-.checkbox-container input:checked ~ .checkmark {
-  background-color: #35373a;
-}
-
-.checkmark:after {
-  content: "";
-  position: absolute;
-  display: none;
-}
-
-.checkbox-container input:checked ~ .checkmark:after {
-  display: block;
-}
-
-.checkbox-container .checkmark:after {
-  left: 6.5px;
-  top: 1.5px;
-  width: 5px;
-  height: 10px;
-  border: solid white;
-  border-width: 0 3px 3px 0;
-  transform: rotate(45deg);
-  background-color: transparent; /* чтобы галочка была только из границ */
-  border-color: #8a2be2; /* фиолетовая галочка */
-}
 .item_error {
   font-family: "Inter";
   font-style: normal;

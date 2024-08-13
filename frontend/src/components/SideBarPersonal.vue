@@ -18,6 +18,7 @@
         <div class="stripe" :class="{ active: isActive('/') }"></div>
         Личный кабинет
       </router-link>
+
       <router-link
         to="/NewAchievement"
         :class="{ active: isActive('/NewAchievement') }"
@@ -34,6 +35,21 @@
         ></div>
         Добавить достижение
       </router-link>
+
+      <router-link
+        to="/Requests"
+        :class="{ active: isActive('/Requests') }"
+        @click="
+          () => {
+            setActive('/Requests');
+            changeText('Отправленные заявки');
+          }
+        "
+      >
+        <div class="stripe" :class="{ active: isActive('/Requests') }"></div>
+        Отправленные заявки
+      </router-link>
+
       <router-link
         to="/EditProfile"
         :class="{ active: isActive('/EditProfile') }"
@@ -44,17 +60,35 @@
           }
         "
       >
-        <div
-          class="stripe"
-          :class="{ active: isActive('/future-events') }"
-        ></div>
+        <div class="stripe" :class="{ active: isActive('/EditProfile') }"></div>
         Редактировать профиль
       </router-link>
-      <a :class="{ active: isActive('/future') }" @click="logout">
+
+      <router-link
+        to="/"
+        :class="{ active: isActive('/future') }"
+        @click="
+          () => {
+            setActive('/');
+            logout();
+          }
+        "
+      >
         <div class="stripe" :class="{ active: isActive('/future') }"></div>
         Выйти из аккаунта
-      </a>
-      <router-link to="/" class="profile" style="height: 32pt">
+      </router-link>
+
+      <router-link
+        to="/"
+        class="profile"
+        style="height: 32pt"
+        @click="
+          () => {
+            setActive('/');
+            changeText('Главная страница');
+          }
+        "
+      >
         На главную страницу
       </router-link>
     </div>
@@ -96,13 +130,11 @@ const logout = async () => {
     );
     if (response.status === 200) {
       store.dispatch("setAuth", false);
-      console.log("hello;");
+      store.dispatch("setUser", {});
+      changeText("Главная страница");
     }
   } catch (error) {
     console.log(error);
-  } finally {
-    console.log(localStorage);
-    router.push("/");
   }
 };
 </script>
@@ -157,16 +189,21 @@ a:nth-child(3)::before {
 }
 
 a:nth-child(4)::before {
+  content: url("../assets/ico/letter.svg");
+  margin: 1.8% 4.2% -0.9% 2.2%;
+}
+
+a:nth-child(5)::before {
   content: url("../assets/ico/edit.svg");
   margin: 1.8% 6% -0.9% 2.2%;
 }
 
-a:nth-child(5)::before {
+a:nth-child(6)::before {
   content: url("../assets/ico/exit.svg");
   margin: 1.8% 3% -0.9% 2.2%;
 }
 
-a:nth-child(6)::before {
+a:nth-child(7)::before {
   content: url("../assets/ico/left.svg");
   margin: 1.8% 4% -0.9% 2.2%;
 }
@@ -180,12 +217,13 @@ a:nth-child(6)::before {
 }
 
 .stripe.active {
-  background: #8057f2;
+  background: #1f7bd4;
 }
 
 .active {
-  background: #8057f2;
-  color: #e3e4e4;
+  background: #1f7bd4;
+  color: #ebedee;
+  border: 0.9px solid #1f7bd4;
 }
 
 .profile {
@@ -196,7 +234,7 @@ a:nth-child(6)::before {
   margin: 0 0 10% 0;
   padding: 0 0 -15% 10px;
   background-color: #35373a;
-  border: #35373a;
+  border: 0.9px solid #35373a;
 }
 
 a {
@@ -213,20 +251,23 @@ a {
   border-radius: 8px;
   padding: 0 4%;
   display: flex;
+  cursor: pointer;
+  transition: border 0.4s, background-color 0.4s, transform 0.4s;
 }
 
 a:hover {
-  background: rgba(128, 87, 242, 0.37);
+  background: rgba(31, 123, 212, 0.5);
   color: #e3e4e4;
+  border: 0.9px solid rgb(40, 87, 132);
 }
 
 a.active {
-  background: #8057f2;
+  background: #1f7bd4;
   color: #e3e4e4;
 }
 
 a:not(.active):hover {
-  background: rgba(128, 87, 242, 0.37);
+  background: rgba(31, 123, 212, 0.5);
   color: #e3e4e4;
 }
 </style>

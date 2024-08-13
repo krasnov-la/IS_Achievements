@@ -74,7 +74,7 @@ public class UsersController(IUnitOfWork unit) : ControllerBase
     {
         return Ok(await _unit.Users
             .GetQueryable()
-            .Where(u => u.Role == Roles.Default)
+            .Where(u => u.Role == Roles.User)
             .OrderBy(u => u.Login)
             .ToListAsync());
     }
