@@ -15,14 +15,19 @@
         <div class="img-container">
           <img :src="event.logo" alt="" class="img" />
         </div>
-        <div class="event-text">
+        <a
+          :href="`${event.ctftime_url}`"
+          target="_blank"
+          rel="noreferrer"
+          class="event-text"
+        >
           <h4>{{ event.title }}</h4>
-          <div style="width: 119%; height: 28px">
-            <p>{{ event.url }}</p>
-          </div>
-        </div>
+        </a>
         <div style="display: flex; align-items: end">
-          <button class="link-full-info"></button>
+          <button
+            class="link-full-info"
+            @click="openInNewTab(`${event.ctftime_url}`)"
+          ></button>
         </div>
       </div>
     </div>
@@ -40,9 +45,16 @@ const props = defineProps({
     default: () => [],
   },
 });
+const openInNewTab = (url) => {
+  window.open(url, "_blank", "noreferrer");
+};
 </script>
 
 <style scoped>
+a {
+  text-decoration: none;
+}
+
 .event-item {
   display: flex;
   align-items: center;
