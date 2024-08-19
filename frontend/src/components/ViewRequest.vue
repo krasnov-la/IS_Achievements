@@ -1,7 +1,15 @@
 <template>
   <div class="container">
     <div class="request-details">
-      <h2>{{ requestData.title }}</h2>
+      <div style="display: flex; justify-content: space-between">
+        <h2>{{ requestData.title }}</h2>
+        <router-link to="/AdminDashboard">
+          <div style="cursor: pointer;" >
+            <img style="margin: -10px -10px 0 0" src="../assets/ico/cross.svg" />
+          </div>
+        </router-link>
+      </div>
+
       <p>{{ requestData.description }}</p>
 
       <div class="images">
@@ -10,7 +18,13 @@
 
       <div class="score-input">
         <p for="score">Введите баллы:</p>
-        <input type="number" id="score" v-model="score" />
+        <input
+            type="number"
+            id="score"
+            v-model="score"
+            @input="validateScore"
+            min="0"
+        />
       </div>
 
       <div class="actions">
@@ -38,6 +52,12 @@ const requestData = {
 
 const score = ref(0);
 const router = useRouter();
+
+const validateScore = () => {
+  if (score.value < 0) {
+    score.value = 0;
+  }
+};
 
 const approveRequest = () => {
   alert(`Заявка принята с баллами: ${score.value}`);

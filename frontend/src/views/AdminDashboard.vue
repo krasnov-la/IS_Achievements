@@ -21,7 +21,7 @@
           <a href="#" @click="setActiveSection('settings')">Настройки</a>
         </li>
         <li>
-          <a href="#" @click="setActiveSection('logout')">Выйти</a>
+          <a href="/PersonalArea" @click="setActiveSection('logout')">Выйти</a>
         </li>
       </ul>
     </div>

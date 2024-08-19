@@ -11,6 +11,7 @@ import Requests from "@/views/Requests.vue";
 import AdminDashboard from "@/views/AdminDashboard.vue";
 import ViewRequest from "@/components/ViewRequest.vue";
 import ViewUser from "@/components/UserDetail.vue";
+import StudentInfo from "@/components/StudentInfo.vue";
 
 
 const routes = [
@@ -71,6 +72,10 @@ const routes = [
   { path: "/student/:id",
     name: 'ViewUser',
     component: ViewUser,
+  },
+  { path: "/studentInfo/:id",
+    name: 'StudentInfo',
+    component: StudentInfo,
   },
 ]
 
