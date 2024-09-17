@@ -1,7 +1,15 @@
 <template>
   <div class="container">
   <div class="user-detail-container">
-    <h2>Информация о пользователе</h2>
+
+    <div style="display: flex; justify-content: space-between">
+      <h2>Информация о пользователе</h2>
+      <router-link to="/AdminDashboard">
+        <div style="cursor: pointer;" >
+          <img style="margin: -10px -10px 0 0" src="../assets/ico/cross.svg" />
+        </div>
+      </router-link>
+    </div>
 
     <div class="user-info">
       <p><strong>Имя пользователя:</strong> {{ user.name }}</p>

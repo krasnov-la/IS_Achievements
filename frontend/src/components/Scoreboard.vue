@@ -16,14 +16,15 @@
       </div>
       <div v-else>
         <div
-          class="table-item"
-          v-for="student in props.scoreboardData"
-          :key="student.id"
+            :class="['table-item', index % 2 === 0 ? 'row2' : 'row1']"
+            v-for="(student, index) in props.scoreboardData"
+            :key="student.id"
+            @click="handleClick(student.id)"
         >
           <p class="number">#{{ student.place }}</p>
           <img class="profile-img" src="" alt="" />
           <p class="name">{{ student.nick }}</p>
-          <p class="score">{{ student.score.toLocaleString("ru") }} баллов</p>
+          <p class="score">{{ student.score.toLocaleString('ru') }} баллов</p>
         </div>
       </div>
     </div>
@@ -32,16 +33,26 @@
 
 <script setup>
 import { computed } from "vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 const isScoreboardEmpty = computed(() => {
   return props.scoreboardData.length === 0;
 });
+
 const props = defineProps({
   scoreboardData: {
     type: Array,
     default: () => [],
   },
 });
+
+const handleClick = (studentId) => {
+  // Переход на страницу с подробной информацией о пользователе
+  router.push(`/studentInfo/${studentId}`);
+};
 </script>
+
 <style scoped>
 h2 {
   font-family: "Inter";
@@ -62,12 +73,6 @@ h2 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.sort {
-  width: 6px;
-  height: 28px;
-  cursor: pointer;
 }
 
 .table {
@@ -98,15 +103,6 @@ h2 {
   display: flex;
   align-items: center;
   color: #ffffff;
-  min-height: 55px;
-}
-
-.table-item:nth-child(odd) {
-  background: #232627;
-}
-
-.table-item:nth-child(even) {
-  background: #35373a;
 }
 
 .profile-img {
@@ -208,5 +204,54 @@ h2 {
   to {
     transform: rotate(360deg);
   }
+}
+
+/* Стили для строк таблицы */
+.row, .row1, .row2 {
+  width: 100%;
+  padding: 0.8% 3.5% 1% 3.5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.row {
+  height: 4.5vh;
+  background-color: #343839;
+}
+
+.row1 {
+  padding: 3% 3.5%;
+  cursor: pointer;
+  height: 7vh;
+  background-color: #343839;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.row2 {
+  padding: 3% 3.5%;
+  cursor: pointer;
+  height: 7vh;
+  background-color: #232627;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.row1:hover {
+  background-color: rgba(52, 56, 57, 0.8);
+}
+
+.row1:active {
+  background-color: #343839;
+  transform: scale(0.995);
+}
+
+.row2:hover {
+  background-color: rgba(52, 56, 57, 0.15);
+}
+
+.row2:active {
+  background-color: #232627;
+  transform: scale(0.995);
 }
 </style>

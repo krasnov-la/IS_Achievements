@@ -10,7 +10,7 @@
       flex-wrap: wrap;
     "
   >
-    <SideBarPersonal />
+    <SideBar />
     <div style="width: 100%; margin-top: 10vh">
       <div class="container" style="margin-left: 1.5vh; margin-right: 1.5vh">
         <div class="card">
@@ -90,8 +90,8 @@ import Header from "@/components/Header.vue";
 import axios from "axios";
 import { useStore } from "vuex";
 import { computed, onMounted, ref } from "vue";
-import SideBarPersonal from "@/components/SideBarPersonal.vue";
 import AchievementModal from "@/components/AchievementInfo.vue";
+import SideBar from "@/components/SideBar.vue";
 
 const store = useStore();
 const user = computed(() => store.getters.user);
@@ -157,9 +157,9 @@ onMounted(getStudentAchievements);
 }
 
 .row1 {
-  padding: 2% 3.5%;
+  padding: 3% 3.5%;
   cursor: pointer;
-  height: 8vh;
+  height: 10vh;
   background-color: #343839;
   transition: background-color 0.2s, transform 0.2s;
 }
@@ -167,13 +167,13 @@ onMounted(getStudentAchievements);
 .row2 {
   padding: 2% 3.5%;
   cursor: pointer;
-  height: 8vh;
+  height: fit-content;
   background-color: #232627;
   transition: background-color 0.2s, transform 0.2s;
 }
 
 .row1:hover {
-  background-color: rgba(52, 56, 57, 0.8);
+  background-color: rgba(35, 38, 39, 0.15);
 }
 
 .row1:active {
