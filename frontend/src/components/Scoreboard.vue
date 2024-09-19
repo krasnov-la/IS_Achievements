@@ -16,15 +16,15 @@
       </div>
       <div v-else>
         <div
-            :class="['table-item', index % 2 === 0 ? 'row2' : 'row1']"
-            v-for="(student, index) in props.scoreboardData"
-            :key="student.id"
-            @click="handleClick(student.id)"
+          :class="['table-item', index % 2 === 0 ? 'row2' : 'row1']"
+          v-for="(student, index) in props.scoreboardData"
+          :key="student.id"
+          @click="handleClick(student.id)"
         >
           <p class="number">#{{ student.place }}</p>
           <img class="profile-img" src="" alt="" />
-          <p class="name">{{ student.nick }}</p>
-          <p class="score">{{ student.score.toLocaleString('ru') }} баллов</p>
+          <p class="name">{{ student.nickname }}</p>
+          <p class="score">{{ student.score.toLocaleString("ru") }} баллов</p>
         </div>
       </div>
     </div>
@@ -207,7 +207,9 @@ h2 {
 }
 
 /* Стили для строк таблицы */
-.row, .row1, .row2 {
+.row,
+.row1,
+.row2 {
   width: 100%;
   padding: 0.8% 3.5% 1% 3.5%;
   display: flex;
