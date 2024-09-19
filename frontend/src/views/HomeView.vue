@@ -42,7 +42,7 @@ import EventsList from "../components/EventsList.vue";
 import FutureEventsList from "../components/FutureEventsList.vue";
 import Scoreboard from "../components/Scoreboard.vue";
 import axios from "axios";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, computed } from "vue";
 import Header from "@/components/Header.vue";
 import { useStore } from "vuex";
 
@@ -52,13 +52,19 @@ const scoreboardData = ref([]);
 const loadingEvents = ref(true);
 const store = useStore();
 
+const token = computed(() => store.getters.token);
+const isAuthenticated = computed(() => store.getters.isAuthenticated);
+console.log(token);
+console.log(isAuthenticated);
+
 const getScoreboard = async () => {
   try {
     const count = 10;
     const offset = 0;
 
     const response = await axios.get(
-      `${process.env.VUE_APP_API_URL}Rating/scoreboard/${count}/${offset}`
+      `${process.env.VUE_APP_API_URL}rating/global`
+      // `${process.env.VUE_APP_API_URL}Rating/scoreboard/${count}/${offset}`
     );
 
     scoreboardData.value = response.data;
@@ -106,10 +112,13 @@ const fetchCTFEvents = async () => {
 const getStudentInfo = async () => {
   try {
     const userResponse = await axios.get(
-      `${process.env.VUE_APP_API_URL}Rating/personal`,
+      `${process.env.VUE_APP_API_URL}rating/personal`,
       {
         withCredentials: true,
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
       }
     );
     const user = await userResponse.data;

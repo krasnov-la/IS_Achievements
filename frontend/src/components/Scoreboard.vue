@@ -22,7 +22,7 @@
         >
           <p class="number">#{{ student.place }}</p>
           <img class="profile-img" src="" alt="" />
-          <p class="name">{{ student.nick }}</p>
+          <p class="name">{{ student.nickname }}</p>
           <p class="score">{{ student.score.toLocaleString("ru") }} баллов</p>
         </div>
       </div>
