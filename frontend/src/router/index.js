@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import PersonalArea from '../views/PersonalArea.vue'
 import RegistrationView from '../views/RegistrationView.vue'
 import LoginView from '../views/LoginView.vue'
+import LoginHelpView from '../views/LoginHelpView.vue'
 import NewAchievement from "@/views/NewAchievement.vue";
 import EditProfile from "@/views/EditProfile.vue";
 import CurrentEvents from "@/views/CurrentEvents.vue";
@@ -34,6 +35,11 @@ const routes = [
     path: '/Login',
     name: 'Login',
     component: LoginView
+  },
+  {
+    path: '/LoginHelp',
+    name: 'LoginHelp',
+    component: LoginHelpView
   },
   {
     path: '/NewAchievement',

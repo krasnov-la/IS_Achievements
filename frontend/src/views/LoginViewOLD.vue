@@ -1,13 +1,54 @@
 <template>
-  <!-- <div id="container"></div> -->
   <div class="bg">
     <div class="card1">
-      <form id="form" @submit.prevent="submit">
+      <form @submit.prevent="submit">
         <div style="display: grid; place-items: center">
           <div class="h11">Вход в аккаунт</div>
           <div class="separatorr" />
         </div>
-        <div id="buttonContainerId"></div>
+
+        <div style="margin: 2.2vh 0 3vh 0">
+          <div class="h22">Логин</div>
+          <input placeholder="Введите Логин" v-model="data.login" />
+        </div>
+
+        <div style="margin: 2.2vh 0 3vh 0">
+          <div style="display: flex; justify-content: space-between">
+            <div class="h22">Пароль</div>
+            <router-link to="" style="margin: 1.2vh 1.5vh 0 0" class="link"
+              >Забыли пароль?</router-link
+            >
+          </div>
+          <input
+            type="password"
+            placeholder="Введите пароль"
+            v-model="data.password"
+          />
+        </div>
+
+        <div style="display: flex">
+          <label class="checkbox-container">
+            <input type="checkbox" />
+            <span class="checkmark"></span>
+          </label>
+          <div style="margin: -0.55vh 0 0 3.5vh" class="h3">Запомнить меня</div>
+        </div>
+
+        <div style="display: grid; place-items: center; margin-top: 3vh">
+          <div class="separatorr" />
+          <button class="button" type="submit">Войти</button>
+
+          <div style="display: flex; margin-bottom: 0.8vh">
+            <div class="h3">У вас еще нет аккаунта?</div>
+            <router-link
+              to="/Registration"
+              class="link"
+              style="margin-left: 2.5vh"
+            >
+              Зарегистрироваться
+            </router-link>
+          </div>
+        </div>
       </form>
     </div>
   </div>
@@ -15,88 +56,55 @@
 
 <script setup>
 import axios from "axios";
-import { onMounted } from "vue";
-import { useStore } from "vuex";
+import { reactive } from "vue";
 import { useRouter } from "vue-router";
+import { useStore } from "vuex";
+
+const data = reactive({
+  login: "",
+  password: "",
+});
 
 const router = useRouter();
 const store = useStore();
 
-const changeText = async (newText) => {
+const changeText = (newText) => {
   store.dispatch("updateText", newText);
 };
 
-const setActive = async (path) => {
+const setActive = (path) => {
   store.dispatch("updateActivePath", path);
 };
 
-onMounted(() => {
-  // Assuming that YaAuthSuggest is already available globally
-  if (window.YaAuthSuggest) {
-    window.YaAuthSuggest.init(
-      {
-        client_id: "d09e490d8e604eed9475097b0ccde511",
-        response_type: "token",
-        redirect_uri: "http://localhost:8080/loginhelp",
-      },
-      "http://localhost:8080/loginhelp",
-      {
-        view: "button",
-        parentId: "buttonContainerId",
-        buttonSize: "m",
-        buttonView: "main",
-        buttonTheme: "dark",
-        buttonBorderRadius: "8",
-        buttonIcon: "ya",
-      }
-    )
-      .then(function (result) {
-        return result.handler();
-      })
-      .then(function (data) {
-        authorize(data["access_token"]);
-        // console.log("Сообщение с токеном: ", data);
-        // document.body.innerHTML += `Сообщение с токеном: ${JSON.stringify(
-        //   data
-        // )}`;
-      })
-      .catch(function (error) {
-        console.log("Что-то пошло не так: ", error);
-        // document.body.innerHTML += `Что-то пошло не так: ${JSON.stringify(
-        //   error
-        // )}`;
-      });
-  } else {
-    console.error("YaAuthSuggest is undefined.");
-  }
-});
-
-const authorize = async (token) => {
+const submit = async () => {
   try {
-    const response = await axios.get(
-      `${process.env.VUE_APP_API_URL}auth/login/${token}`,
-      {},
+    const response = await axios.post(
+      `${process.env.VUE_APP_API_URL}Auth/login`,
+      {
+        login: data.login,
+        password: data.password,
+      },
       {
         withCredentials: true,
         headers: { "Content-Type": "application/json" },
       }
     );
-    console.log(response);
+
     if (response.status === 200) {
-      //TODO: refactor this
-      await store.dispatch("setAuth", true);
-      await store.dispatch("setToken", response.data);
-      await setActive("/");
-      await changeText("Главная страница");
-      await router.push("/");
+      store.dispatch("setAuth", true);
+      setActive("/");
+      changeText("Главная страница");
+      router.push("/");
     }
   } catch (error) {
-    alert(`${error}`);
+    if (error.response.data === "User not found")
+      alert(`${error.response.data}`);
+    else alert(`Невереное имя пользователя или пароль`);
   }
 };
 </script>
 
-<style scoped>
+<style>
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
 
 .bg {
@@ -272,10 +280,5 @@ input:focus {
 input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0px 1000px #35373a inset !important;
   -webkit-text-fill-color: #a9aaaf !important; /* Цвет текста */
-}
-
-html,
-body {
-  background: #eee;
 }
 </style>
