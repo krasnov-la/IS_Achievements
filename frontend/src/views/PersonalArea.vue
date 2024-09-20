@@ -1,7 +1,7 @@
 <template>
   <Header />
   <div
-      style="
+    style="
       margin-left: 260px;
       width: calc(100% - 260px);
       height: 100%;
@@ -17,7 +17,7 @@
           <div class="pfp" />
           <div style="margin-left: 38%">
             <div
-                style="
+              style="
                 color: #e3e4e4;
                 font-size: 15pt;
                 -webkit-text-stroke: 0.5px #e3e4e4;
@@ -27,15 +27,17 @@
               {{ user?.nickname || "User" }}
             </div>
             <div style="margin-left: 2.2%">
-              <div class="h5">Иванов Иван Иванович</div>
-              <div class="h5">ivanivan@mail.ru</div>
+              <div class="h5">{{ user?.fullname || "---------" }}</div>
+              <div class="h5">
+                Mail: {{ user.emailAddress || "error email" }}
+              </div>
             </div>
           </div>
 
           <div class="h6" style="display: flex">
             <div class="h5">Информационная/Компьютерная безопасность</div>
             <div
-                style="
+              style="
                 width: 0.8pt;
                 height: 25pt;
                 background-color: #343839;
@@ -65,25 +67,34 @@
         <div class="dots"></div>
         <div class="h1">Мое портфолио</div>
         <div class="row">
-          <div class="h7" style="flex: 1;">Название достижения</div>
-          <div class="h7" style="flex: 3; margin-left: 5%;">Описание</div>
-          <div class="h7" style="flex: 1;">Сертификаты</div>
-          <div class="h7" style="flex: 1;">Колличество баллов</div>
+          <div class="h7" style="flex: 1">Название достижения</div>
+          <div class="h7" style="flex: 3; margin-left: 5%">Описание</div>
+          <div class="h7" style="flex: 1">Сертификаты</div>
+          <div class="h7" style="flex: 1">Колличество баллов</div>
         </div>
-        <div v-for="(achievement, index) in achievements" :key="achievement.id" @click="openModal(achievement)">
+        <div
+          v-for="(achievement, index) in achievements"
+          :key="achievement.id"
+          @click="openModal(achievement)"
+        >
           <div :class="[{ row2: index % 2 === 0 }, { row1: index % 2 === 1 }]">
-            <div class="h8" style="flex: 1;">{{ achievement.eventName }}</div>
-            <div class="h8" style="flex: 3; margin-left: 5%;">{{ achievement.description }}</div>
-            <div class="h8" style="flex: 1;">Сертификаты</div>
-            <div class="h8" style="flex: 1;">{{ achievement.score }}</div>
+            <div class="h8" style="flex: 1">{{ achievement.eventName }}</div>
+            <div class="h8" style="flex: 3; margin-left: 5%">
+              {{ achievement.description }}
+            </div>
+            <div class="h8" style="flex: 1">Сертификаты</div>
+            <div class="h8" style="flex: 1">{{ achievement.score }}</div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <AchievementModal :achievement="selectedAchievement" :visible="isModalVisible" @close="closeModal" />
+  <AchievementModal
+    :achievement="selectedAchievement"
+    :visible="isModalVisible"
+    @close="closeModal"
+  />
 </template>
-
 
 <script setup>
 import Header from "@/components/Header.vue";
@@ -102,11 +113,11 @@ const isModalVisible = ref(false);
 const getStudentAchievements = async () => {
   try {
     const achievementsData = await axios.get(
-        `${process.env.VUE_APP_API_URL}Achievements/self`,
-        {
-          withCredentials: true,
-          headers: { "Content-Type": "application/json" },
-        }
+      `${process.env.VUE_APP_API_URL}Achievements/self`,
+      {
+        withCredentials: true,
+        headers: { "Content-Type": "application/json" },
+      }
     );
     achievements.value = achievementsData.data;
   } catch (error) {
@@ -142,7 +153,9 @@ onMounted(getStudentAchievements);
   border-radius: 12pt;
   border: 1px solid #35373a;
 }
-.row, .row1, .row2 {
+.row,
+.row1,
+.row2 {
   width: 100%;
   padding: 0.8% 3.5% 1% 3.5%;
   display: flex;

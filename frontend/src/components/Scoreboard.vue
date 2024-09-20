@@ -18,8 +18,8 @@
         <div
           :class="['table-item', index % 2 === 0 ? 'row2' : 'row1']"
           v-for="(student, index) in props.scoreboardData"
-          :key="student.id"
-          @click="handleClick(student.id)"
+          :key="student.emailAddress"
+          @click="handleClick(student.emailAddress)"
         >
           <p class="number">#{{ student.place }}</p>
           <img class="profile-img" src="" alt="" />
@@ -47,9 +47,9 @@ const props = defineProps({
   },
 });
 
-const handleClick = (studentId) => {
+const handleClick = (studentEmail) => {
   // Переход на страницу с подробной информацией о пользователе
-  router.push(`/studentInfo/${studentId}`);
+  router.push(`/studentInfo/${studentEmail}`);
 };
 </script>
 

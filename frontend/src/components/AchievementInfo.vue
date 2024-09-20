@@ -1,62 +1,79 @@
 <template>
   <div v-if="visible" class="modal-overlay" @click.self="closeModal">
     <div class="modal-content">
-
-      <div style="display: flex; justify-content: space-between; align-items: center; margin: 0 0 10px 0">
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin: 0 0 10px 0;
+        "
+      >
         <div class="h1">{{ achievement.eventName }}</div>
-        <div style="cursor: pointer;"  @click="closeModal">
+        <div style="cursor: pointer" @click="closeModal">
           <img style="margin-right: -10px" src="../assets/ico/cross.svg" />
         </div>
       </div>
 
-      <div class="separator"/>
+      <div class="separator" />
 
-      <div style="margin: 25px 10px 15px 10px">
-        <div class="h21" style="margin: 0 0 55px 0">{{ achievement.description }}</div>
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <div class="h31">Полученно баллов: {{ achievement.score }}</div>
-          <div class="h21">Дата прохождения: </div>
+      <div style="margin: 25px 10px 5px 10px">
+        <div class="h21" style="margin: 0 0 55px 0">
+          Описание
+          {{ achievement.description }}
+        </div>
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
+        >
+          <div class="h31">
+            Полученно баллов: {{ achievement.achievement.score }}
+          </div>
+          <div class="h21">
+            Дата прохождения:
+            {{
+              new Date(achievement.creationDatetime).toISOString().split("T")[0]
+            }}
+          </div>
         </div>
       </div>
 
-      <div class="separator"/>
+      <div class="separator" />
 
-      <div style="display: flex; justify-content: space-between; align-items: center;">
-
-        <div
-            class="button3"
-            @click=""
-            style="align-items: center;"
-        >
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        "
+      >
+        <div class="button3" @click="" style="align-items: center">
           Сертификат
         </div>
 
-        <div
-            class="button4"
-            @click=""
-            style="align-items: center;"
-        >
+        <div class="button4" @click="" style="align-items: center">
           <img src="../assets/ico/download.svg" />
         </div>
-
       </div>
-
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref } from "vue";
 
 const props = defineProps({
   achievement: Object,
-  visible: Boolean
+  visible: Boolean,
 });
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(["close"]);
 
 const closeModal = () => {
-  emit('close');
+  emit("close");
 };
 </script>
 
@@ -68,7 +85,6 @@ const closeModal = () => {
   width: 100%;
   background-color: #35373a;
 }
-
 
 .h1 {
   color: #e3e4e4;
@@ -118,7 +134,8 @@ const closeModal = () => {
   color: #e3e4e4;
 }
 
-.button3, .button4 {
+.button3,
+.button4 {
   font-family: Inter;
   border-radius: 13px;
   display: flex; /* Добавлено */

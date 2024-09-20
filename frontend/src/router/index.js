@@ -79,7 +79,7 @@ const routes = [
     name: 'ViewUser',
     component: ViewUser,
   },
-  { path: "/studentInfo/:id",
+  { path: "/studentInfo/:email",
     name: 'StudentInfo',
     component: StudentInfo,
   },
