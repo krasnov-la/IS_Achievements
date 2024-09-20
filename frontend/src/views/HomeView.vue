@@ -53,9 +53,6 @@ const loadingEvents = ref(true);
 const store = useStore();
 
 const token = computed(() => store.getters.token);
-const isAuthenticated = computed(() => store.getters.isAuthenticated);
-console.log(token);
-console.log(isAuthenticated);
 
 const getScoreboard = async () => {
   try {
@@ -66,7 +63,6 @@ const getScoreboard = async () => {
       `${process.env.VUE_APP_API_URL}rating/global`
       // `${process.env.VUE_APP_API_URL}Rating/scoreboard/${count}/${offset}`
     );
-
     scoreboardData.value = response.data;
   } catch (error) {
     console.error("Error fetching scoreboard data:", error);
@@ -110,14 +106,16 @@ const fetchCTFEvents = async () => {
 };
 
 const getStudentInfo = async () => {
+  const user = store.getters.user;
+  const email = user["emailAddress"];
   try {
     const userResponse = await axios.get(
-      `${process.env.VUE_APP_API_URL}rating/personal`,
+      `${process.env.VUE_APP_API_URL}users/${email}`,
       {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token.value}`,
         },
       }
     );
