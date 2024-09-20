@@ -9,6 +9,7 @@ export default createStore({
     authenticated: false,
     token: '',
     user: {
+      email: "",
       nickname: "",
       score: "",
       place: "0"
