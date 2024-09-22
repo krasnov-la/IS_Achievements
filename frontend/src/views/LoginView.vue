@@ -37,9 +37,11 @@ onMounted(() => {
       {
         client_id: "d09e490d8e604eed9475097b0ccde511",
         response_type: "token",
-        redirect_uri: "http://localhost:8080/loginhelp",
+        redirect_uri: "http://localhost:4000/loginhelp",
       },
-      "http://localhost:8080/loginhelp",
+      "http://localhost:4000/loginhelp",
+      //указывать текущий порт приложения
+      // "http://localhost:{your_port}/loginhelp",
       {
         view: "button",
         parentId: "buttonContainerId",
@@ -55,16 +57,9 @@ onMounted(() => {
       })
       .then(function (data) {
         authorize(data["access_token"]);
-        // console.log("Сообщение с токеном: ", data);
-        // document.body.innerHTML += `Сообщение с токеном: ${JSON.stringify(
-        //   data
-        // )}`;
       })
       .catch(function (error) {
         console.log("Что-то пошло не так: ", error);
-        // document.body.innerHTML += `Что-то пошло не так: ${JSON.stringify(
-        //   error
-        // )}`;
       });
   } else {
     console.error("YaAuthSuggest is undefined.");
@@ -81,14 +76,21 @@ const authorize = async (token) => {
         headers: { "Content-Type": "application/json" },
       }
     );
-    console.log(response);
     if (response.status === 200) {
-      //TODO: refactor this
+      const user = {
+        emailAddress: response.data.email,
+        nickname: "",
+        score: "",
+        place: "0",
+      };
+
+      await store.dispatch("setUser", user);
+      await store.dispatch("setToken", response.data.accessToken);
       await store.dispatch("setAuth", true);
-      await store.dispatch("setToken", response.data);
-      await setActive("/");
-      await changeText("Главная страница");
-      await router.push("/");
+
+      setActive("/");
+      changeText("Главная страница");
+      router.push("/");
     }
   } catch (error) {
     alert(`${error}`);
