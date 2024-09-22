@@ -27,7 +27,7 @@
               {{ user?.nickname || "User" }}
             </div>
             <div style="margin-left: 2.2%">
-              <div class="h5">{{ user?.fullname || "---------" }}</div>
+              <div class="h5">{{ user?.fullName || "no fio" }}</div>
               <div class="h5">
                 Mail: {{ user.emailAddress || "error email" }}
               </div>
@@ -109,11 +109,13 @@ const user = computed(() => store.getters.user);
 const achievements = ref([]);
 const selectedAchievement = ref(null);
 const isModalVisible = ref(false);
+const count = ref(10);
+const offset = ref(0);
 
 const getStudentAchievements = async () => {
   try {
     const achievementsData = await axios.get(
-      `${process.env.VUE_APP_API_URL}Achievements/self`,
+      `${process.env.VUE_APP_API_URL}requests/approved/user/${user["emailAddress"]}/${count.value}/${offset.value}`,
       {
         withCredentials: true,
         headers: { "Content-Type": "application/json" },

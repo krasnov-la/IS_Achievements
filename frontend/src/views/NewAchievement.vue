@@ -136,13 +136,15 @@ import SideBarPersonal from "@/components/SideBarPersonal.vue";
 import Header from "@/components/Header.vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
-import { ref } from "vue";
+import { ref, computed } from "vue";
 
 const store = useStore();
 const achievementTitle = ref("");
 const achievementDescription = ref("");
 const files = ref([]);
 const router = useRouter();
+
+const token = computed(() => store.getters.token);
 
 const fileInput = ref(null);
 
@@ -155,12 +157,12 @@ const setActive = (path) => {
 };
 
 const triggerFileInput = () => {
-  console.log("trigger file input");
+  // console.log("trigger file input");
   fileInput.value.click();
 };
 
 const handleFiles = (event) => {
-  console.log("handle files");
+  // console.log("handle files");
   const selectedFiles = Array.from(event.target.files);
   files.value.push(...selectedFiles);
 };
@@ -170,35 +172,15 @@ const removeFile = (index) => {
 };
 
 const submitForm = async () => {
-  // files.value.forEach(async (file) => {
-  //   const formData = new FormData();
-  //   formData.append("img", file); // Ensure the key name is 'img'
-
-  //   await axios
-  //     .post(`${process.env.VUE_APP_API_URL}Images`, formData, {
-  //       withCredentials: true,
-  //       headers: {
-  //         "Content-Type": "multipart/form-data",
-  //       },
-  //     })
-  //     .then(function (response) {
-  //       fileNames.push(response.data);
-  //       console.log("File uploaded successfully:", response, response.data);
-  //       console.log(fileNames);
-  //     })
-  //     .catch(function () {
-  //       console.log(error.response.data);
-  //     });
-  // });
-
   const fileNames = await uploadFiles(files.value);
 
+  const fileIds = fileNames.map((file) => file.id);
+
   const formData = {
-    name: achievementTitle.value,
+    eventName: achievementTitle.value,
     description: achievementDescription.value,
-    imageNames: fileNames,
+    imageIds: fileIds,
   };
-  console.log(formData);
 
   await createRequest(formData);
 };
@@ -206,13 +188,14 @@ const submitForm = async () => {
 const uploadFiles = async (files) => {
   const fileUploadPromises = files.map((file) => {
     const formData = new FormData();
-    formData.append("img", file); // Ensure the key name is 'img'
+    formData.append("file", file);
 
     return axios
-      .post(`${process.env.VUE_APP_API_URL}Images`, formData, {
+      .post(`${process.env.VUE_APP_API_URL}images`, formData, {
         withCredentials: true,
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token.value}`,
         },
       })
       .then((response) => {
@@ -229,14 +212,14 @@ const uploadFiles = async (files) => {
 
 const createRequest = async (formData) => {
   await axios
-    .post(`${process.env.VUE_APP_API_URL}Requests`, formData, {
+    .post(`${process.env.VUE_APP_API_URL}requests`, formData, {
       withCredentials: true,
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token.value}`,
       },
     })
     .then((response) => {
-      console.log("success", response);
       alert("Successful");
       setActive("/Requests");
       changeText("Отправленные заявки");

@@ -33,13 +33,13 @@
             </div>
             <div class="h8" style="flex: 1">
               {{
-                `${String(new Date(request.dateTime).getDate()).padStart(
-                  2,
-                  "0"
-                )}.${String(new Date(request.dateTime).getMonth() + 1).padStart(
-                  2,
-                  "0"
-                )}.${new Date(request.dateTime).getFullYear()}`
+                `${String(
+                  new Date(request.creationDatetime).getDate()
+                ).padStart(2, "0")}.${String(
+                  new Date(request.creationDatetime).getMonth() + 1
+                ).padStart(2, "0")}.${new Date(
+                  request.creationDatetime
+                ).getFullYear()}`
               }}
             </div>
             <div class="h8" style="flex: 1">{{ request.status }}</div>
@@ -48,18 +48,19 @@
       </div>
     </div>
   </div>
-  <AchievementModal
+  <!-- TODO: тут должен был RequestModel соответственно -->
+  <!-- <AchievementModal
     :achievement="selectedRequest"
     :visible="isModalVisible"
     @close="closeModal"
-  />
+  /> -->
 </template>
 
 <script setup>
 import Header from "@/components/Header.vue";
 import axios from "axios";
 import { useStore } from "vuex";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, computed } from "vue";
 import SideBarPersonal from "@/components/SideBarPersonal.vue";
 import AchievementModal from "@/components/AchievementInfo.vue";
 
@@ -67,24 +68,31 @@ const store = useStore();
 const requests = ref([]);
 const selectedRequest = ref(null);
 const isModalVisible = ref(false);
+const token = computed(() => store.getters.token);
+
+const count = ref(10);
+const offset = ref(0);
 
 const getStudentRequests = async () => {
   try {
-    const achievementsData = await axios.get(
-      `${process.env.VUE_APP_API_URL}Requests/self`,
+    const requestsData = await axios.get(
+      `${process.env.VUE_APP_API_URL}requests/self/${count.value}/${offset.value}`,
       {
         withCredentials: true,
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token.value}`,
+        },
       }
     );
-    requests.value = achievementsData.data;
+    requests.value = requestsData.data;
   } catch (error) {
     console.log(error);
   }
 };
 
-const openModal = (achievement) => {
-  selectedRequest.value = achievement;
+const openModal = (request) => {
+  selectedRequest.value = request;
   isModalVisible.value = true;
 };
 

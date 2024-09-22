@@ -27,7 +27,7 @@
               {{ user?.nickname || "User" }}
             </div>
             <div style="margin-left: 2.2%">
-              <div class="h5">Иванов Иван Иванович</div>
+              <div class="h5">{{ user?.fullName || "no fio" }}</div>
               <div class="h5">{{ user?.emailAddress || "Error email" }}</div>
             </div>
           </div>
@@ -49,14 +49,14 @@
         <div class="card">
           <div class="pic2" />
           <div class="h2">Баллы</div>
-          <div class="h3">{{ user?.score || 0 }}</div>
+          <div class="h3">{{ userRating?.score || 0 }}</div>
           <div class="h4">Накопленные баллы за достижения</div>
         </div>
 
         <div class="card">
           <div class="pic1" />
           <div class="h2">Место в рейтинге</div>
-          <div class="h3">{{ user?.place || 0 }}</div>
+          <div class="h3">{{ userRating?.place || 0 }}</div>
           <div class="h4">Позиция в общем рейтинге студентов</div>
         </div>
       </div>
@@ -113,6 +113,7 @@ const token = computed(() => store.getters.token);
 const route = useRoute();
 const achievements = ref([]);
 const user = ref(null);
+const userRating = ref(null);
 const selectedAchievement = ref(null);
 const isModalVisible = ref(false);
 
@@ -126,6 +127,21 @@ const getStudentAchievements = async () => {
       }
     );
     achievements.value = achievementsData.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getStudentRating = async () => {
+  try {
+    const userRatingData = await axios.get(
+      `${process.env.VUE_APP_API_URL}rating/user/${route.params.email}`,
+      {
+        withCredentials: true,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    userRating.value = userRatingData.data;
   } catch (error) {
     console.log(error);
   }
@@ -162,6 +178,7 @@ const closeModal = () => {
 
 onMounted(getStudentAchievements);
 onMounted(getStudentInfo);
+onMounted(getStudentRating);
 </script>
 
 <style scoped>

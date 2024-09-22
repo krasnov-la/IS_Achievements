@@ -60,8 +60,7 @@ const getScoreboard = async () => {
     const offset = 0;
 
     const response = await axios.get(
-      `${process.env.VUE_APP_API_URL}rating/global`
-      // `${process.env.VUE_APP_API_URL}Rating/scoreboard/${count}/${offset}`
+      `${process.env.VUE_APP_API_URL}rating/global/${count}/${offset}`
     );
     scoreboardData.value = response.data;
   } catch (error) {
@@ -121,6 +120,7 @@ const getStudentInfo = async () => {
     );
     const user = await userResponse.data;
     store.dispatch("setUser", user);
+    store.dispatch("setAuth", true);
   } catch (error) {
     console.log(`error with userResponse ${error}`);
     store.dispatch("setAuth", false);

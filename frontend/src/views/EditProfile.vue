@@ -54,7 +54,7 @@
             </div>
 
             <div class="h2" style="margin: 3vh 0 0 -0.5vh; flex: 1">
-              <div class="title">Электронная почта</div>
+              <div class="title">Имя</div>
               <input type="text" placeholder="ivanivan@mail.ru" />
             </div>
           </div>
@@ -66,12 +66,12 @@
               class="h2"
               style="margin: 2vh 0 0 -0.5vh; flex: 1; padding-right: 5.5vh"
             >
-              <div class="title">Имя</div>
+              <div class="title">Фамилия</div>
               <input type="text" placeholder="Иван" />
             </div>
 
             <div class="h2" style="margin: 2vh 0 0 -0.5vh; flex: 1">
-              <div class="title">Фамилия</div>
+              <div class="title">Отчетсво</div>
               <input type="text" placeholder="Иванов" />
             </div>
           </div>

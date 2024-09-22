@@ -119,23 +119,14 @@ const setActive = (path) => {
 const isActive = (path) => activePath.value === path;
 
 const logout = async () => {
-  try {
-    const response = await axios.post(
-      `${process.env.VUE_APP_API_URL}Auth/logout`,
-      {},
-      {
-        withCredentials: true,
-        headers: { "Content-Type": "application/json" },
-      }
-    );
-    if (response.status === 200) {
-      store.dispatch("setAuth", false);
-      store.dispatch("setUser", {});
-      changeText("Главная страница");
-    }
-  } catch (error) {
-    console.log(error);
-  }
+  store.dispatch("setAuth", false);
+  store.dispatch("setUser", {
+    emailAddress: "",
+    nickname: "",
+    score: "",
+    place: "0",
+  });
+  changeText("Главная страница");
 };
 </script>
 
