@@ -18,21 +18,26 @@
         <div class="stripe" :class="{ active: isActive('/') }"></div>
         Главная страница
       </router-link>
-      <a
-        href=""
-        :class="{ active: isActive('/events') }"
+
+      <router-link
+        to="/CurrentEvents"
+        :class="{ active: isActive('/CurrentEvents') }"
         @click="
           () => {
-            setActive('/events');
+            setActive('/CurrentEvents');
             changeText('Текущие ивенты');
           }
         "
       >
-        <div class="stripe" :class="{ active: isActive('/events') }"></div>
+        <div
+          class="stripe"
+          :class="{ active: isActive('/CurrentEvents') }"
+        ></div>
         Текущие ивенты
-      </a>
-      <a
-        href=""
+      </router-link>
+
+      <router-link
+        to="/FutureEvents"
         :class="{ active: isActive('/future-events') }"
         @click="
           () => {
@@ -46,12 +51,17 @@
           :class="{ active: isActive('/future-events') }"
         ></div>
         Будущие ивенты
-      </a>
+      </router-link>
 
       <template v-if="isAuthenticated">
         <router-link
           to="/PersonalArea"
-          @click="changeText('Личный кабинет')"
+          @click="
+            () => {
+              setActive('/');
+              changeText('Личный  кабинет');
+            }
+          "
           class="profile"
         >
           <img class="profile-img" :src="user?.profileImage || ''" alt="" />
@@ -72,7 +82,7 @@
               width: 0.8pt;
               height: 20pt;
               background-color: #6b6b6b;
-              margin: 0% 0 0 -25%;
+              margin: 3.5% 0 3.5% -25%;
             "
           />
           <router-link to="/Registration" class="auth-link border2">
@@ -85,12 +95,12 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { computed } from "vue";
 import { useStore } from "vuex";
 
 const store = useStore();
 
-const activePath = ref("/");
+const activePath = computed(() => store.getters.activePath);
 
 const changeText = (newText) => {
   store.dispatch("updateText", newText);
@@ -100,7 +110,7 @@ const isAuthenticated = computed(() => store.getters.isAuthenticated);
 const user = computed(() => store.getters.user);
 
 const setActive = (path) => {
-  activePath.value = path;
+  store.dispatch("updateActivePath", path);
 };
 
 const isActive = (path) => activePath.value === path;
@@ -159,7 +169,7 @@ a:nth-child(2)::before {
 
 a:nth-child(3)::before {
   content: url("../assets/ico/events.svg");
-  margin: 2.1% 5% -1.2% 2.2%;
+  margin: 2.1% 6% -1.2% 2.2%;
 }
 
 a:nth-child(4)::before {
@@ -176,12 +186,13 @@ a:nth-child(4)::before {
 }
 
 .stripe.active {
-  background: #8057f2;
+  background: #1f7bd4;
 }
 
 .active {
-  background: #8057f2;
-  color: #e3e4e4;
+  background: #1f7bd4;
+  color: #ebedee;
+  border: 0.9px solid #1f7bd4;
 }
 
 .profile {
@@ -192,13 +203,13 @@ a:nth-child(4)::before {
   margin: 0 0 10% 0;
   padding: 0 0 -15% 10px;
   background-color: #35373a;
-  border: #35373a;
+  border: 0.9px solid #35373a;
 }
 
 .profile-img {
   width: 35px;
   height: 35px;
-  background: #a69ae8;
+  background: #2b8be8;
   border-radius: 50%;
   margin: 0 5% 0 0;
 }
@@ -237,6 +248,8 @@ a {
   border-radius: 8px;
   padding: 0 4%;
   display: flex;
+  cursor: pointer;
+  transition: border 0.4s, background-color 0.4s, transform 0.4s;
 }
 
 .log-reg {
@@ -249,7 +262,6 @@ a {
   border: #35373a;
   border-radius: 8px;
   line-height: 20px;
-  padding: 3.5% 0;
   display: flex;
 }
 
@@ -259,7 +271,7 @@ a {
   text-align: center;
   border: transparent;
   background-color: #35373a;
-  color: #bfbfbf;
+  color: #dadada;
   font-family: "Inter";
   font-style: normal;
   font-weight: 450;
@@ -275,17 +287,18 @@ a {
 }
 
 a:hover {
-  background: rgba(128, 87, 242, 0.37);
+  background: rgba(31, 123, 212, 0.5);
   color: #e3e4e4;
+  border: 0.9px solid rgb(40, 87, 132);
 }
 
 a.active {
-  background: #8057f2;
+  background: #1f7bd4;
   color: #e3e4e4;
 }
 
 a:not(.active):hover {
-  background: rgba(128, 87, 242, 0.37);
+  background: rgba(31, 123, 212, 0.5);
   color: #e3e4e4;
 }
 </style>

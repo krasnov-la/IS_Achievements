@@ -16,14 +16,15 @@
       </div>
       <div v-else>
         <div
-          class="table-item"
-          v-for="player in props.scoreboardData"
-          :key="player.id"
+          :class="['table-item', index % 2 === 0 ? 'row2' : 'row1']"
+          v-for="(student, index) in props.scoreboardData"
+          :key="student.emailAddress"
+          @click="handleClick(student.emailAddress)"
         >
-          <p class="number">#{{ player.place }}</p>
+          <p class="number">#{{ student.place }}</p>
           <img class="profile-img" src="" alt="" />
-          <p class="name">{{ player.nick }}</p>
-          <p class="score">{{ player.score.toLocaleString("ru") }} баллов</p>
+          <p class="name">{{ student.nickname }}</p>
+          <p class="score">{{ student.score.toLocaleString("ru") }} баллов</p>
         </div>
       </div>
     </div>
@@ -32,16 +33,26 @@
 
 <script setup>
 import { computed } from "vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 const isScoreboardEmpty = computed(() => {
   return props.scoreboardData.length === 0;
 });
+
 const props = defineProps({
   scoreboardData: {
     type: Array,
     default: () => [],
   },
 });
+
+const handleClick = (studentEmail) => {
+  // Переход на страницу с подробной информацией о пользователе
+  router.push(`/studentInfo/${studentEmail}`);
+};
 </script>
+
 <style scoped>
 h2 {
   font-family: "Inter";
@@ -50,32 +61,26 @@ h2 {
   font-size: 23.5px;
   line-height: 36px;
   margin: 2.5% 2% 4% 3%;
-
   color: #e3e4e4;
 }
+
 .widget_item {
   background: #232627;
-  background: #35373a;
   border-radius: 20px;
 }
+
 .scoreboard-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.sort {
-  width: 6px;
-  height: 28px;
-  cursor: pointer;
-}
+
 .table {
-  /* height: 100%; */
   padding-bottom: 4%;
 }
 
 .table-header {
   position: relative;
-
   font-family: "Inter";
   font-style: normal;
   font-weight: 500;
@@ -86,11 +91,9 @@ h2 {
   min-height: 35px;
   width: 100%;
 }
+
 .table-item {
-  /* doppio23s */
   width: 100%;
-  /* justify-content: space-around;
-display: flex; */
   position: relative;
   font-family: "Inter";
   font-style: normal;
@@ -99,16 +102,9 @@ display: flex; */
   line-height: 18px;
   display: flex;
   align-items: center;
-
   color: #ffffff;
-  min-height: 55px;
 }
-/* .table-item:nth-child(2n) {
-    background: #35373A;
-} */
-.table-item:nth-child(2n + 1) {
-  background: #343839;
-}
+
 .profile-img {
   width: 35px;
   height: 35px;
@@ -117,6 +113,7 @@ display: flex; */
   position: absolute;
   left: 31%;
 }
+
 .number1 {
   position: absolute;
   font-weight: 500;
@@ -125,6 +122,7 @@ display: flex; */
   min-width: 80pt;
   left: 4.5%;
 }
+
 .number {
   position: absolute;
   font-weight: 340;
@@ -133,6 +131,7 @@ display: flex; */
   min-width: 80pt;
   left: 4.6%;
 }
+
 .name1 {
   position: absolute;
   font-weight: 500;
@@ -141,6 +140,7 @@ display: flex; */
   min-width: 80pt;
   left: 31%;
 }
+
 .name {
   position: absolute;
   font-weight: 340;
@@ -149,6 +149,7 @@ display: flex; */
   min-width: 80pt;
   left: 38.5%;
 }
+
 .score1 {
   position: absolute;
   font-weight: 500;
@@ -157,6 +158,7 @@ display: flex; */
   min-width: 80pt;
   left: 73%;
 }
+
 .score {
   position: absolute;
   font-weight: 340;
@@ -165,6 +167,7 @@ display: flex; */
   min-width: 80pt;
   left: 73.1%;
 }
+
 .dots {
   content: url("../assets/ico/dots.svg");
   padding: 5pt;
@@ -201,5 +204,56 @@ display: flex; */
   to {
     transform: rotate(360deg);
   }
+}
+
+/* Стили для строк таблицы */
+.row,
+.row1,
+.row2 {
+  width: 100%;
+  padding: 0.8% 3.5% 1% 3.5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.row {
+  height: 4.5vh;
+  background-color: #343839;
+}
+
+.row1 {
+  padding: 3% 3.5%;
+  cursor: pointer;
+  height: 7vh;
+  background-color: #343839;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.row2 {
+  padding: 3% 3.5%;
+  cursor: pointer;
+  height: 7vh;
+  background-color: #232627;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.row1:hover {
+  background-color: rgba(52, 56, 57, 0.8);
+}
+
+.row1:active {
+  background-color: #343839;
+  transform: scale(0.995);
+}
+
+.row2:hover {
+  background-color: rgba(52, 56, 57, 0.15);
+}
+
+.row2:active {
+  background-color: #232627;
+  transform: scale(0.995);
 }
 </style>

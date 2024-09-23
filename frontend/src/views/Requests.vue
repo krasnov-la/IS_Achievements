@@ -12,132 +12,96 @@
   >
     <SideBarPersonal />
     <div style="width: 100%; margin-top: 10vh">
-      <div class="container" style="margin-left: 1.5vh; margin-right: 1.5vh">
-        <div class="card">
-          <div class="pfp" />
-          <div style="margin-left: 38%">
-            <div
-              style="
-                color: #e3e4e4;
-                font-size: 15pt;
-                -webkit-text-stroke: 0.5px #e3e4e4;
-                margin-bottom: 6pt;
-              "
-            >
-              {{ user?.nickname || "User" }}
-            </div>
-            <div style="margin-left: 2.2%">
-              <div class="h5">{{ user?.fullName || "no fio" }}</div>
-              <div class="h5">
-                Mail: {{ user.emailAddress || "error email" }}
-              </div>
-            </div>
-          </div>
-
-          <div class="h6" style="display: flex">
-            <div class="h5">Информационная/Компьютерная безопасность</div>
-            <div
-              style="
-                width: 0.8pt;
-                height: 25pt;
-                background-color: #343839;
-                margin-left: 5%;
-              "
-            />
-            <div style="margin: 0 3% 0 7%" class="h5">2 курс обучения</div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="pic2" />
-          <div class="h2">Баллы</div>
-          <div class="h3">{{ user?.score || 0 }}</div>
-          <div class="h4">Накопленные баллы за достижения</div>
-        </div>
-
-        <div class="card">
-          <div class="pic1" />
-          <div class="h2">Место в рейтинге</div>
-          <div class="h3">{{ user?.place || 0 }}</div>
-          <div class="h4">Позиция в общем рейтинге студентов</div>
-        </div>
-      </div>
-
       <div class="table" style="margin-left: 6vh">
         <div class="dots"></div>
-        <div class="h1">Мое портфолио</div>
+        <div class="h1">Мои заявки</div>
         <div class="row">
           <div class="h7" style="flex: 1">Название достижения</div>
           <div class="h7" style="flex: 3; margin-left: 5%">Описание</div>
-          <div class="h7" style="flex: 1">Сертификаты</div>
-          <div class="h7" style="flex: 1">Колличество баллов</div>
+          <div class="h7" style="flex: 1">Дата заявления</div>
+          <div class="h7" style="flex: 1">Статус</div>
         </div>
         <div
-          v-for="(achievement, index) in achievements"
-          :key="achievement.id"
-          @click="openModal(achievement)"
+          v-for="(request, index) in requests"
+          :key="request.id"
+          @click="openModal(request)"
         >
           <div :class="[{ row2: index % 2 === 0 }, { row1: index % 2 === 1 }]">
-            <div class="h8" style="flex: 1">{{ achievement.eventName }}</div>
+            <div class="h8" style="flex: 1">{{ request.eventName }}</div>
             <div class="h8" style="flex: 3; margin-left: 5%">
-              {{ achievement.description }}
+              {{ request.description }}
             </div>
-            <div class="h8" style="flex: 1">Сертификаты</div>
-            <div class="h8" style="flex: 1">{{ achievement.score }}</div>
+            <div class="h8" style="flex: 1">
+              {{
+                `${String(
+                  new Date(request.creationDatetime).getDate()
+                ).padStart(2, "0")}.${String(
+                  new Date(request.creationDatetime).getMonth() + 1
+                ).padStart(2, "0")}.${new Date(
+                  request.creationDatetime
+                ).getFullYear()}`
+              }}
+            </div>
+            <div class="h8" style="flex: 1">{{ request.status }}</div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <AchievementModal
-    :achievement="selectedAchievement"
+  <!-- TODO: тут должен был RequestModel соответственно -->
+  <!-- <AchievementModal
+    :achievement="selectedRequest"
     :visible="isModalVisible"
     @close="closeModal"
-  />
+  /> -->
 </template>
 
 <script setup>
 import Header from "@/components/Header.vue";
 import axios from "axios";
 import { useStore } from "vuex";
-import { computed, onMounted, ref } from "vue";
+import { onMounted, ref, computed } from "vue";
 import SideBarPersonal from "@/components/SideBarPersonal.vue";
 import AchievementModal from "@/components/AchievementInfo.vue";
 
 const store = useStore();
-const user = computed(() => store.getters.user);
-const achievements = ref([]);
-const selectedAchievement = ref(null);
+const requests = ref([]);
+const selectedRequest = ref(null);
 const isModalVisible = ref(false);
+const token = computed(() => store.getters.token);
+
 const count = ref(10);
 const offset = ref(0);
 
-const getStudentAchievements = async () => {
+const getStudentRequests = async () => {
   try {
-    const achievementsData = await axios.get(
-      `${process.env.VUE_APP_API_URL}requests/approved/user/${user["emailAddress"]}/${count.value}/${offset.value}`,
+    const requestsData = await axios.get(
+      `${process.env.VUE_APP_API_URL}requests/self/${count.value}/${offset.value}`,
       {
         withCredentials: true,
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token.value}`,
+        },
       }
     );
-    achievements.value = achievementsData.data;
+    requests.value = requestsData.data;
   } catch (error) {
     console.log(error);
   }
 };
 
-const openModal = (achievement) => {
-  selectedAchievement.value = achievement;
+const openModal = (request) => {
+  selectedRequest.value = request;
   isModalVisible.value = true;
 };
 
 const closeModal = () => {
   isModalVisible.value = false;
-  selectedAchievement.value = null;
+  selectedRequest.value = null;
 };
 
-onMounted(getStudentAchievements);
+onMounted(getStudentRequests);
 </script>
 
 <style scoped>
@@ -174,7 +138,7 @@ onMounted(getStudentAchievements);
 .row1 {
   padding: 2% 3.5%;
   cursor: pointer;
-  height: 8vh;
+  height: fit-content;
   background-color: #343839;
   transition: background-color 0.2s, transform 0.2s;
 }
@@ -182,13 +146,13 @@ onMounted(getStudentAchievements);
 .row2 {
   padding: 2% 3.5%;
   cursor: pointer;
-  height: 8vh;
+  height: fit-content;
   background-color: #232627;
   transition: background-color 0.2s, transform 0.2s;
 }
 
 .row1:hover {
-  background-color: rgba(52, 56, 57, 0.8);
+  background-color: rgba(52, 56, 57, 0.85);
 }
 
 .row1:active {

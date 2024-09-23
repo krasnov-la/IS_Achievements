@@ -42,7 +42,7 @@ import EventsList from "../components/EventsList.vue";
 import FutureEventsList from "../components/FutureEventsList.vue";
 import Scoreboard from "../components/Scoreboard.vue";
 import axios from "axios";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, computed } from "vue";
 import Header from "@/components/Header.vue";
 import { useStore } from "vuex";
 
@@ -52,15 +52,16 @@ const scoreboardData = ref([]);
 const loadingEvents = ref(true);
 const store = useStore();
 
+const token = computed(() => store.getters.token);
+
 const getScoreboard = async () => {
   try {
     const count = 10;
     const offset = 0;
 
     const response = await axios.get(
-      `${process.env.VUE_APP_API_URL}Scoreboard/GetData/${count}/${offset}`
+      `${process.env.VUE_APP_API_URL}rating/global/${count}/${offset}`
     );
-
     scoreboardData.value = response.data;
   } catch (error) {
     console.error("Error fetching scoreboard data:", error);
@@ -75,7 +76,7 @@ const fetchCTFEvents = async () => {
   try {
     // Fetch events from the CTF API
     const response = await axios.get(
-      `http://localhost:8080/events/?limit=100&start=${pastTimestamp}&finish=${futureTimestamp}`,
+      `/ctfapi/events/?limit=100&start=${pastTimestamp}&finish=${futureTimestamp}`,
       {
         headers: { "Content-Type": "application/json" },
       }
@@ -104,18 +105,25 @@ const fetchCTFEvents = async () => {
 };
 
 const getStudentInfo = async () => {
+  const user = store.getters.user;
+  const email = user["emailAddress"];
   try {
     const userResponse = await axios.get(
-      `${process.env.VUE_APP_API_URL}Student/GetInfo`,
+      `${process.env.VUE_APP_API_URL}users/${email}`,
       {
         withCredentials: true,
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token.value}`,
+        },
       }
     );
     const user = await userResponse.data;
     store.dispatch("setUser", user);
+    store.dispatch("setAuth", true);
   } catch (error) {
     console.log(`error with userResponse ${error}`);
+    store.dispatch("setAuth", false);
   }
 };
 

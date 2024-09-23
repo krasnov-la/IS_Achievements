@@ -10,7 +10,7 @@
       flex-wrap: wrap;
     "
   >
-    <SideBarPersonal />
+    <SideBar />
     <div style="width: 100%; margin-top: 10vh">
       <div class="container" style="margin-left: 1.5vh; margin-right: 1.5vh">
         <div class="card">
@@ -28,9 +28,7 @@
             </div>
             <div style="margin-left: 2.2%">
               <div class="h5">{{ user?.fullName || "no fio" }}</div>
-              <div class="h5">
-                Mail: {{ user.emailAddress || "error email" }}
-              </div>
+              <div class="h5">{{ user?.emailAddress || "Error email" }}</div>
             </div>
           </div>
 
@@ -51,14 +49,14 @@
         <div class="card">
           <div class="pic2" />
           <div class="h2">Баллы</div>
-          <div class="h3">{{ user?.score || 0 }}</div>
+          <div class="h3">{{ userRating?.score || 0 }}</div>
           <div class="h4">Накопленные баллы за достижения</div>
         </div>
 
         <div class="card">
           <div class="pic1" />
           <div class="h2">Место в рейтинге</div>
-          <div class="h3">{{ user?.place || 0 }}</div>
+          <div class="h3">{{ userRating?.place || 0 }}</div>
           <div class="h4">Позиция в общем рейтинге студентов</div>
         </div>
       </div>
@@ -83,7 +81,9 @@
               {{ achievement.description }}
             </div>
             <div class="h8" style="flex: 1">Сертификаты</div>
-            <div class="h8" style="flex: 1">{{ achievement.score }}</div>
+            <div class="h8" style="flex: 1">
+              {{ achievement.achievement.score }}
+            </div>
           </div>
         </div>
       </div>
@@ -98,24 +98,29 @@
 
 <script setup>
 import Header from "@/components/Header.vue";
-import axios from "axios";
-import { useStore } from "vuex";
-import { computed, onMounted, ref } from "vue";
-import SideBarPersonal from "@/components/SideBarPersonal.vue";
 import AchievementModal from "@/components/AchievementInfo.vue";
+import SideBar from "@/components/SideBar.vue";
+import axios from "axios";
+import { computed, onMounted, ref, reactive } from "vue";
+import { useStore } from "vuex";
+import { useRoute } from "vue-router";
+
+const count = 10;
+const offset = 0;
 
 const store = useStore();
-const user = computed(() => store.getters.user);
+const token = computed(() => store.getters.token);
+const route = useRoute();
 const achievements = ref([]);
+const user = ref(null);
+const userRating = ref(null);
 const selectedAchievement = ref(null);
 const isModalVisible = ref(false);
-const count = ref(10);
-const offset = ref(0);
 
 const getStudentAchievements = async () => {
   try {
     const achievementsData = await axios.get(
-      `${process.env.VUE_APP_API_URL}requests/approved/user/${user["emailAddress"]}/${count.value}/${offset.value}`,
+      `${process.env.VUE_APP_API_URL}requests/approved/user/${route.params.email}/${count}/${offset}`,
       {
         withCredentials: true,
         headers: { "Content-Type": "application/json" },
@@ -124,6 +129,40 @@ const getStudentAchievements = async () => {
     achievements.value = achievementsData.data;
   } catch (error) {
     console.log(error);
+  }
+};
+
+const getStudentRating = async () => {
+  try {
+    const userRatingData = await axios.get(
+      `${process.env.VUE_APP_API_URL}rating/user/${route.params.email}`,
+      {
+        withCredentials: true,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    userRating.value = userRatingData.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getStudentInfo = async () => {
+  try {
+    const userResponse = await axios.get(
+      `${process.env.VUE_APP_API_URL}users/${route.params.email}`,
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token.value}`,
+        },
+      }
+    );
+    user.value = await userResponse.data;
+    console.log(user.value);
+  } catch (error) {
+    console.log(`error with userResponse ${error}`);
   }
 };
 
@@ -138,6 +177,8 @@ const closeModal = () => {
 };
 
 onMounted(getStudentAchievements);
+onMounted(getStudentInfo);
+onMounted(getStudentRating);
 </script>
 
 <style scoped>
@@ -172,9 +213,9 @@ onMounted(getStudentAchievements);
 }
 
 .row1 {
-  padding: 2% 3.5%;
+  padding: 3% 3.5%;
   cursor: pointer;
-  height: 8vh;
+  height: 10vh;
   background-color: #343839;
   transition: background-color 0.2s, transform 0.2s;
 }
@@ -182,13 +223,13 @@ onMounted(getStudentAchievements);
 .row2 {
   padding: 2% 3.5%;
   cursor: pointer;
-  height: 8vh;
+  height: fit-content;
   background-color: #232627;
   transition: background-color 0.2s, transform 0.2s;
 }
 
 .row1:hover {
-  background-color: rgba(52, 56, 57, 0.8);
+  background-color: rgba(35, 38, 39, 0.15);
 }
 
 .row1:active {
