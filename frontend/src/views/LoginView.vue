@@ -37,9 +37,9 @@ onMounted(() => {
       {
         client_id: "d09e490d8e604eed9475097b0ccde511",
         response_type: "token",
-        redirect_uri: "http://localhost:4000/loginhelp",
+        redirect_uri: `http:/${process.env.VUE_APP_HOST_URL}localhost/loginhelp`,
       },
-      "http://localhost:4000/loginhelp",
+      `http://${process.env.VUE_APP_HOST_URL}/loginhelp`,
       //указывать текущий порт приложения
       // "http://localhost:{your_port}/loginhelp",
       {
