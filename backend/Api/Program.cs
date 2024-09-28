@@ -69,6 +69,7 @@ var app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI(o => {
+    o.RoutePrefix = "api";
     o.DocumentTitle = "IS_Api";
 });
 
