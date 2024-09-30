@@ -14,7 +14,11 @@
       <SideBar />
       <div style="width: 100%; margin-top: 7.5vh">
         <div class="widgets" style="display: flex; align-items: flex-start">
-          <scoreboard :scoreboardData="scoreboardData" class="widget_item" />
+          <scoreboard
+            :scoreboardData="scoreboardData"
+            :loadingScoreboard="loadingScoreboard"
+            class="widget_item"
+          />
           <div
             class="events-container"
             style="display: flex; flex-direction: column; flex-grow: 1"
@@ -49,6 +53,7 @@ import { useStore } from "vuex";
 const currentEvents = ref([]);
 const upcomingEvents = ref([]);
 const scoreboardData = ref([]);
+const loadingScoreboard = ref(true);
 const loadingEvents = ref(true);
 const store = useStore();
 
@@ -65,6 +70,8 @@ const getScoreboard = async () => {
     scoreboardData.value = response.data;
   } catch (error) {
     console.error("Error fetching scoreboard data:", error);
+  } finally {
+    loadingScoreboard.value = false;
   }
 };
 

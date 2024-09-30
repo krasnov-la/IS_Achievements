@@ -11,7 +11,7 @@
         <p class="name1">Никнейм</p>
         <p class="score1">Количество баллов</p>
       </div>
-      <div v-if="isScoreboardEmpty" class="loading-indicator">
+      <div v-if="loadingScoreboard" class="loading-indicator">
         <div class="loading-spinner"></div>
       </div>
       <div v-else>
@@ -41,6 +41,10 @@ const isScoreboardEmpty = computed(() => {
 });
 
 const props = defineProps({
+  loadingScoreboard: {
+    type: Boolean,
+    default: () => true,
+  },
   scoreboardData: {
     type: Array,
     default: () => [],
