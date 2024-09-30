@@ -9,7 +9,7 @@ import { useStore } from "vuex";
 const store = useStore();
 
 onMounted(() => {
-  window.YaSendSuggestToken("http://localhost:4000/login", {
+  window.YaSendSuggestToken("${process.env.VUE_APP_HOST_URL}login", {
     flag: true,
   });
 });
