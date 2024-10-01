@@ -85,7 +85,7 @@
               margin: 3.5% 0 3.5% -25%;
             "
           />
-          <router-link to="/Registration" class="auth-link border2">
+          <router-link to="/" class="auth-link border2">
             <div style="margin-left: 15%">Регистрация</div>
           </router-link>
         </div>

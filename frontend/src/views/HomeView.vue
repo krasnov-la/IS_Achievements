@@ -58,6 +58,7 @@ const loadingEvents = ref(true);
 const store = useStore();
 
 const token = computed(() => store.getters.token);
+const isAuthenticated = computed(() => store.getters.isAuthenticated);
 
 const getScoreboard = async () => {
   try {
@@ -83,7 +84,7 @@ const fetchCTFEvents = async () => {
   try {
     // Fetch events from the CTF API
     const response = await axios.get(
-      `/ctfapi/events/?limit=100&start=${pastTimestamp}&finish=${futureTimestamp}`,
+      `${process.env.VUE_APP_CTF_API}events/?limit=100&start=${pastTimestamp}&finish=${futureTimestamp}`,
       {
         headers: { "Content-Type": "application/json" },
       }
@@ -127,7 +128,6 @@ const getStudentInfo = async () => {
     );
     const user = await userResponse.data;
     store.dispatch("setUser", user);
-    store.dispatch("setAuth", true);
   } catch (error) {
     console.log(`error with userResponse ${error}`);
     store.dispatch("setAuth", false);
@@ -136,7 +136,9 @@ const getStudentInfo = async () => {
 
 onMounted(fetchCTFEvents);
 onMounted(getScoreboard);
-onMounted(getStudentInfo);
+if (isAuthenticated.value) {
+  onMounted(getStudentInfo);
+}
 </script>
 
 <style scoped>
