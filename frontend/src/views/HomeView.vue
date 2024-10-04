@@ -14,7 +14,11 @@
       <SideBar />
       <div style="width: 100%; margin-top: 7.5vh">
         <div class="widgets" style="display: flex; align-items: flex-start">
-          <scoreboard :scoreboardData="scoreboardData" class="widget_item" />
+          <scoreboard
+            :scoreboardData="scoreboardData"
+            :loadingScoreboard="loadingScoreboard"
+            class="widget_item"
+          />
           <div
             class="events-container"
             style="display: flex; flex-direction: column; flex-grow: 1"
@@ -49,10 +53,12 @@ import { useStore } from "vuex";
 const currentEvents = ref([]);
 const upcomingEvents = ref([]);
 const scoreboardData = ref([]);
+const loadingScoreboard = ref(true);
 const loadingEvents = ref(true);
 const store = useStore();
 
 const token = computed(() => store.getters.token);
+const isAuthenticated = computed(() => store.getters.isAuthenticated);
 
 const getScoreboard = async () => {
   try {
@@ -65,6 +71,8 @@ const getScoreboard = async () => {
     scoreboardData.value = response.data;
   } catch (error) {
     console.error("Error fetching scoreboard data:", error);
+  } finally {
+    loadingScoreboard.value = false;
   }
 };
 
@@ -76,7 +84,7 @@ const fetchCTFEvents = async () => {
   try {
     // Fetch events from the CTF API
     const response = await axios.get(
-      `/ctfapi/events/?limit=100&start=${pastTimestamp}&finish=${futureTimestamp}`,
+      `${process.env.VUE_APP_CTF_API}events/?limit=100&start=${pastTimestamp}&finish=${futureTimestamp}`,
       {
         headers: { "Content-Type": "application/json" },
       }
@@ -120,7 +128,6 @@ const getStudentInfo = async () => {
     );
     const user = await userResponse.data;
     store.dispatch("setUser", user);
-    store.dispatch("setAuth", true);
   } catch (error) {
     console.log(`error with userResponse ${error}`);
     store.dispatch("setAuth", false);
@@ -129,7 +136,9 @@ const getStudentInfo = async () => {
 
 onMounted(fetchCTFEvents);
 onMounted(getScoreboard);
-onMounted(getStudentInfo);
+if (isAuthenticated.value) {
+  onMounted(getStudentInfo);
+}
 </script>
 
 <style scoped>
