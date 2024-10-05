@@ -75,9 +75,9 @@ app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
-app.UseCors("Default");
-
 app.UseRouting();
+
+app.UseCors("Default");
 
 app.UseAuthentication();
 
