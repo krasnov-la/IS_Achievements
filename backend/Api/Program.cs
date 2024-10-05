@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using Application;
 using Infrastructure;
+using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 
@@ -35,6 +36,8 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c => 
 {
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "IS_Api", Version = "v1" });
+
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n 
@@ -68,14 +71,13 @@ builder.Services.AddSwaggerGen(c =>
 var app = builder.Build();
 
 app.UseSwagger();
-app.UseSwaggerUI(o => {
-    o.RoutePrefix = "api";
-    o.DocumentTitle = "IS_Api";
-});
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
 app.UseCors("Default");
+
+app.UseRouting();
 
 app.UseAuthentication();
 
@@ -83,7 +85,6 @@ app.UseAuthorization();
 
 app.UsePathBase(new PathString("/api"));
 
-app.UseRouting();
 
 app.MapControllers();
 
