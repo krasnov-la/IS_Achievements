@@ -72,13 +72,13 @@ var app = builder.Build();
 
 app.UseSwagger(o => 
 {
-    o.RouteTemplate = "swagger/{documentName}/swagger.json";
+    o.RouteTemplate = "api/swagger/{documentName}/swagger.json";
 });
 
 app.UseSwaggerUI(o => 
     {
         o.RoutePrefix = "api";
-        o.SwaggerEndpoint("/swagger/v1/swagger.json", "IS_Api v1");
+        o.SwaggerEndpoint("swagger/v1/swagger.json", "IS_Api v1");
     });
 
 app.UseHttpsRedirection();
